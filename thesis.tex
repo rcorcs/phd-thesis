@@ -55,6 +55,17 @@
 % \course{Artificial Intelligence and Psychology}
 % \project{Fourth Year Project Report}
 
+%% Logo Style: University of Edinburgh Shield
+% \documentclass[minf]{infthesis}
+%% Possible values for shieldtype:
+%% 0: regular monochrome
+%% 1: monochrome with no background lines
+%% 2: reverse monochrome
+%% 3: two colours: navy and red
+%% 4: full colour
+\shieldtype{4}
+
+
 %% Put any \usepackage commands you want to use right here; the following is 
 %% an example:
 \usepackage[numbers,square,sort]{natbib}
@@ -64,6 +75,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 
+\usepackage{amsmath}
 
 %% Information about the title, etc.
 \title{Reducing Code Size with Function Merging}
@@ -125,7 +137,7 @@
 
 \include{src/intro}
 \include{src/relatedwork}
-
+\include{src/func-merging}
 
 %%%%%%%%
 %% Any appendices should go here. The appendix files should look just like the
