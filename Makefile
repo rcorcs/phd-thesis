@@ -10,4 +10,4 @@ build: $(FILE).tex
 	pdflatex $(FILE)
 
 clean:
-	$(RM) *.aux *.bbl *.blg *.dvi *.idx *.log *.lol *.t1 *.toc *.bcf *~
+	$(RM) *.aux *.bbl *.blg *.dvi *.idx *.log *.lol *.t1 *.toc *.bcf *~ src/*.aux

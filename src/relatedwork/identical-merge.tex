@@ -10,7 +10,6 @@ optimization was also offered by the MSVC linker~\cite{msvc-icf};
 
 \section{Identical Function Merging}
 
-
 A similar optimization for merging identical functions, but instead at the
 intermediate representation (IR) level, is also offered by both GCC and
 LLVM~\cite{llvm-fm,livska14}.
@@ -30,4 +29,52 @@ provided they can be bitcasted in a losslessly way.
 Its simplicity allows for an efficient exploration approach based on computing
 the hash of the functions and then using a tree to identify equivalent functions
 based on their hash values.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We define a congruent group as a set of functions that are candidates for function
+equality.
+To create congruent groups, we build a compound hash value for each previously parsed function.
+%As an optimization, a hash of the function structure is calculated first, and
+%two functions are only compared if they have the same hash.
+This hash is
+cheap to compute, and has the property that if function $F = G$ according to
+the comparison function, then $hash(F) = hash(G)$.
+Therefore, as an optimization, two functions are only compared if they have the
+same hash.
+This consistency property
+is critical to ensuring all possible merging opportunities are exploited.
+Collisions in the hash affect the speed of the pass but not the correctness
+or determinism of the resulting transformation.
+
+After that, the pass sorts each function to a congruent class according to
+its hash value.
+All functions in the module, ordered by hash. Functions with a unique
+hash value are easily eliminated.
+If the hash value matches the previous value or the next one, we must
+consider merging it. Otherwise it is dropped and never considered again.
+
+The functions that remain are inserted into a binary tree, where functions are
+the node values themselves.
+An order relation is defined over the set of functions.
+We need total-ordering, so we need to maintain four properties on the functions set:
+ a <= a (reflexivity)
+ if a <= b and b <= a then a = b (antisymmetry)
+ if a <= b and b <= c then a <= c (transitivity).
+ for all a and b: a <= b or b <= a (totality).
+This total-ordering was made through special function comparison procedure that
+returns:
+ 0 when functions are equal,
+-1 when Left function is less than right function, and
+ 1 for opposite case.
+
+This function comparison iterates through each instruction in each basic block.
+Functions are kept on binary tree. For each new function F we perform
+lookup in binary tree.
+
+
+%Therefore, by construction, functions are hashed and grouped in O(n log n) time
+%complexity.
+
 
