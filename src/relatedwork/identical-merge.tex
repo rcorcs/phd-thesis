@@ -1,27 +1,27 @@
 
 \section{Identical Code Folding in Linkers}
 
-Google developed an optimization for the \textit{gold} linker that merges
+Google developed an optimisation for the \textit{gold} linker that merges
 identical functions on a bit-level~\cite{tallam10,kwan12}.
 After placing each function in a separate ELF section, they identify function
 sections that have their \textit{text} section bit-identical and also their
 relocations point to sections that are identical. A simpler version of this
-optimization was also offered by the MSVC linker~\cite{msvc-icf};
+optimisation was also offered by the MSVC linker~\cite{msvc-icf};
 
 \section{Identical Function Merging}
 
-A similar optimization for merging identical functions, but instead at the
+A similar optimisation for merging identical functions, but instead at the
 intermediate representation (IR) level, is also offered by both GCC and
 LLVM~\cite{llvm-fm,livska14}.
-%The function merging optimization currently offered by LLVM is only able to
+%The function merging optimisation currently offered by LLVM is only able to
 %merge identical functions.
-This optimization is only flexible enough to accommodate simple type mismatches
+This optimisation is only flexible enough to accommodate simple type mismatches
 provided they can be bitcasted in a losslessly way.
 %Similarly to the technique proposed by Edler von Koch~et~al.~\cite{edler14},
-%LLVM's optimization also exploits structural similarity among functions.
+%LLVM's optimisation also exploits structural similarity among functions.
 %However, the current implementation does not allow instructions to differ in
 %their opcodes or in the number and type of their input operands.
-%Although very restrictive, this optimization guarantees that any pair of
+%Although very restrictive, this optimisation guarantees that any pair of
 %mergeable functions will result in code size reduction with no performance
 %overhead.
 %Its simplicity also benefits compilation time, as the actual merge operation
@@ -30,18 +30,17 @@ Its simplicity allows for an efficient exploration approach based on computing
 the hash of the functions and then using a tree to identify equivalent functions
 based on their hash values.
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 We define a congruent group as a set of functions that are candidates for function
 equality.
 To create congruent groups, we build a compound hash value for each previously parsed function.
-%As an optimization, a hash of the function structure is calculated first, and
+%As an optimisation, a hash of the function structure is calculated first, and
 %two functions are only compared if they have the same hash.
 This hash is
 cheap to compute, and has the property that if function $F = G$ according to
 the comparison function, then $hash(F) = hash(G)$.
-Therefore, as an optimization, two functions are only compared if they have the
+Therefore, as an optimisation, two functions are only compared if they have the
 same hash.
 This consistency property
 is critical to ensuring all possible merging opportunities are exploited.
@@ -59,22 +58,38 @@ The functions that remain are inserted into a binary tree, where functions are
 the node values themselves.
 An order relation is defined over the set of functions.
 We need total-ordering, so we need to maintain four properties on the functions set:
- a <= a (reflexivity)
- if a <= b and b <= a then a = b (antisymmetry)
- if a <= b and b <= c then a <= c (transitivity).
- for all a and b: a <= b or b <= a (totality).
+\begin{itemize}
+\item $a <= a$ (reflexivity);
+\item if $a <= b$ and $b <= a$ then $a = b$ (antisymmetry);
+\item if $a <= b$ and $b <= c$ then $a <= c$ (transitivity);
+\item for all $a$ and $b$, $a <= b$ or $b <= a$ (totality).
+\end{itemize}
 This total-ordering was made through special function comparison procedure that
 returns:
- 0 when functions are equal,
--1 when Left function is less than right function, and
- 1 for opposite case.
-
+\begin{itemize}
+\item 0 when functions are equal,
+\item -1 when Left function is less than right function, and
+\item 1 for opposite case.
+\end{itemize}
 This function comparison iterates through each instruction in each basic block.
+The FunctionComparator compares two functions to determine whether or not
+they will generate machine code with the same behaviour. DataLayout is
+used if available. The comparator always fails conservatively (erring on the
+side of claiming that two functions are different).
+
+First it Compares the signature and other general attributes of the two functions.
+The functions must have identical signature, i.e., the same return type, the same
+number of arguments, and the same list of argument types, preserving argument order.
+Then they do a CFG-ordered walk since the actual ordering of the blocks in the
+linked list is immaterial. This walk starts at the entry block for both
+functions, then takes each block from each terminator in order. As an
+artifact, this also means that unreachable blocks are ignored.
+Finally, two blocks are equivalent if they have equivalent instructions in
+exactly the same order.
+
 Functions are kept on binary tree. For each new function F we perform
 lookup in binary tree.
 
-
 %Therefore, by construction, functions are hashed and grouped in O(n log n) time
 %complexity.
-
 
