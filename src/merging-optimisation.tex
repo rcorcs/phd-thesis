@@ -19,7 +19,7 @@ Let $c(f)$ be the code-size cost of a given function $f$, and
 $\delta(f_i, f_j)$ represent the extra costs involved when replacing or
 updating function $f_i$ with the function $f_j$.
 Therefore, given a pair of functions $\{f_1,f_2\}$ and the merged function
-$f_{1,2}$, we want to maximize the profit defined as:
+$f_{1,2}$, we want to maximise the profit defined as:
 \[
   \Delta(\{f_1,f_2\},f_{1,2}) = (c(f_1)+c(f_2)) - (c(f_{1,2}) + \varepsilon)
 \]
@@ -35,31 +35,32 @@ cost model, which provides a target-dependent cost estimation that approximates
 the code-size cost of an IR instruction when lowered to machine instructions.
 Our implementation makes use of the code-size costs provided by LLVM's
 target-transformation interface (TTI), which is widely used in the decision
-%making by most of the LLVM's optimizations.
-making of most optimizations~\cite{porpodas18b,pohl18}.
+%making by most of the LLVM's optimisations.
+making of most optimisations~\cite{porpodas18b,pohl18}.
 
 
 \section{Exhaustive Search}
+
 
 \section{Focusing on Profitable Functions}
 \label{sec:framework}
 
 %In this section, we describe our implementation of the function merging
-%optimization, which combines the proposed function-merging technique with an
+%optimisation, which combines the proposed function-merging technique with an
 %efficient exploration infrastructure.
 
 %In this section, we describe our exploration infrastructure for the
-%function merging optimization.
+%function merging optimisation.
 Although the proposed technique is able to merge any two functions, it is not always profitable to merge them. In fact, as it is only
 profitable to merge functions that are sufficiently similar, for most pairs of functions, merging them increases code size.
 In this section, we introduce our framework for efficiently exploring the
-optimization space, focusing on pairs of functions that are profitable to merge. 
+optimisation space, focusing on pairs of functions that are profitable to merge. 
 
 %Therefore,
 %the main goal of our exploration infrastructure is to efficiently find pairs of functions that are profitable to merge.
 %%
 %As described in Section~\ref{sec:background}, LLVM's existing function merging
-%optimization, due to its hard restriction of only merging identical functions,
+%optimisation, due to its hard restriction of only merging identical functions,
 %is able to  efficiently explore which functions to merge by computing a hash
 %of the functions.
 %If two functions have the same hash, they are very likely to be identical.
@@ -70,10 +71,10 @@ optimization space, focusing on pairs of functions that are profitable to merge.
 
 %\subsection{Ranking Infrastructure}
 
-For every function, ideally, we would like to try to merge it with all other functions and choose the pair that maximizes the reduction in
+For every function, ideally, we would like to try to merge it with all other functions and choose the pair that maximises the reduction in
 code size. However, this quadratic exploration over all pairs of functions results in prohibitively expensive compilation
 overhead. In order to avoid the quadratic exploration of all possible merges, we propose the exploration framework shown in
-Figure~\ref{fig:func-merge-opt-arch} for our optimization.
+Figure~\ref{fig:func-merge-opt-arch} for our optimisation.
 \begin{figure}[t!]
   \centering
   \includegraphics[width=0.7\linewidth]{src/merging-optimisation/figs/func-merge-opt-arch.pdf}
@@ -98,7 +99,7 @@ on type frequencies, which would happen if all instructions with the same data t
 
 %This assumption provides an upper bound on the actual number of matches, since
 %it may be affected by the instruction types and the order they appear in the
-%linearized functions.
+%linearised functions.
 %As a way to refine this estimate, we weight this upper bound by the Jaccard
 %similarity coefficient~\cite{jaccard} of the sets of types, i.e., a
 %type-similarity ratio between the two functions.
@@ -161,29 +162,29 @@ original functions to a single call to the merged function.
 Afterwards, if the original functions can be completely removed, we update the
 call graph, replacing the calls to the original functions by calls to the
 merged function.
-Finally, the new function is added to the optimization working list.
+Finally, the new function is added to the optimisation working list.
 Because of this feedback loop, merge operations can also be performed on
 functions that resulted from previous merge operations.
 
-\subsection{Link-Time Optimization}
+\subsection{Link-Time Optimisation}
 
-There are different ways of applying this optimization, with different trade-offs.
-We can apply our optimization on a per compilation-unit basis, which usually
+There are different ways of applying this optimisation, with different trade-offs.
+We can apply our optimisation on a per compilation-unit basis, which usually
 results in lower compilation-time overheads because only a small part of the
 whole program is being considered at each moment.
-However, this also limits the optimization opportunities, since only pairs of
+However, this also limits the optimisation opportunities, since only pairs of
 functions within the same translation unit would be merged.
 
-On the other hand, our optimization can also be applied in the whole program,
-for example, during link-time optimization (LTO).
+On the other hand, our optimisation can also be applied in the whole program,
+for example, during link-time optimisation (LTO).
 Optimizing the whole program is beneficial for the simple fact that the
-optimization will have more functions at its disposal.
+optimisation will have more functions at its disposal.
 It allows us to merge functions across modules.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.7\linewidth]{src/merging-optimisation/figs/opt-pipeline.pdf}
-  \caption{In our experiments we use a compilation pipeline with a monolithic link-time optimization (LTO).}
+  \caption{In our experiments we use a compilation pipeline with a monolithic link-time optimisation (LTO).}
   \label{fig:opt-pipeline}
 \end{figure}
 
@@ -191,6 +192,6 @@ It allows us to merge functions across modules.
 In addition to the benefit of being able to merge more functions, when optimizing
 the whole program, we can also be more aggressive when removing the original functions,
 since we know that there will be no external reference to them.
-However, if the optimization is applied per translation unit, then extra
+However, if the optimisation is applied per translation unit, then extra
 conditions must be guaranteed, e.g., the function must be explicitly defined
 as internal or private to the translation unit.

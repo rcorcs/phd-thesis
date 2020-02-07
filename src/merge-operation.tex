@@ -30,11 +30,11 @@ of both types or return just the non-void type if the other one is void.
 
 The proposed technique consists of three major steps, as depicted in
 Figure~\ref{fig:func-merge-overview}.
-First, we linearize each function, representing the CFG as a sequence of 
+First, we linearise each function, representing the CFG as a sequence of 
 labels and instructions.
 The second step consists in applying a sequence alignment algorithm, borrowed
 from bioinformatics, which identifies regions of similarity between sequences.
-The sequence alignment algorithm allows us to arrange two linearized functions
+The sequence alignment algorithm allows us to arrange two linearised functions
 into segments that are equivalent between the two functions and segments where
 they differ from one another.
 The final step performs the code generation, actually merging the two functions
@@ -49,9 +49,9 @@ This new function can then be used to replace the original functions, as they
 are semantically equivalent, given the appropriate function-identifier
 parameter.
 
-\subsection{Linearization}
+\subsection{Linearisation}
 
-The \textit{linearization}\footnote{Although linearization of CFGs
+The \textit{linearisation}\footnote{Although linearisation of CFGs
 usually refers to a predicated representation, % resulting from an if-conversion,
 in this paper, we refer to a simpler definition.}
 of a function consits in specifying an ordering of the basic blocks based on a
@@ -60,25 +60,25 @@ instructions, similar to a textual representation of the function.
 Although this operation is trivial, the specific ordering of the basic blocks
 chosen can have an impact on the merging operation.
 
-%For the linearization, we assume that every basic block has an entry label and
+%For the linearisation, we assume that every basic block has an entry label and
 %a terminator instruction which refers explicitly to the successor basic blocks,
 %if there are successors.
 %This is true for most IRs, such as the LLVM IR, or can be easily adapted.
 
-In our implementation, the linearization uses a reverse post-order~(RPO) of the
+In our implementation, the linearisation uses a reverse post-order~(RPO) of the
 basic blocks, following a canonical ordering of the successors.
 %, e.g., \textit{true} branches before \textit{false} ones.
-%Figure~\ref{fig:branch-linearization} shows an example of the linearization 
+%Figure~\ref{fig:branch-linearisation} shows an example of the linearisation 
 %using the canonical RPO.
-The RPO guarantees that the linearization starts with the entry basic block and
+The RPO guarantees that the linearisation starts with the entry basic block and
 then proceeds favoring definitions before uses, except in the presence of loops.
-Although the specifc ordering produced by the canonical linearization may not
+Although the specifc ordering produced by the canonical linearisation may not
 be optimal, it is common practice for compilers to rely on prior
-canonicalizations, e.g., 
+canonicalisations, e.g., 
 canonical loops, canonical induction variables, canonical reassociation, etc.
-For contrast, if, instead, we use an RPO linearization with a uniformly
-randomized ordering of the successor basic blocks, the final code-size reduction
-of the function-merging optimization can drop up to 10\% for individual
+For contrast, if, instead, we use an RPO linearisation with a uniformly
+randomised ordering of the successor basic blocks, the final code-size reduction
+of the function-merging optimisation can drop up to 10\% for individual
 benchmarks.
 Note that our decision for using the canonical RPO is purely pragmatic and
 other orderings of the basic blocks could also be used, as long as it produces
@@ -86,11 +86,11 @@ a sequence of labels followed by instructions.
 
 %\begin{figure}[h]
 %  \centering
-%  \includegraphics[width=0.6\linewidth]{figs/branch-linearization.pdf}
-%  \caption{Linearization using a canonical reverse post-order.
-%           The dashed arrows show where a randomized ordering could change the
-%           linearization.}
-%  \label{fig:branch-linearization}
+%  \includegraphics[width=0.6\linewidth]{figs/branch-linearisation.pdf}
+%  \caption{Linearisation using a canonical reverse post-order.
+%           The dashed arrows show where a randomised ordering could change the
+%           linearisation.}
+%  \label{fig:branch-linearisation}
 %\end{figure}
 
 \subsection{Sequence Alignment}
@@ -102,9 +102,9 @@ To avoid breaking the semantics of the original program, we also need to
 maintain the same order of execution of the instructions for each one of
 the functions.
 
-To this end, after linearization, we reduce the problem of merging functions
+To this end, after linearisation, we reduce the problem of merging functions
 to the problem of \textit{sequence alignment}. %~\cite{carrillo88,wang94}.
-%After linearization, the problem of merging two functions can be reduced to the
+%After linearisation, the problem of merging two functions can be reduced to the
 %\textit{sequence alignment} problem~\cite{carrillo88,wang94}, which is itself
 %closely related to finding the
 %\textit{longest common subsequence}~\cite{hirschberg75,maier78}.
@@ -113,7 +113,7 @@ most notably in molecular biology~\cite{needleman70,smith81,carrillo88,wang94}
 where, for example, it is used for identifying homologous subsequences of amino
 acid in proteins.
 Figure~\ref{fig:opcode-align} shows an example of the sequence alignment
-between two linearized functions extracted from the \texttt{400.perlbench} benchmark
+between two linearised functions extracted from the \texttt{400.perlbench} benchmark
 in SPEC CPU2006~\cite{spec}.
 
 \begin{figure}[h]
@@ -162,7 +162,7 @@ characters at any given position, in which case it contains a mismatch.
 
 Particularly for the function-merging, we are concerned with the alphabet
 consisting of all possible typed instructions and labels.
-Every linearized function represents a sequence derived from this alphabet.
+Every linearised function represents a sequence derived from this alphabet.
 We explain the equivalence relation used for this alphabet in the next section.
 
 %We describe the equivalence relation between two predicated values in two
@@ -194,7 +194,7 @@ First, it builds a \textit{similarity matrix}, based on a scoring scheme, which
 assigns weights for matches, mismatches, and \textit{gaps} (blank characters).
 Afterwards, a backward traversal is performed on the similarity matrix, in order
 to reconstruct the final alignment by maximizing the total score.
-We use a simple scoring scheme that rewards matches and penalizes mismatches and
+We use a simple scoring scheme that rewards matches and penalises mismatches and
 gaps.
 
 %\todo{Remove this paragraph.}
@@ -202,7 +202,7 @@ gaps.
 %alignments.
 %However, different aligned sequences can affect the code generation in different
 %ways that may be both beneficial or undesirable. 
-%For this reason, we prioritize alignments that tend to group the blank
+%For this reason, we prioritise alignments that tend to group the blank
 %characters together, avoiding to frequently alternate between the two sequences
 %during long segments of mismatches and gaps.
 %For example, note that in Figure~\ref{fig:opcode-align}, the red blocks, for
@@ -304,7 +304,7 @@ top-down approach centered on the CFGs of the input functions. It iterates over 
 CFG of the merged function, interweaving matching and non-matching instructions (Section~\ref{sec:code-gen-core}
 ). Afterwards, all edges and operands are resolved, including appropriately assigning the incoming values to all \textit{phi-nodes} (Section~\ref{sec:op-assign}).
 {\ProjName} is designed to preserve all properties of SSA form via the standard SSA construction algorithm (Sections~\ref{sec:ssa-fix}).
-Finally, {\ProjName} integrates a novel optimization with the SSA construction algorithm, called \textit{phi-node coalescing}, producing even smaller merged functions (Section~\ref{sec:pncoalescing}).
+Finally, {\ProjName} integrates a novel optimisation with the SSA construction algorithm, called \textit{phi-node coalescing}, producing even smaller merged functions (Section~\ref{sec:pncoalescing}).
 
 \begin{figure}[t!]
   \centering
@@ -398,8 +398,8 @@ The phi-node \texttt{x\textsubscript{5}} is simply copied into the merged basic 
 
 Unlike other instructions, we do not merge \textit{phi-nodes} through sequence alignment.
 Instead, identical \textit{phi-nodes} are merged during the simplification process
-using existing optimizations from LLVM.
-%LLVM provides an optimization for eliminating identical \textit{phi-nodes} which
+using existing optimisations from LLVM.
+%LLVM provides an optimisation for eliminating identical \textit{phi-nodes} which
 %we apply later to clean-up the code.
 
 \subsubsection{Value Tracking}
@@ -453,12 +453,12 @@ Figure~\ref{fig:operand-select}.
 \end{figure}
 
 When assigning operands to commutative instructions, we also perform operand
-reordering to maximize the number of matching operands and reduce the need for
+reordering to maximise the number of matching operands and reduce the need for
 \textit{select} instructions.
 Figure~\ref{fig:operand-select-reorder} shows an example of a commutative instruction
 where an operand selection can be avoided by reordering operands.
 %This property of commutative operations has been exploited before by other
-%optimizations~\cite{porpodas18a,porpodas19,rocha19}.
+%optimisations~\cite{porpodas18a,porpodas19,rocha19}.
 
 \subsubsection{Label Selection} \label{sec:label-select}
 
@@ -567,7 +567,7 @@ extracted from Figure~\ref{fig:code-gen-cfg} where the the dominance property is
 %another if and only if every path from the entry of the function to the latter goes through the former. Figure~\ref{fig:phi-placement-1}
 %shows one small example extracted from Figure~\ref{fig:code-gen-cfg} that illustrates a violation of the dominance property. {\ProjName}
 %restores this property by first adding a \textit{pseudo-definition} at the entry block of the function where names are defined and
-%initialized with an \textit{undefined} value. This guarantees that every register name will be defined on basic blocks from both functions.
+%initialised with an \textit{undefined} value. This guarantees that every register name will be defined on basic blocks from both functions.
 %Then, {\ProjName} applies the standard SSA construction algorithm~\cite{cytron89,cytron91}, which guarantees both the dominance and the
 %single-reaching definition properties of the SSA form. Figure~\ref{fig:phi-placement-2} shows the resulting code.
 
@@ -576,7 +576,7 @@ extracted from Figure~\ref{fig:code-gen-cfg} where the the dominance property is
 
 {\ProjName} is designed to preserve the dominance property to conform with the SSA form.
 It achieves this using a two-step approach.
-It first adds a \textit{pseudo-definition} at the entry block of the function where names are defined and initialized with an
+It first adds a \textit{pseudo-definition} at the entry block of the function where names are defined and initialised with an
 \textit{undefined} value.
 This guarantees that every register name will be defined on basic blocks from both functions.
 Then, {\ProjName} applies the standard SSA construction algorithm~\cite{cytron89,cytron91}, which guarantees both the dominance and the
@@ -611,25 +611,25 @@ Figure~\ref{fig:phi-placement-2} shows how the property violation in Figure~\ref
 
 %%%
 %%%Although this is enough to guarantee the correctness of the SSA form,
-%%%there are still optimization opportunities that can be explored by {\ProjName}.
-%%%We discuss these opportunities for optimization in the next section.
+%%%there are still optimisation opportunities that can be explored by {\ProjName}.
+%%%We discuss these opportunities for optimisation in the next section.
 
 \subsection{Phi-Node Coalescing} \label{sec:pncoalescing}
 
 The approach described in Section~\ref{sec:ssa-fix} guarantees the correctness of the SSA form but generates extra
-phi-nodes and registers which increase register pressure and might lead to more \textit{spill code}. In this section, we describe a novel optimization technique, \textit{phi-node coalescing}, that {\ProjName} uses to lower register pressure.
+phi-nodes and registers which increase register pressure and might lead to more \textit{spill code}. In this section, we describe a novel optimisation technique, \textit{phi-node coalescing}, that {\ProjName} uses to lower register pressure.
 
 %The approach described in Section~\ref{sec:ssa-fix} guarantees the correctness of the SSA form but leaves room for improvement.
-%In this section, we describe \textit{phi-node coalescing}, a novel optimization technique employed by {\ProjName} to lower the register
+%In this section, we describe \textit{phi-node coalescing}, a novel optimisation technique employed by {\ProjName} to lower the register
 %pressure on the final merged code by reducing the number of phi-nodes required.
 %This reduces code size of the merged function since a lower register pressure allows the register allocator to produce fewer \textit{spill code}.
 
-Figure~\ref{fig:phi-coalescing-select} illustrates such an optimization opportunity. {\ProjName} is merging an instruction with different arguments,
+Figure~\ref{fig:phi-coalescing-select} illustrates such an optimisation opportunity. {\ProjName} is merging an instruction with different arguments,
 so it needs to select the right one based on the function identifier. The two arguments though, \texttt{v} and \texttt{x}, have \textit{disjoint definitions},
 i.e. they have non-merged definitions from different input functions. Using the standard SSA construction algorithm would result in
 the sub-optimal code shown in Figure~\ref{fig:phi-coalescing-select-1}. This code inserts two trivial phi-nodes to select, again, \texttt{v} or \texttt{x}
-based on the executed function. {\ProjName} optimizes this code by coalescing both phi-nodes into a single one and removing the
-selection statement. As shown in Figure~\ref{fig:phi-coalescing-select-2}, the optimized version has a smaller number of instructions and
+based on the executed function. {\ProjName} optimises this code by coalescing both phi-nodes into a single one and removing the
+selection statement. As shown in Figure~\ref{fig:phi-coalescing-select-2}, the optimised version has a smaller number of instructions and
 phi-nodes.
 
 
@@ -637,8 +637,8 @@ phi-nodes.
 %definitions} \texttt{v} and \texttt{x}, i.e. two non-merged definitions that came originally from different input functions. This pair of
 %disjoint definitions is used via a selection in a merged instruction. Simply using the standard SSA construction algorithm would result in
 %the sub-optimal code shown in Figure~\ref{fig:phi-coalescing-select-1}. This code has two trivial phi-nodes, one for the definition in each
-%function, and a final selection. {\ProjName} further optimizes this code by coalescing both phi-nodes into a single one, removing the
-%selection statement. As shown in Figure~\ref{fig:phi-coalescing-select-2}, the optimized version has a smaller number of instructions and
+%function, and a final selection. {\ProjName} further optimises this code by coalescing both phi-nodes into a single one, removing the
+%selection statement. As shown in Figure~\ref{fig:phi-coalescing-select-2}, the optimised version has a smaller number of instructions and
 %phi-nodes.
 
 \begin{figure}[t]
@@ -690,12 +690,12 @@ in common can be coalesced, reducing the number of phi-nodes.
 Since {\ProjName} is aware of which basic blocks are exclusive to each function, it can choose a pair of disjoint definitions for
 coalescing. Given a pair of disjoint definitions, {\ProjName} assigns the same name for both of them before applying the SSA
 reconstruction. {\ProjName} coalesces the set of definitions that violate the dominance property. Two definitions can be paired for
-coalescing if they are disjoint and have the same type. The optimization pairs disjoint definitions that maximize their live range overlap
+coalescing if they are disjoint and have the same type. The optimisation pairs disjoint definitions that maximise their live range overlap
 since the goal is to avoid having register names live longer than they should, reducing register pressure.
 
 Formally, the heuristic implemented in our phi-node coalescing can be described as follows:
 Given a set $S_1\times S_2$ of disjoint definitions that violate the dominance property,
-the optimization chooses pairs $(d_1,d_2)\in S_1\times S_2$ that maximize the intersection $U\!B(d_1)\cap U\!B(d_2)$,
+the optimisation chooses pairs $(d_1,d_2)\in S_1\times S_2$ that maximise the intersection $U\!B(d_1)\cap U\!B(d_2)$,
 where $U\!B(d)$ is the set \text{$\{ Block(u) : u\in Users(d) \}$}.
 
 Phi-node coalescing allows {\ProjName} to produce smaller merged functions and reduce code size.

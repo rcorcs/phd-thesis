@@ -47,6 +47,17 @@ is critical to ensuring all possible merging opportunities are exploited.
 Collisions in the hash affect the speed of the pass but not the correctness
 or determinism of the resulting transformation.
 
+A function hash is calculated by considering only the number of arguments and
+whether a function is varargs, the order of basic blocks (given by the
+successors of each basic block in depth first order), and the order of
+opcodes of each instruction within each of these basic blocks. This mirrors
+the strategy compare() uses to compare functions by walking the BBs in depth
+first order and comparing each instruction in sequence. Because this hash
+does not look at the operands, it is insensitive to things such as the
+target of calls and the constants used in the function, which makes it useful
+when possibly merging functions which are the same modulo constants and call
+targets.
+
 After that, the pass sorts each function to a congruent class according to
 its hash value.
 All functions in the module, ordered by hash. Functions with a unique
@@ -67,7 +78,7 @@ We need total-ordering, so we need to maintain four properties on the functions 
 This total-ordering was made through special function comparison procedure that
 returns:
 \begin{itemize}
-\item 0 when functions are equal,
+\item 0 when functions are semantically equal,
 \item -1 when Left function is less than right function, and
 \item 1 for opposite case.
 \end{itemize}
@@ -76,6 +87,10 @@ The FunctionComparator compares two functions to determine whether or not
 they will generate machine code with the same behaviour. DataLayout is
 used if available. The comparator always fails conservatively (erring on the
 side of claiming that two functions are different).
+
+
+After the previous step is finished, all candidates in a group must be proved to
+be really semantically equivalent.
 
 First it Compares the signature and other general attributes of the two functions.
 The functions must have identical signature, i.e., the same return type, the same
@@ -92,4 +107,14 @@ lookup in binary tree.
 
 %Therefore, by construction, functions are hashed and grouped in O(n log n) time
 %complexity.
+
+
+If we encounter a pair of functions as a candidate for merge, we can create either
+an alias or thunk (function wrapper). We prefer to do an alias, which is cheaper
+and merging is applied according to following rules:
+1. If the address of at least one function is not taken, alias can be used.
+2. But if the function is part of COMDAT section that can be replaced, we
+must use thunk.
+3. If we create a thunk and none of functions is writeable, we can redirect calls
+instead.
 
