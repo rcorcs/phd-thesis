@@ -21,29 +21,35 @@ provided they can be bitcasted in a losslessly way.
 %LLVM's optimisation also exploits structural similarity among functions.
 %However, the current implementation does not allow instructions to differ in
 %their opcodes or in the number and type of their input operands.
-%Although very restrictive, this optimisation guarantees that any pair of
-%mergeable functions will result in code size reduction with no performance
-%overhead.
+Although very restrictive, this optimisation guarantees that any pair of
+mergeable functions will result in code size reduction with no performance
+overhead.
 %Its simplicity also benefits compilation time, as the actual merge operation
 %is trivial.
-Its simplicity allows for an efficient exploration approach based on computing
-the hash of the functions and then using a tree to identify equivalent functions
-based on their hash values.
+Its simplicity also allows for an efficient exploration approach based on computing
+a hash of the functions and then using a binary tree to identify equivalent
+functions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We define a congruent group as a set of functions that are candidates for function
-equality.
-To create congruent groups, we build a compound hash value for each previously parsed function.
-%As an optimisation, a hash of the function structure is calculated first, and
-%two functions are only compared if they have the same hash.
-This hash is
-cheap to compute, and has the property that if function $F = G$ according to
-the comparison function, then $hash(F) = hash(G)$.
+%We define a congruent group as a set of functions that are candidates for
+%function equality.
+%To create congruent groups, we build a compound hash value for each previously
+%parsed function.
+%%%As an optimisation, a hash of the function structure is calculated first, and
+%%%two functions are only compared if they have the same hash.
+
+Since hashing is cheap to compute, it allows us to efficiently
+%Hashing is used to
+group possibly equivalent functions and filter out functions
+that are guaranteed to be unique.
+%This hash is cheap to compute,
+This hash must have the property that if function $F = G$
+according to the comparison function, then $hash(F) = hash(G)$.
 Therefore, as an optimisation, two functions are only compared if they have the
 same hash.
-This consistency property
-is critical to ensuring all possible merging opportunities are exploited.
+This consistency property is critical to ensuring all possible merging
+opportunities are exploited.
 Collisions in the hash affect the speed of the pass but not the correctness
 or determinism of the resulting transformation.
 
