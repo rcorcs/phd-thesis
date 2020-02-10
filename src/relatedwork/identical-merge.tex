@@ -25,8 +25,8 @@ semantically equivalent.
 First it compares the signature and other general attributes of the two functions.
 The functions must have identical signature, i.e., the same return type, the same
 number of arguments, and exactly the same list of argument types.
-Then this function comparator performs a simultaneous walk in the functions'
-control-flow graphs.
+Then this function comparator performs a simultaneous walk, in depth
+first order, in the functions' control-flow graphs.
 This walk starts at the entry block for both functions, then takes each block
 from each terminator in order.
 As an artifact, this also means that unreachable blocks are ignored.
@@ -52,9 +52,7 @@ must use thunk.
 \item If we create a thunk and none of functions is writeable, we can redirect calls
 instead.
 \end{itemize}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %Similarly to the technique proposed by Edler von Koch~et~al.~\cite{edler14},
 %LLVM's optimisation also exploits structural similarity among functions.
 %However, the current implementation does not allow instructions to differ in
@@ -62,25 +60,23 @@ instead.
 Although very restrictive, this optimisation guarantees that any pair of
 mergeable functions will result in code size reduction with no performance
 overhead.
+
 %Its simplicity also benefits compilation time, as the actual merge operation
 %is trivial.
 Its simplicity also allows for an efficient exploration approach based on computing
 a hash of the functions and then using a binary tree to identify equivalent
 functions.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %We define a congruent group as a set of functions that are candidates for
 %function equality.
 %To create congruent groups, we build a compound hash value for each previously
 %parsed function.
 %%%As an optimisation, a hash of the function structure is calculated first, and
 %%%two functions are only compared if they have the same hash.
-
 Since hashing is cheap to compute, it allows us to efficiently
 %Hashing is used to
 group possibly equivalent functions and filter out functions
-that are guaranteed to be unique.
+that are obviously unique.
 %This hash is cheap to compute,
 This hash must have the property that if function $F = G$
 according to the comparison function, then $hash(F) = hash(G)$.
@@ -94,20 +90,27 @@ or determinism of the resulting transformation.
 A function hash is calculated by considering only the number of arguments and
 whether a function is varargs, the order of basic blocks (given by the
 successors of each basic block in depth first order), and the order of
-opcodes of each instruction within each of these basic blocks. This mirrors
-the strategy compare() uses to compare functions by walking the BBs in depth
+opcodes of each instruction within each of these basic blocks.
+This mirrors the strategy of compare() uses to compare functions by walking the BBs in depth
 first order and comparing each instruction in sequence. Because this hash
 does not look at the operands, it is insensitive to things such as the
 target of calls and the constants used in the function, which makes it useful
 when possibly merging functions which are the same modulo constants and call
 targets.
 
-After that, the pass sorts each function to a congruent class according to
-its hash value.
-All functions in the module, ordered by hash. Functions with a unique
-hash value are easily eliminated.
-If the hash value matches the previous value or the next one, we must
-consider merging it. Otherwise it is dropped and never considered again.
+
+All functions can be sorted based on their hash value, which ends up grouping
+possibly equivalent functions together.
+If the hash value of a given function matches any of its adjacent values in
+the sorted list, this function must be considered for merging.
+%After that, the pass sorts each function to a congruent class according to
+%its hash value.
+%All functions in the module, ordered by hash.
+Functions with a unique hash value can be easily ignored since no other function
+will be found equivalent.
+%Functions with a unique hash value are also easily eliminated.
+%Otherwise it is dropped and never considered again.
+
 
 The functions that remain are inserted into a binary tree, where functions are
 the node values themselves.
