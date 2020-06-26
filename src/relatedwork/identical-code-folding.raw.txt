@@ -1,0 +1,659 @@
+LLD complexity:
+
+complexity: O(NumSections * MAX(SizeSections) )
+for each section: O(NumSections)
+  hash section.content:  O(SizeSections)
+
+complexity: O (NumSections * log NumSections)
+groupEquivClasses = sort sections by hash
+
+O(NumClasses ^ 2 * SizeClass ^ 2 * SizeSections)
+until convergence:
+
+    complexity: O(NumClasses * SizeClass ^ 2 * SizeSections)
+    for each groupEquivClasses O(NumClasses)
+      segregate class: O(SizeClass ^ 2 * SizeSections)
+         loop SizeClass: O(SizeClass)
+            STL partition Class : O(SizeClass)
+              Compare Sections: O(SizeSections)
+
+      The "segregate" algorithm is quadratic in the worst case, but that is not an
+      issue in practice because the number of the distinct sections in
+      each equivalence class is usually very small.
+
+
+O (NumSetions)
+for each equiv class: O(NumClasses)
+   for each section: O(SizeClass)
+      replace by first section in class: O(1) 
+
+\section{Merging Identical Object Code}
+
+The simplest way of merging identical functions is
+by looking at their object code, during link time.
+This optimisation, known as \textit{identical code folding} (ICF),
+is commonly found in major linkers, such as \textit{gold}~\cite{tallam10,kwan12}
+and the MSVC linker~\cite{msvc-icf}.
+
+Figure~\ref{fig:icf-example} shows an example, adapted from Tallam~\etal~\cite{tallam10},
+of how generic programming in C++ can lead to identical functions in the object file.
+The C++ code in in Figure~\ref{fig:icf-example-code} presents
+a simple \textit{template class} and its member function being
+instantiated multiple times with different pointer types.
+Figure~\ref{fig:icf-example-object} shows the object code 
+targeting the Intel x86 architecture.
+For each instantiation of \mintinline{c++}{Foo}, a replica of its member
+function \mintinline{c++}{getElement} is created.
+Because the size of the different pointer types is the same,
+all replicas of \mintinline{c++}{getElement} are identical
+in the object file, which can be easily confirmed by
+comparing their binary representation. as shown in
+Figure~\ref{fig:icf-example-object}.
+
+\begin{figure}[h]
+\begin{tabular}{cc}
+\begin{subfigure}{.5\textwidth}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1,
+%bgcolor=LightGray,
+fontsize=\footnotesize,
+%linenos
+]{c++}
+template<typename T>
+class Foo {
+  ...
+  T element;
+public:
+  ...
+  T getElement() {
+    return element;
+  }
+};
+
+int main() {
+  Foo<int *> p;
+  Foo<float *> q;
+  Foo<void *> r;
+  ...
+  auto *pptr = p.getElement();
+  auto *qptr = q.getElement();
+  auto *rptr = r.getElement();
+  ...
+}
+\end{minted}
+\caption{A \textit{template class} with several instantiations.}
+\label{fig:icf-example-code}
+\end{subfigure} &
+\begin{subfigure}{.5\textwidth}
+\vspace{10ex}
+\begin{minted}[
+escapeinside=||,
+frame=lines,
+framesep=2mm,
+baselinestretch=1,
+%bgcolor=LightGray,
+fontsize=\scriptsize,
+%linenos
+]{nasm}
+; Disassembly of Foo<int *>::getElement()
+; section .text._ZN3FooIPiE10getElementEv
+|0000000000000000  <|_ZN3FooIPiE10getElementEv|>:|
+| 0:  48 8b 07     |  mov  rax,QWORD PTR [rdi]
+| 3:  c3           |  ret    
+
+; Disassembly of Foo<float *>::getElement()
+; section .text._ZN3FooIPfE10getElementEv
+|0000000000000000  <|_ZN3FooIPfE10getElementEv|>:|
+| 0:  48 8b 07     |  mov  rax,QWORD PTR [rdi]
+| 3:  c3           |  ret    
+
+; Disassembly of Foo<void *>::getElement()
+; section .text._ZN3FooIPvE10getElementEv
+|0000000000000000  <|_ZN3FooIPvE10getElementEv|>:|
+| 0:  48 8b 07     |  mov  rax,QWORD PTR [rdi]
+| 3:  c3           |  ret    
+\end{minted}
+\vspace{7ex}
+\caption{Disassembled object file.}
+\label{fig:icf-example-object}
+\end{subfigure}
+\end{tabular}
+\caption{Example showing how a member function of a \textit{template class}
+  can produce code replication susceptible to \textit{identical code folding}.
+  For each instantiation of \mintinline{c++}{Foo}, a replica of the function
+  \mintinline{c++}{getElement} is created for the template instance.
+  When instantiated with pointer types, the object code of these functions will be identical.}
+\label{fig:icf-example}
+\end{figure}
+
+\subsection{ICF on ELF Object Files}
+
+In this section, we will describe how ICF is implemented in the \textit{gold} linker for the \textit{Executable and Linkable Format} (ELF)~\cite{tallam10,kwan12}, but ICF can also be adapted to other object file formats.
+
+In order to simplify its ICF implementation, linkers place each function in a separate section.
+In each section, we will have a text segment, which contains executable code, and relocation information.
+%The identity relation is recursively defined due to their relocation points.
+Two function sections are identical if and only if their text segments are bit-identical and their relocations point to sections that are recursively identical.
+In other words, either the relocations point to the same section or they point to different function sections that are determined to be identical.
+
+Relocation is the process of connecting symbolic references with symbolic definitions. For
+example, when a program calls a function, the associated call instruction must transfer control
+to the proper destination address at execution. In other words, relocatable files must have
+information that describes how to modify their section contents, thus allowing executable and
+shared object files to hold the right information for a process's program image. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CODE DESCRIPTION: GOLD
+
+Identical Code Folding Algorithm
+// ----------------------------------
+// Detecting identical functions is done here and the basic algorithm
+// is as follows.  A checksum is computed on each foldable section using
+// its contents and relocations.  If the symbol name corresponding to
+// a relocation is known it is used to compute the checksum.  If the
+// symbol name is not known the stringified name of the object and the
+// section number pointed to by the relocation is used.  The checksums
+// are stored as keys in a hash map and a section is identical to some
+// other section if its checksum is already present in the hash map.
+// Checksum collisions are handled by using a multimap and explicitly
+// checking the contents when two sections have the same checksum.
+
+// However, two functions A and B with identical text but with
+// relocations pointing to different foldable sections can be identical if
+// the corresponding foldable sections to which their relocations point to
+// turn out to be identical.  Hence, this checksumming process must be
+// done repeatedly until convergence is obtained.  Here is an example for
+// the following case :
+//
+// int funcA ()               int funcB ()
+// {                          {
+//   return foo();              return goo();
+// }                          }
+//
+// The functions funcA and funcB are identical if functions foo() and
+// goo() are identical.
+//
+// Hence, as described above, we repeatedly do the checksumming,
+// assigning identical functions to the same group, until convergence is
+// obtained.  Now, we have two different ways to do this depending on how
+// we initialize.
+
+//
+// Algorithm I :
+// -----------
+// We can start with marking all functions as different and repeatedly do
+// the checksumming.  This has the advantage that we do not need to wait
+// for convergence. We can stop at any point and correctness will be
+// guaranteed although not all cases would have been found.  However, this
+// has a problem that some cases can never be found even if it is run until
+// convergence.  Here is an example with mutually recursive functions :
+//
+// int funcA (int a)            int funcB (int a)
+// {                            {
+//   if (a == 1)                  if (a == 1)
+//     return 1;                    return 1;
+//   return 1 + funcB(a - 1);     return 1 + funcA(a - 1);
+// }                            }
+//
+// In this example funcA and funcB are identical and one of them could be
+// folded into the other.  However, if we start with assuming that funcA
+// and funcB are not identical, the algorithm, even after it is run to
+// convergence, cannot detect that they are identical.  It should be noted
+// that even if the functions were self-recursive, Algorithm I cannot catch
+// that they are identical, at least as is.
+//
+// Algorithm II :
+// ------------
+// Here we start with marking all functions as identical and then repeat
+// the checksumming until convergence.  This can detect the above case
+// mentioned above.  It can detect all cases that Algorithm I can and more.
+// However, the caveat is that it has to be run to convergence.  It cannot
+// be stopped arbitrarily like Algorithm I as correctness cannot be
+// guaranteed.  Algorithm II is not implemented.
+//
+// Algorithm I is used because experiments show that about three
+// iterations are more than enough to achieve convergence. Algorithm I can
+// handle recursive calls if it is changed to use a special common symbol
+// for recursive relocs.  This seems to be the most common case that
+// Algorithm I could not catch as is.  Mutually recursive calls are not
+// frequent and Algorithm I wins because of its ability to be stopped
+// arbitrarily.
+
+// Caveat with using function pointers :
+// ------------------------------------
+//
+// Programs using function pointer comparisons/checks should use function
+// folding with caution as the result of such comparisons could be different
+// when folding takes place.  This could lead to unexpected run-time
+// behaviour.
+//
+// Safe Folding :
+// ------------
+//
+// ICF in safe mode folds only ctors and dtors if their function pointers can
+// never be taken.  Also, for X86-64, safe folding uses the relocation
+// type to determine if a function's pointer is taken or not and only folds
+// functions whose pointers are definitely not taken.
+//
+// Caveat with safe folding :
+// ------------------------
+//
+// This applies only to x86_64.
+//
+// Position independent executables are created from PIC objects (compiled
+// with -fPIC) and/or PIE objects (compiled with -fPIE).  For PIE objects, the
+// relocation types for function pointer taken and a call are the same.
+// Now, it is not always possible to tell if an object used in the link of
+// a pie executable is a PIC object or a PIE object.  Hence, for pie
+// executables, using relocation types to disambiguate function pointers is
+// currently disabled.
+//
+// Further, it is not correct to use safe folding to build non-pie
+// executables using PIC/PIE objects.  PIC/PIE objects have different
+// relocation types for function pointers than non-PIC objects, and the
+// current implementation of safe folding does not handle those relocation
+// types.  Hence, if used, functions whose pointers are taken could still be
+// folded causing unpredictable run-time behaviour if the pointers were used
+// in comparisons.
+//
+
+
+
+//////////////////
+
+// This function computes a checksum on each section to detect and form
+// groups of identical sections.  The first iteration does this for all 
+// sections.
+// Further iterations do this only for the kept sections from each group to
+// determine if larger groups of identical sections could be formed.  The
+// first section in each group is the kept section for that group.
+//
+// CRC32 is the checksumming algorithm and can have collisions.  That is,
+// two sections with different contents can have the same checksum. Hence,
+// a multimap is used to maintain more than one group of checksum
+// identical sections.  A section is added to a group only after its
+// contents are explicitly compared with the kept section of the group.
+//
+// Parameters  :
+// ITERATION_NUM           : Invocation instance of this function.
+// NUM_TRACKED_RELOCS : Vector reference to store the number of relocs
+//                      to ICF sections.
+// KEPT_SECTION_ID    : Vector which maps folded sections to kept sections.
+// ID_SECTION         : Vector mapping a section to an unique integer.
+// IS_SECN_OR_GROUP_UNIQUE : To check if a section or a group of identical
+//                            sections is already known to be unique.
+// SECTION_CONTENTS   : Store the section's text and relocs to non-ICF
+//                      sections.
+
+static bool
+match_sections() {
+  preprocess_for_unique_sections(id_section,
+                                   is_secn_or_group_unique,
+                                   section_contents);
+
+  std::vector<std::string> full_section_contents;
+
+  for (unsigned int i = 0; i < id_section.size(); i++)
+    {
+      full_section_contents.push_back("");
+      if ((*is_secn_or_group_unique)[i])
+        continue;
+
+     Section_id secn = id_section[i];
+
+     this_secn_contents = get_section_contents(true, secn, i, &num_relocs,
+                                                    symtab, (*kept_section_id),
+                                                    section_contents);
+
+      cksum = xcrc32(this_secn_contents_array, this_secn_contents.length(),
+                     0xffffffff);
+      size_t count = section_cksum.count(cksum);
+      if (count == 0)
+        {
+          // Start a group with this cksum.
+          section_cksum.insert(std::make_pair(cksum, i));
+          full_section_contents[i] = this_secn_contents;
+        }
+        else
+        {
+          key_range = section_cksum.equal_range(cksum);
+          Unordered_multimap<uint32_t, unsigned int>::iterator it; //groups 
+          // Search all the groups with this cksum for a match.
+
+            for each group with cksum:
+                {
+                  kept_section = group.getKepSection();
+
+                  if (kept_section.length()
+                      != this_secn_contents.length())
+                      continue;
+                  if (kept_section != this_secn_contents)
+                      continue;
+
+                  //found matching group
+                  (*kept_section_id)[i] = kept_section;
+                  converged = false;
+                  break;
+                }
+              if (no matching group found) {
+                  // Create a new group for this cksum.
+                  section_cksum.insert(std::make_pair(cksum, i));
+                  full_section_contents[i] = this_secn_contents;
+                }
+         }
+         // If there are no relocs to foldable sections do not process
+         // this section any further.
+         if (iteration_num == 1 && (*num_tracked_relocs)[i] == 0)
+             (*is_secn_or_group_unique)[i] = true;
+
+        }
+     }
+
+ return converged;
+}
+
+////////////////////////////
+
+// This function determines if a section or a group of identical
+// sections has unique contents.  Such unique sections or groups can be
+// declared final and need not be processed any further.
+// Parameters :
+// ID_SECTION : Vector mapping a section index to a Section_id pair.
+// IS_SECN_OR_GROUP_UNIQUE : To check if a section or a group of identical
+//                            sections is already known to be unique.
+// SECTION_CONTENTS : Contains the section's text and relocs to sections
+//                    that cannot be folded.   SECTION_CONTENTS are NULL
+//                    implies that this function is being called for the
+//                    first time before the first iteration of icf.
+
+static void
+preprocess_for_unique_sections(
+
+
+
+////////////////////////////
+// This is the main ICF function called in gold.cc.  This does the
+// initialization and calls match_sections repeatedly (twice by default)
+// which computes the crc checksums and detects identical functions.
+
+void
+Icf::find_identical_sections(const Input_objects* input_objects,
+                             Symbol_table* symtab) {
+
+  // Default number of iterations to run ICF is 2.
+  unsigned int max_iterations = (parameters->options().icf_iterations() > 0)
+                            ? parameters->options().icf_iterations()
+                            : 2;
+
+  bool converged = false;
+
+  while (!converged && (num_iterations < max_iterations))
+    {
+      num_iterations++;
+      converged = match_sections(num_iterations, symtab,
+                                 &num_tracked_relocs, &this->kept_section_id_,
+                                 this->id_section_, &is_secn_or_group_unique,
+                                 &section_contents);
+    }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% CODE DESCRIPTION: LLD
+
+//
+// ICF is short for Identical Code Folding. This is a size optimization to
+// identify and merge two or more read-only sections (typically functions)
+// that happened to have the same contents. It usually reduces output size
+// by a few percent.
+//
+// In ICF, two sections are considered identical if they have the same
+// section flags, section data, and relocations. Relocations are tricky,
+// because two relocations are considered the same if they have the same
+// relocation types, values, and if they point to the same sections *in
+// terms of ICF*.
+//
+// Here is an example. If foo and bar defined below are compiled to the
+// same machine instructions, ICF can and should merge the two, although
+// their relocations point to each other.
+//
+//   void foo() { bar(); }
+//   void bar() { foo(); }
+//
+// If you merge the two, their relocations point to the same section and
+// thus you know they are mergeable, but how do you know they are
+// mergeable in the first place? This is not an easy problem to solve.
+//
+
+
+
+
+// What we are doing in LLD is to partition sections into equivalence
+// classes. Sections in the same equivalence class when the algorithm
+// terminates are considered identical. Here are details:
+//
+// 1. First, we partition sections using their hash values as keys. Hash
+//    values contain section types, section contents and numbers of
+//    relocations. During this step, relocation targets are not taken into
+//    account. We just put sections that apparently differ into different
+//    equivalence classes.
+//
+// 2. Next, for each equivalence class, we visit sections to compare
+//    relocation targets. Relocation targets are considered equivalent if
+//    their targets are in the same equivalence class. Sections with
+//    different relocation targets are put into different equivalence
+//    classes.
+//
+// 3. If we split an equivalence class in step 2, two relocations
+//    previously target the same equivalence class may now target
+//    different equivalence classes. Therefore, we repeat step 2 until a
+//    convergence is obtained.
+//
+// 4. For each equivalence class C, pick an arbitrary section in C, and
+//    merge all the other sections in C with it.
+//
+// For small programs, this algorithm needs 3-5 iterations. For large
+// programs such as Chromium, it takes more than 20 iterations.
+//
+// This algorithm was mentioned as an "optimistic algorithm" in [1],
+// though gold implements a different algorithm than this.
+//
+// We parallelize each step so that multiple threads can work on different
+// equivalence classes concurrently. That gave us a large performance
+// boost when applying ICF on large programs. For example, MSVC link.exe
+// or GNU gold takes 10-20 seconds to apply ICF on Chromium, whose output
+// size is about 1.5 GB, but LLD can finish it in less than 2 seconds on a
+// 2.8 GHz 40 core machine. Even without threading, LLD's ICF is still
+// faster than MSVC or gold though.
+//
+// [1] Safe ICF: Pointer Safe and Unwinding aware Identical Code Folding
+// in the Gold Linker
+// http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36912.pdf
+//
+
+
+
+// Split an equivalence class into smaller classes.
+template <class ELFT>
+void ICF<ELFT>::segregate(size_t begin, size_t end, bool constant) {
+  // This loop rearranges sections in [Begin, End) so that all sections
+  // that are equal in terms of equals{Constant,Variable} are contiguous
+  // in [Begin, End).
+  //
+  // The algorithm is quadratic in the worst case, but that is not an
+  // issue in practice because the number of the distinct sections in
+  // each range is usually very small.
+
+  qsort-like partition 
+
+
+// The main function of ICF.
+template <class ELFT> void ICF<ELFT>::run() {
+  ...
+
+  // Collect sections to merge.
+  for (InputSectionBase *sec : inputSections) {
+    auto *s = cast<InputSection>(sec);
+    if (isEligible(s))
+      sections.push_back(s);
+  }
+
+  // Initially, we use hash values to partition sections.
+  parallelForEach(sections, [&](InputSection *s) {
+    s->eqClass[0] = xxHash64(s->data());
+  });
+
+  
+    // Combine the hashes of the sections referenced by the given section into its
+    // hash.
+  parallelForEach(sections, [&](InputSection *s) {
+    combineRelocHashes<ELFT>(cnt, s, s->template rels<ELFT>());
+  });
+
+  // From now on, sections in Sections vector are ordered so that sections
+  // in the same equivalence class are consecutive in the vector.
+  llvm::stable_sort(sections, [](const InputSection *a, const InputSection *b) {
+    return a->eqClass[0] < b->eqClass[0];
+  });
+
+  // Compare static contents and assign unique IDs for each static content.
+  forEachClass([&](size_t begin, size_t end) { segregate(begin, end, true); });
+
+  // Split groups by comparing relocations until convergence is obtained.
+  do {
+    repeat = false;
+    forEachClass(
+        [&](size_t begin, size_t end) { segregate(begin, end, false); });
+  } while (repeat);
+
+  log("ICF needed " + Twine(cnt) + " iterations");
+
+
+  // Merge sections by the equivalence class.
+  forEachClassRange(0, sections.size(), [&](size_t begin, size_t end) {
+    if (end - begin == 1)
+      return;
+    print("selected section " + toString(sections[begin]));
+    for (size_t i = begin + 1; i < end; ++i) {
+      print("  removing identical section " + toString(sections[i]));
+      sections[begin]->replace(sections[i]);
+
+      // At this point we know sections merged are fully identical and hence
+      // we want to remove duplicate implicit dependencies such as link order
+      // and relocation sections.
+      for (InputSection *isec : sections[i]->dependentSections)
+        isec->markDead();
+    }
+  });
+
+  
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% PAPER DESCRIPTION
+
+
+
+In order to detect such identical functions we do the following.
+We first split the contents of each function section into two parts, constant and variable.
+   The constant part refers to the contents that will not change throughout our analysis.
+   These are the text content and the relocations that do not point to function sections that are our folding candidates.
+%%%%%%
+   The variable part refers to the relocations that point to function sections that will be considered for folding.
+   Such relocations will be referred to as variable relocations.
+%%%%%%
+
+
+Our analysis will form groups of function sections such that all function sections in a group are identical to each other.
+When we compute the contents of a function, we take the constant part as is and substitute every variable relocation with its group identifier which denotes the group of the function section pointed to by the relocation.
+Then, we checksum the contents and divide the functions into different groups based on the checksum.
+Now, we repeat the same steps using the new group identifiers and continue until convergence is obtained.
+Notice that when we repeat these steps only the variable relocations have to be recomputed.
+This procedure continues until the group identifier of every function section does not change from the previous iteration.
+Figure 3 summarizes the steps.
+
+After the functions have been split into groups, we only
+retain one candidate in each group, called the kept func-
+tion, for the final binary and discard all the other copies.
+We then map the symbols corresponding to the dupli-
+cate functions to have the same value as the symbol of
+the kept function.
+
+-- Initialization step
+
+Let us look in more detail at the third step of the algo-
+rithm in Figure 3 where we initialize the group identi-
+fiers of all the candidate functions. We have two initial-
+ization choices :
+
+1. Pessimistic - Each function is in a unique group (no
+duplicates).
+2. Optimistic - All functions are in the same group (all
+functions are identical to each other).
+
+If we conservatively initialize each function to be in a
+separate group then after each iteration the decisions
+made regarding functions that are identical are guaran-
+teed to be correct. This has the advantage that the algo-
+rithm does not necessarily have to be run until conver-
+gence is obtained, although some opportunities may be
+lost if it is stopped early. However, identical functions
+with recursive calls or mutually recursive calls will not
+be detected because of the initialization. Figure 4 shows
+an example. The functions funcA and funcB are identi-
+cal but will not be detected if we start by assuming that
+all functions are unique. On the other hand, if we ag-
+gressively initialize all functions to be identical, we will
+capture the recursive and mutually recursive cases but
+the algorithm has to be run to convergence as correct-
+ness is not guaranteed if we arbitrarily stop it.
+
+For our implementation, we have used the pessimistic
+approach, that is, we initialize by placing each function
+in a separate group. We handle recursive calls by de-
+tecting and replacing it with a special symbol. Also, we
+did not find any mutually recursive calls in the bench-
+marks we used for our experiments. Further, we found
+that in all of our benchmarks, this approach leads to
+convergence in 3 iterations whereas with the optimistic
+strategy, we needed 5 to 6 iterations. We set the default
+number of iterations in our implementation to two as the
+third iteration merely checks for convergence.
+
+---- Pre-processing for performance
+
+We do some pre-processing to reduce the number of
+function sections to be analyzed. Before we begin the
+main algorithm, we find and eliminate functions which
+have unique static content from being considered for
+folding. Also, any group of sections found identical in
+the pre-processing step that does not have any variable
+relocations is finalized and not considered for further
+analysis.
+
+---- Merge sections
+
+Merge sections hold read-only constants and the gold
+linker treats each merge section as a list of constants,
+and merges them all into a list of unique constants.
+However, the ICF analysis happens before the linker has
+merged identical sections. Hence, we inline the refer-
+enced constant at places where it is referenced in the
+function contents while computing the function check-
+sum so that this opportunity is not missed.
+
+---- Choice of checksumming method
+
+Our implementation of ICF uses the crc32 algorithm [5]
+to compute the function checksum. Using crc32 gives
+rise to a number of hash collisions and so we use a
+multi-map hash table to map the function checksum to
+group id. Further, before inserting a function into a hash
+group, we do a bit-wise comparison of the function con-
+tents with that of the kept function in the group. We ex-
+plored the alternative of using a more robust checksum-
+ming method like md5sum [3]. However, computing
+md5sums was found to be much slower than computing
+crc32 checksums.

@@ -1,0 +1,30 @@
+
+\section{Code Factoring}
+
+%Function merging and code factoring are different techniques for solving the
+%same fundamental problem of duplicated code.
+Code factoring is a related technique that addresses the same fundamental
+problem of duplicated code in a different way.
+%While the former works by merging similar functions, the latter works by
+%factoring out duplicated code~\cite{loki04}.
+%Instead of merging similar functions, code factoring works by factoring out
+%duplicated code into separate functions~\cite{loki04}.
+Code factoring can be applied at different levels of the program~\cite{loki04}.
+Local factoring, also known as local code motion, moves identical instructions
+from multiple basic blocks to either their common predecessor or successor,
+whenever valid~\cite{knoop94,briggs94,loki04}.
+Procedural abstraction %(or outlining)
+finds identical code
+that can be extracted into a separate function, replacing all replicated
+occurrences with a function call~\cite{loki04,dreweke07}.
+
+Procedural abstraction differs from function merging as it usually works on
+single basic blocks or single-entry single-exit regions.
+Moreover, it only works for identical segments of code, and every identical
+segment of code is extracted into a separate new function.
+Function merging, on the other hand, works on whole functions, which can be
+identical or just partially similar, producing a single merged function.
+
+However, all these techniques are orthogonal to the proposed optimization and
+could complement each other at different stages of the compilation pipeline.
+

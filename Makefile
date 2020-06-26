@@ -2,12 +2,12 @@
 FILE=thesis
 
 build: $(FILE).tex
-	pdflatex $(FILE)
-	pdflatex $(FILE)
+	pdflatex -shell-escape $(FILE)
+	pdflatex -shell-escape $(FILE)
 	bibtex $(FILE)
-	pdflatex $(FILE)
-	pdflatex $(FILE)
-	pdflatex $(FILE)
+	pdflatex -shell-escape $(FILE)
+	pdflatex -shell-escape $(FILE)
+	pdflatex -shell-escape $(FILE)
 
 clean:
 	$(RM) *.aux *.bbl *.blg *.dvi *.idx *.log *.lol *.t1 *.toc *.bcf *~ src/*.aux

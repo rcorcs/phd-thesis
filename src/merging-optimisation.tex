@@ -1,19 +1,25 @@
 
-\chapter{Function Merging Optimisation}
+\chapter{Optimisation Strategy}
 
 \section{Profitability Cost Model}\label{sec:profit-model}
 
-After generating the code of the merged function, we need to estimate the
-code-size benefit of replacing the original pair of functions by the new merged
-function.
-In order to estimate the code-size benefit, we first compute the code-size cost
-for each instruction in all three functions.
-In addition to measuring the difference in size of the merged function, we also
-need to take into account all extra costs involved:
-$(1)$ for the cases where we need to keep the original functions with a call to
-the merged function;
-and $(2)$ for the cases where we update the call graph, there might be an extra
-cost with a call to the merged function due to the increased number of arguments.
+After generating the code of the merged function, we need to estimate the code-size benefit of replacing the original pair of functions by the new merged function.
+In order to estimate the code-size benefit, we first compute the code-size cost for each instruction in all three functions, which is done with the help of the compiler's target-specific cost model.
+% The actual cost of each instruction comes from querying this compiler's built-in cost model, which provides a target-dependent cost estimation that approximates the code-size cost of an IR instruction when lowered to machine instructions.
+% Our implementation makes use of the code-size costs provided by LLVM's target-transformation interface (TTI), which is widely used in the decision making of most optimisations~\cite{porpodas18b,pohl18}.
+
+
+The compiler's cost model provides a target-dependent cost estimation that approximates the cost of an intermediate representation (IR) instruction when lowered to machine instructions.
+Compilers usually provide a performance cost model, which estimates the latency of each instruction, and a code-size cost model, which estimates the binary size of each instruction.
+These cost models play an essential role in the decision making of most compiler optimisations~\cite{porpodas18b,pohl18}.
+The absolute cost estimated for one instruction is less important than its relation to the cost of other instructions.
+Ultimately, these costs are used for comparing two pieces of code, informing the compiler's decision of whether or not a given transformation is profitable.
+%These cost models need to be defined only once per target architecture but they play an essential role in the decision making of most compiler optimisations. 
+
+In order to estimate code-size cost of one function, we sum up the code-size cost of all instruction by querying the cost model.
+In addition to measuring the difference in size of the merged function, we also need to take into account all extra costs involved:
+$(1)$ for the cases where we need to keep the original functions with a call to the merged function;
+and $(2)$ for the cases where we update the call graph, there might be an extra cost with a call to the merged function due to the increased number of arguments.
 
 Let $c(f)$ be the code-size cost of a given function $f$, and
 $\delta(f_i, f_j)$ represent the extra costs involved when replacing or
@@ -26,18 +32,22 @@ $f_{1,2}$, we want to maximise the profit defined as:
 where $\varepsilon = \delta(f_1, f_{1,2}) + \delta(f_2, f_{1,2})$.
 We consider that the merge operation is profitable if $\Delta(\{f_1,f_2\},f_{1,2})>0$.
 
-However, because we are operating on the IR level, one IR instruction does not
-necessarily translate to one machine instruction.
-Because of that, the profitability is measured with the help of the compiler's
-target-specific cost model.
-The actual cost of each instruction comes from querying this compiler's built-in
-cost model, which provides a target-dependent cost estimation that approximates
-the code-size cost of an IR instruction when lowered to machine instructions.
-Our implementation makes use of the code-size costs provided by LLVM's
-target-transformation interface (TTI), which is widely used in the decision
-%making by most of the LLVM's optimisations.
-making of most optimisations~\cite{porpodas18b,pohl18}.
+However, these cost models are expected to contain inaccuracies.
+Because we are operating on the IR level, one IR instruction does not necessarily translate to one machine instruction.
+Several number of optimisations and code transformations will run afterwards, modifying the code.
+Moreover, we cannot know exactly how each IR instruction will be lowered without actually running the compiler's backend.
+The same IR instruction can be lowered to different machine instructions, depending on its surrounding context, the instruction selection algorithm, and many other factors.
+Therefore, there is also an inherent limitation of estimating the cost of each instruction separately of its context.
+However, the use of cost models is still a good trade-off between compilation time and accuracy.
+%% TODO: Cite the Ithemal paper and add more text.
 
+%Even though statically estimating code-size cost of an instruction is easier than the performance cost.
+% sources of inaccuracies: IR level, many optimisations will run afterwards, which means that some instructions might be removed, replaced or added.
+% At the IR level, we cannot know exactly how each IR instruction will be lowered, the same IR instruction can be lowered to different machine instructions, depending on the surrounding context, the instruction selection algorithm, etc. Therefore, we are limited by estimating the cost of each instruction separately of its context.
+%Because of that, the profitability is measured with the help of the compiler's target-specific cost model.
+%The actual cost of each instruction comes from querying this compiler's built-in cost model, which provides a target-dependent cost estimation that approximates the code-size cost of an IR instruction when lowered to machine instructions.
+% However, the use of cost models is still a good trade-off between compilation time and accuracy. Cite the Ithemal paper and add more text.
+%Our implementation makes use of the code-size costs provided by LLVM's target-transformation interface (TTI), which is widely used in the decision making of most optimisations~\cite{porpodas18b,pohl18}.
 
 \section{Exhaustive Search}
 

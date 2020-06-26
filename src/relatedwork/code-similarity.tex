@@ -1,0 +1,37 @@
+
+\section{Code Similarity}
+
+Code similarity has also been used in other compiler optimizations or tools for
+software development and maintenance.
+In this section, we describe some of these applications.
+
+Coutinho~et~al.~\cite{coutinho11} proposed an optimization that uses instruction
+alignment to reduce divergent code for GPU.
+They are able to fuse divergent branches that contain single basic blocks,
+improving GPU utilization.
+%reducing idle cores.
+
+Similarly, analogous algorithms have also been suggested to identify the
+differences between two programs, helping developers with source-code
+management and maintenance~\cite{yang91,miller85}.
+These techniques are applied in tools for source-code management, such as
+the \textit{diff} command~\cite{miller85}.
+
+Similar techniques have also been applied to code editors and IDEs~\cite{toomim04,sajnani16}.
+For example,
+SourcererCC~\cite{sajnani16} detects possible clones, at the source level, by
+dividing the programs into a set of code blocks where each code block is itself
+represented by a bag-of-tokens, i.e., a set of tokens and their frequencies.
+Tokens are keywords, literals, and identifiers, but not operators.
+Code blocks are considered clones if their degree of similarity is higher than
+a given threshold.
+In order to reduce the number of blocks compared, candidate blocks are filtered
+based on a few of their tokens where at least one must match.
+
+Our ranking mechanism uses an approach similar to SourcererCC, where we use
+opcode frequencies and type frequencies to determine if two functions are
+likely to have similar code.
+However, we need a precise and effective analysis of code similarity when
+performing the actual merge.
+To this end, we use a sequence alignment technique.
+

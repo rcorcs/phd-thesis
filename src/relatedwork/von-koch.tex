@@ -1,0 +1,47 @@
+
+\section{Merging Beyond Identical Functions}
+
+The state-of-the-art function-merging technique exploits structural similarity among functions~\cite{edler14}.
+Their optimization is able to merge similar functions that are not necessarily
+identical.
+Two functions are structurally similar if both their function types are equivalent
+and their CFGs isomorphic.
+Two function types are equivalent if they agree in the number, order, and types
+of their parameters as well as
+their return types, linkage type, and other compiler-specific properties.
+In addition to the structural similarity of the functions, their technique also
+requires that corresponding basic blocks have exactly the same number of instructions
+and that corresponding instructions must have equivalent resulting types.
+% but may differ in their opcodes or in the number and type of their input operands.
+Mergeable functions are only allowed to differ in corresponding instructions,
+where they can differ in their opcodes or in the number and type of their input operands.
+%The only differences that are actually allowed is that
+%corresponding instructions can 
+%differ in their opcodes or in the number and type of their input operands.
+
+%If two corresponding instructions have different opcodes, they split the basic
+%block and insert a switch branch to select which instruction to execute
+%depending on a function identifier.
+
+Because the state-of-the-art is limited to functions with identical CFGs
+and function types, once it merges a pair of functions, a third
+\textit{similar} function cannot be merged into the resulting merged function
+since they will differ in both CFGs and their lists of parameters.
+Due to this limiting factor, the state-of-the-art has to first collect all
+mergeable functions and merge them simultaneously.
+
+The state-of-the-art algorithm iterates simultaneously over corresponding basic
+blocks in the set functions being merged, as they have isomorphic CFGs.
+For every basic block, if their corresponding instructions have different opcodes,
+they split the basic block and insert a switch branch to select which instruction
+to execute depending on a function identifier.
+Because these instructions have equivalent resulting types, their results can be
+merged using a phi-operator, which can then be used transparently as operands
+by other instructions.
+
+Although the state-of-the-art technique improves over LLVM's identical function merging, it is
+still unnecessarily limited. In Section~\ref{sec:motivation}, we showed examples of very similar
+real functions where the state-of-the-art fails to merge. Our approach addresses such limitations
+improving on the state-of-the-art across the board.
+
+

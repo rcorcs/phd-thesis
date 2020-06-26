@@ -1,13 +1,4 @@
 
-\section{Identical Code Folding in Linkers}
-
-Google developed an optimisation for the \textit{gold} linker that merges
-identical functions on a bit-level~\cite{tallam10,kwan12}.
-After placing each function in a separate ELF section, they identify function
-sections that have their \textit{text} section bit-identical and also their
-relocations point to sections that are identical. A simpler version of this
-optimisation was also offered by the MSVC linker~\cite{msvc-icf};
-
 \section{Identical Function Merging}
 
 A similar optimisation for merging identical functions, but instead at the
@@ -37,12 +28,16 @@ The comparator always fails conservatively, erring on the side of claiming that
 two functions are different.
 
 When a pair of equivalent functions is identified, we can create either
-an alias or a \textit{thunk} (function wrapper).
+an alias or a \textit{thunk}.
 Aliasing etails eliminating one of the functions and replacing all its callsites
 to the other function.
-A thunk must be created when neither function can be fully eliminated.
-In such case, the body of one of the functions is replaced by a call to the
-other function, and all callsites to both functions are preserved.
+Thunks must be created when neither of the equivalent functions can be eliminated
+by aliasing.
+In such case, a thunk is created for either one of the functions, replacing its
+body by a call to the other function, which allows all callsites and name
+references to both functions to be preserved.
+%In such case, the body of one of the functions is replaced by a call to the
+%other function, and all callsites to both functions are preserved.
 Aliasing is prefered since it is cheaper and adds no runtime overhead.
 The appropriate merging is applied according to following rules:
 \begin{itemize}

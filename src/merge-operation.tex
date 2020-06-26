@@ -1,6 +1,5 @@
 
-\chapter{Merging Pairs of Functions}
-
+\chapter{Merging Pairs of Functions} \label{chap:fm-operation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FMSA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section, we describe the proposed function-merging technique.
@@ -95,26 +94,11 @@ a sequence of labels followed by instructions.
 
 \subsection{Sequence Alignment}
 
-When merging two functions, the goal is to identify which pairs of instructions
-and labels that can be merged and which ones need to be selected based on the
-actual function being executed.
-To avoid breaking the semantics of the original program, we also need to
-maintain the same order of execution of the instructions for each one of
-the functions.
+When merging two functions, the goal is to identify which pairs of instructions and labels that can be merged and which ones need to be selected based on the actual function being executed.
+To avoid breaking the semantics of the original program, we also need to maintain the same order of execution of the instructions for each one of the functions.
 
-To this end, after linearisation, we reduce the problem of merging functions
-to the problem of \textit{sequence alignment}. %~\cite{carrillo88,wang94}.
-%After linearisation, the problem of merging two functions can be reduced to the
-%\textit{sequence alignment} problem~\cite{carrillo88,wang94}, which is itself
-%closely related to finding the
-%\textit{longest common subsequence}~\cite{hirschberg75,maier78}.
-Sequence alignment is an important technique to many areas of science,
-most notably in molecular biology~\cite{needleman70,smith81,carrillo88,wang94}
-where, for example, it is used for identifying homologous subsequences of amino
-acid in proteins.
-Figure~\ref{fig:opcode-align} shows an example of the sequence alignment
-between two linearised functions extracted from the \texttt{400.perlbench} benchmark
-in SPEC CPU2006~\cite{spec}.
+To this end, after linearisation, we reduce the problem of merging functions to the problem of \textit{sequence alignment}.
+Figure~\ref{fig:opcode-align} shows an example of the sequence alignment between two linearised functions extracted from the \texttt{400.perlbench} benchmark in SPEC CPU2006~\cite{spec}.
 
 \begin{figure}[h]
   \centering
@@ -124,100 +108,16 @@ in SPEC CPU2006~\cite{spec}.
   \label{fig:opcode-align}
 \end{figure}
 
-Formally, sequence alignment can be defined as follows:
-For a given alphabet $\alpha$, a sequence $S$ of $k$ characters is a subset of
-$\alpha^k$, i.e., $S = (a_1, \ldots a_k)$.
-Let $S_1, \ldots, S_m$ be a set of sequences, possibly of different lengths but
-all derived from the same alphabet $\alpha$, where
-$S_i = (a_1^{(i)}, \ldots, a_{k_1}^{(i)})$, for all $i\in\{1,\ldots,m\}$.
-%\begin{equation*}
-%\begin{align*}
-%S_1 = (a_1^{(1)}, \ldots, a_{k_1}^{(1)})\\
-%\dots\\ 
-%S_m = (a_1^{(m)}, \ldots, a_{k_m}^{(m)})
-%\end{align*}
-%\end{equation*}
-Consider an extended alphabet that includes the \textit{blank} character ``$-$'',
-i.e., $\beta = \alpha \cup \{-\}$.
-An alignment of the $m$ sequences, $S_1, \ldots, S_m$, is another set of sequences,
-$\bar{S}_1, \ldots, \bar{S}_m$, such that each sequence $\bar{S}_i$ is obtained
-from $S_i$ by inserting blanks in positions where some of the other sequences
-have non-blank and possibly equivalent characters, for a given equivalence relation.
-All sequences $\bar{S}_i$ in the alignment set have the same length $l$, where
-$\max\{k_1,\ldots,k_m\} \leq l \leq k_1 + \cdots + k_m$.
-Moreover, $\forall i\in\{1,\ldots, m\}$, $\bar{S}_i = (b_1^{(i)},\ldots,b_l^{(i)})$,
-there are increasing functions $v_i: \{1,\ldots,k_i\} \to \{1,\ldots,l\}$, such that:
-\begin{itemize} %[noitemsep,topsep=0pt]
-\item $b_{v_i(j)}^{(i)} = a_j^{(i)}$, for every $j \in \{1,\ldots,k_i\}$;
-\item any position $j$ not mapped by the function $v_i$, i.e.,
-for all $j \in \{1,\ldots,l\}\setminus \textrm{Im} v_i$,
-then $b_j^{(i)}$ is a blank character.
-\end{itemize}
-Finally, for all $j\in\{1,\ldots,l\}$, there is at least one value of $i$ for
-which $b_j^{(i)}$ is not a blank character.
-%and for any pair of sequences that have a non-blank character at position $j$,
-%these characters are equivalent.
-Note that two aligned sequences may contain both non-blank and non-equivalent
-characters at any given position, in which case it contains a mismatch.
-
-Particularly for the function-merging, we are concerned with the alphabet
-consisting of all possible typed instructions and labels.
+Particularly for the function-merging, we are concerned with the alphabet consisting of all possible typed instructions and labels.
 Every linearised function represents a sequence derived from this alphabet.
 We explain the equivalence relation used for this alphabet in the next section.
 
-%We describe the equivalence relation between two predicated values in two
-%separate cases, namely, the equivalence between instructions and the
-%equivalence between labels.
-%Labels are always considered equivalent.
-%Two instructions are equivalent if their opcode are semantically equivalent,
-%but not necessarily the same, and they both have types that can be bitcasted in
-%a losslessly way from on to the other.
-%This also includes making sure that there is no conflict regarding memory
-%alignment when handling pointers.
-%No additional restriction is imposed on the operands of the two instructions
-%being compared for equivalence.
-%Whenever two operands cannot be statically proved to represent the same value,
-%a select instruction can be used to distinguish between the execution of two
-%functions being merged.
-%For function calls, the type equivalence requires that both instructions have
-%identical function types, i.e., both called functions must have an identical
-%return type and an identical list of parameter types. 
-
-There is a vast literature on algorithms for performing sequence alignment,
-especially in the context of molecular biology.
-These algorithms range from optimal algorithms based on dynamic programming to
-probabilistic models that does not guarantee
-optimality~\cite{needleman70,smith81,carrillo88,hickey11}. 
-In this paper, we use the Needleman-Wunsh algorithm~\cite{needleman70}.
-This algorithm is based on dynamic programming and consists of two main steps.
-First, it builds a \textit{similarity matrix}, based on a scoring scheme, which
-assigns weights for matches, mismatches, and \textit{gaps} (blank characters).
-Afterwards, a backward traversal is performed on the similarity matrix, in order
-to reconstruct the final alignment by maximizing the total score.
-We use a simple scoring scheme that rewards matches and penalises mismatches and
-gaps.
-
-%\todo{Remove this paragraph.}
-%When producing the final aligned sequence, there may be several possible optimal
-%alignments.
-%However, different aligned sequences can affect the code generation in different
-%ways that may be both beneficial or undesirable. 
-%For this reason, we prioritise alignments that tend to group the blank
-%characters together, avoiding to frequently alternate between the two sequences
-%during long segments of mismatches and gaps.
-%For example, note that in Figure~\ref{fig:opcode-align}, the red blocks, for
-%a particular sequence, tend to be grouped together.
-
 \subsection{Equivalence Relation}
 
-We describe the equivalence relation between values in two
-separate cases, namely, the equivalence between instructions and the
-equivalence between labels.
+We describe the equivalence relation between values in two separate cases, namely, the equivalence between instructions and the equivalence between labels.
 
-Labels can represent both normal basic blocks and landing blocks, which are used
-in exception handling code.
-Labels of normal basic blocks are always considered equivalent but
-landing blocks must have exactly the same landingpad instructions.
+Labels can represent both normal basic blocks and landing blocks, which are used in exception handling code.
+Labels of normal basic blocks are always considered equivalent but landing blocks must have exactly the same landingpad instructions.
 
 Two instructions are equivalent if: $(1)$ their opcode are semantically
 equivalent, but not necessarily the same; $(2)$ they both have equivalent types;

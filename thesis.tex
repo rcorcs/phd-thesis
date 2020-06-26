@@ -77,6 +77,10 @@
 
 \usepackage{amsmath}
 
+
+% \usepackage{minted}
+% \usemintedstyle{trac} %vs,borland,pastie,perldoc,friendly
+
 %% Information about the title, etc.
 \title{Reducing Code Size with Function Merging}
 \author{Rodrigo Caeteano de Oliveira Rocha}
@@ -140,10 +144,15 @@
 
 
 \newcommand{\ProjName}{{SalSSA}\xspace} %Sequence ALignment in the SSA form
+\newcommand{\etal}{{et~al.}}
+
 \include{src/intro}
+\include{src/background}
 \include{src/relatedwork}
 \include{src/merge-operation}
 \include{src/merging-optimisation}
+\include{src/runtime-overhead}
+\include{src/conclusion}
 
 %%%%%%%%
 %% Any appendices should go here. The appendix files should look just like the
@@ -162,7 +171,7 @@
 % \singlespace
 
 %% Specify the bibliography file. Default is thesis.bib.
-\bibliography{bib/func-merge.bib,bib/benchmarks.bib,bib/compilers.bib}
+\bibliography{bib/func-merge.bib,bib/benchmarks.bib,bib/compilers.bib,bib/seqalign.bib,bib/costmodel.bib}
 
 %% ... that's all, folks!
 \end{document}
