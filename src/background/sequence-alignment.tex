@@ -1,15 +1,30 @@
 
 \section{Sequence Alignment}
 
-Sequence alignment is important in many scientific areas, most notably in molecular biology~\cite{needleman70,smith81,carrillo88,wang94} where it is used for identifying homologous subsequences of amino acid in proteins.
+The comparison of two or more sequences, measuring the extent to which they differ, is important in many scientific areas, most notably in molecular biology~\cite{needleman70,smith81,carrillo88,wang94} where it has been critical
+in the understanding of functional, structural, or evolutionary relationships between the sequences~\cite{kruskal83,mount05book}.
+
+A particularly important comparison technique is sequence alignment, which identifies a series of patterns that appear in the same order in the sequences.
 Essentially, sequence alignment algorithms insert blank characters in both input sequences so that the final sequences end up having the same size, where equivalent segments are aligned with their matching segments from the other sequence and non-equivalent segments are paired with blank characters.
+
+Figure~\ref{fig:seq-align-example} shows a sequence alignment example adapted from Lee~et~al.~\cite{lee02}.
+This example shows two protein sequences where amino acids are represented by their one-letter symbology~\cite{aasland68}.
+%In this example, 
+%Figure~\ref{fig:seq-align-example} illustrates the alignment between two sequences, identifying matching and non-matching segments.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.55]{src/background/figs/seq-align-example}
+  \caption{Example of the alignment between two sequences, matching segments are shown in green, vertically centred, and the non-matching segments are shown in red at the sides.}
+  \label{fig:seq-align-example}
+\end{figure}
 
 Formally, sequence alignment can be defined as follows:
 For a given alphabet $\alpha$, a sequence $S$ of $k$ characters is an element of
 $\alpha^k$, i.e., $S = (a_1, \ldots a_k)$.
 Let $S_1, \ldots, S_m$ be a set of sequences, possibly of different lengths but
 all derived from the same alphabet $\alpha$, where
-$S_i = (a_1^{(i)}, \ldots, a_{k_1}^{(i)})$, for all $i\in\{1,\ldots,m\}$.
+$S_i = (a_1^{(i)}, \ldots, a_{k_i}^{(i)})$, for all $i\in\{1,\ldots,m\}$.
 %\begin{equation*}
 %\begin{align*}
 %S_1 = (a_1^{(1)}, \ldots, a_{k_1}^{(1)})\\
@@ -29,9 +44,7 @@ Moreover, $\forall i\in\{1,\ldots, m\}$, $\bar{S}_i = (b_1^{(i)},\ldots,b_l^{(i)
 there are increasing functions $v_i: \{1,\ldots,k_i\} \to \{1,\ldots,l\}$, such that:
 \begin{itemize}
 \item $b_{v_i(j)}^{(i)} = a_j^{(i)}$, for every $j \in \{1,\ldots,k_i\}$;
-\item any position $j$ not mapped by the function $v_i$, i.e.,
-for all $j \in \{1,\ldots,l\}\setminus \textrm{Im} \, v_i$,
-then $b_j^{(i)}$ is a blank character.
+\item any position not covered by the function $v_i$ contain a black character, i.e., for every $j \in \{1,\ldots,l\}\setminus \textrm{Im} \, v_i$, $b_j$ is the blank character ``$-$''.
 \end{itemize}
 Finally, for all $j\in\{1,\ldots,l\}$, there is at least one value of $i$ for
 which $b_j^{(i)}$ is not a blank character.
@@ -39,50 +52,41 @@ which $b_j^{(i)}$ is not a blank character.
 %these characters are equivalent.
 Note that two aligned sequences may contain both non-blank and non-equivalent characters at any given position, in which case there is a mismatch.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.75\linewidth]{src/background/figs/opcode-align.pdf}
-  %\caption{An example of a sequence alignment between two real functions extracted from the \text{400.perlbench} benchmark.}
-  \caption{The sequence alignment between two functions, identifying the equivalent segments of code (green in the center) and the non-equivalent ones (red at the sides).}
-  \label{fig:opcode-align}
-\end{figure}
+%These algorithms range from optimal algorithms based on dynamic programming to probabilistic models that do not guarantee optimality~\cite{needleman70,smith81,carrillo88,hickey11}.
 
-Specifically for function-merging, we are concerned with the alphabet
-consisting of all possible typed instructions and labels.
-Every linearized function represents a sequence derived from this alphabet.
-We explain the equivalence relation used for this alphabet in the next section.
-Although we only consider pair-wise alignments, the technique would also work
-for multi-sequences.
+There is a vast literature on algorithms for performing sequence alignment, especially in the context of molecular biology.
+These algorithms are classified as either global or local.
+A global sequence alignment algorithm attempts to align the entire sequence, using as many characters as possible, up to both ends of each sequence.
+Global alignment algorithms are useful for sequences that are highly similar and have approximately the same length~\cite{mount05book}.
+Alternatively, a local sequence alignment algorithm generates subalignments in stretches of sequence with the highest density of matches.
+Local alignments are more suitable for aligning sequences with very few similarities or vastly different lengths~\cite{mount05book}.
 
-%We describe the equivalence relation between two predicated values in two
-%separate cases, namely, the equivalence between instructions and the
-%equivalence between labels.
-%Labels are always considered equivalent.
-%Two instructions are equivalent if their opcode are semantically equivalent,
-%but not necessarily the same, and they both have types that can be bitcasted in
-%a losslessly way from on to the other.
-%This also includes making sure that there is no conflict regarding memory
-%alignment when handling pointers.
-%No additional restriction is imposed on the operands of the two instructions
-%being compared for equivalence.
-%Whenever two operands cannot be statically proved to represent the same value,
-%a select instruction can be used to distinguish between the execution of two
-%functions being merged.
-%For function calls, the type equivalence requires that both instructions have
-%identical function types, i.e., both called functions must have an identical
-%return type and an identical list of parameter types.
-
-%There is a vast literature on algorithms for performing sequence alignment,
-%especially in the context of molecular biology.
-%These algorithms range from optimal algorithms based on dynamic programming to
-%probabilistic models that do not guarantee
-%optimality~\cite{needleman70,smith81,carrillo88,hickey11}.
-Our work uses the Needleman-Wunsch algorithm~\cite{needleman70} to perform sequence alignment.
-This algorithm gives an alignment that is guaranteed to be optimal for a given scoring scheme~\cite{higgins89},
-however, other algorithms could also be used with different performance and memory usage trade-offs~\cite{needleman70,smith81,carrillo88,hickey11}.
+In this work, we will focus on global alignment algorithms.
+The following sections describe the main optimal algorithms based on dynamic programming.
+These algorithms will offer different performance and memory usage trade-offs~\cite{needleman70,smith81,carrillo88,hickey11}.
 Different alignments would produce different but valid merged functions.
 
-The Needleman-Wunsch algorithm~\cite{needleman70} is based on dynamic programming and consists of two main steps. First, it builds a \textit{similarity matrix}, based on a scoring scheme, which assigns weights
+\subsection{Needleman-Wunsch Algorithm}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6]{src/background/figs/seq-align-example-nw}
+  \caption{.}
+  \label{fig:seq-align-example-nw}
+\end{figure}
+
+The Needleman-Wunsch algorithm~\cite{needleman70} is one of the most well known algorithm for global alignment.
+This algorithm gives an alignment that is guaranteed to be optimal for a given scoring scheme~\cite{higgins89}.
+
+The Needleman-Wunsch algorithm is based on dynamic programming and consists of two main steps. First, it builds a \textit{similarity matrix}, based on a scoring scheme, which assigns weights
 for matches, mismatches, and \textit{gaps} (blank characters). Afterwards, a backward traversal is performed on the similarity matrix, in
 order to reconstruct the final alignment by maximizing the total score. We use a standard scoring scheme for the Needleman-Wunsch algorithm
 that rewards matches and equally penalizes mismatches and gaps.
+
+Figure~\ref{fig:seq-align-example-nw} shows the score matrix and the for the traversal corresponding to the example from Figure~\ref{fig:seq-align-example}. 
+Note that sometimes, while traversing the score matrix, there are multiple adjacent neighbors with the same score.
+Since there may exist multiple traversals with the same score, two sequences can have multiple optimum alignments.
+
+Needleman-Wunsh algorithm is quadratic in the size of the sequences being aligned, both in time and space.
+
+\subsection{Hirschberg Algorithm}

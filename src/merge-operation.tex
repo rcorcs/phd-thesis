@@ -108,9 +108,10 @@ Figure~\ref{fig:opcode-align} shows an example of the sequence alignment between
   \label{fig:opcode-align}
 \end{figure}
 
-Particularly for the function-merging, we are concerned with the alphabet consisting of all possible typed instructions and labels.
+Specifically for the function merging, we are concerned with the alphabet consisting of all possible typed instructions and labels.
 Every linearised function represents a sequence derived from this alphabet.
 We explain the equivalence relation used for this alphabet in the next section.
+Although we only consider pair-wise alignments, the technique would also work for multi-sequences.
 
 \subsection{Equivalence Relation}
 
@@ -187,10 +188,96 @@ be identical for the two functions being merged.
 
 
 
+\section{Code Generation}
+The code generation phase is responsible for producing a new function from the output of the sequence alignment.
+Our four main objectives are: merging the parameter lists; merging the return types; generating select instructions to choose the appropriate
+operands in merged instructions; and constructing the CFG of the merged function.
+
+Our approach can effectively handle multiple different function merging scenarios:
+\begin{itemize}
+  \item identical functions,
+  \item functions with differing bodies,
+  \item functions with different parameter lists, 
+  \item functions with different return types,
+  \item and any combination of these cases.
+\end{itemize}
+
+\subsubsection{Merged Parameters}
+
+To maintain the semantics of the original functions, we must be able to pass their parameters to
+the new merged function. The merged parameter list is the union of the original lists, with
+placeholders of the correct type for any of the parameters. Maintaining the original order is not
+important for maintaining semantics, so we make no effort to do so.
+If the two functions have differing bodies, we add an extra binary parameter, called the function
+identifier, to the merged list of parameters. This extra parameter is required for selecting code
+that should be executed only for one of the merged functions.
+
+Figure~\ref{fig:merged-params} depicts
+how we merge the list of parameters of two functions.
+First, we create the binary parameter that represents the function identifier,
+one of the functions will be identified by the value \texttt{true} and the other
+by the value \texttt{false}.
+We then add all the parameters of one of the functions to the new list of
+parameters.
+Finally, for each parameter of the second function, we either reuse an existing
+and available parameter of identical type from the first function or we add a
+new parameter.
+We keep track of the mapping between the lists of parameters of the
+original functions and the merged function so that, later, we are able to
+update the function calls.
+When replacing the function calls to the new merged function, parameters that
+are not used by the original function being called will receive undefined values.
+%For this reason, it is important to be careful when merging the two functions
+%in order to avoid creating unsafe computation on undefined values, which
+%results in undefined behavior.
+
+The reuse of parameters between the two merged functions provides the following
+benefits:
+%(1) it allows for a simpler function call, with fewer values to pass to the
+%called function, reducing code size;
+%(2) similarly, it reduces the frame of the merged function;
+(1) it reduces the overheads associated with function call abstractions, such as
+reducing the number of values required to be communicated between functions.
+(2) if both functions use merged parameters in similar ways, it will remove some
+of the cases where we need select instructions to distinguish between the functions.
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{src/merge-operation/figs/merged-params}
+  \caption{Example of a merge operation on the parameter lists of two functions.}
+  \label{fig:merged-params}
+\end{figure}
+
+There are multiple valid ways of merging parameter lists. For example, multiple
+parameters of one function may have the same type as a given parameter from the other
+function. In such cases, we select parameter pairs that minimize the number of
+select instructions. We find them by analyzing all pairs of equivalent instruction
+that use the parameters as operands. 
+Our experiments show that maximizing the matching of parameters, compared to never
+merging them, improves code-size reduction of individual benchmarks by up to 7\%.
+
+\subsubsection{Control-Flow Graph Reconstruction}
+
+Our technique is able to merge any return types.
+When merging return types, we select the largest one as the base type.
+Then, we use bitcast instructions to convert between the types.
+Before a return instruction, we bitcast the values to the base return type.
+We reverse this at the call-site, where we cast back to the original type.
+Having identical types or void return are just special cases where casting is
+unnecessary.
+In the case of void types, we can just return \textit{undefined} values since they
+will be discarded at the corresponding call-sites.
+
+After generating the merged list of parameters and return type, we produce the
+CFG of the merged function.
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SALSSA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 
 Properly handling \textit{phi-nodes} requires a radical redesign in the code generator. The existing code generator produces code directly
@@ -208,7 +295,7 @@ Finally, {\ProjName} integrates a novel optimisation with the SSA construction a
 
 \begin{figure}[t!]
   \centering
-  \includegraphics[scale=0.55]{src/merge-operation/figs/code-gen-cfg-input.pdf}
+  \includegraphics[scale=0.75]{src/merge-operation/figs/code-gen-cfg-input.pdf}
     \caption{Example of functions aligned without register demotion.
     \textit{Phi-nodes} are excluded from alignment.}
   \label{fig:code-gen-cfg-input}
@@ -218,12 +305,11 @@ Finally, {\ProjName} integrates a novel optimisation with the SSA construction a
 Here, \textit{phi-nodes} are not aligned, similarly to how FMSA handles \textit{landing-pad} instructions. We will use these as working
 examples to describe step by step how our new code generator works in the next subsections.
 
-
 \subsection{Control-Flow Graph Generation} \label{sec:code-gen-core}
 
 \begin{figure}[t!]
   \centering
-  \includegraphics[scale=0.55]{src/merge-operation/figs/code-gen-cfg.pdf}
+  \includegraphics[scale=0.75]{src/merge-operation/figs/code-gen-cfg.pdf}
     \caption{Merged CFG produced by {\ProjName}. Code corresponding to a single
       input basic block may be transformed into a chain of blocks, separating
       matching and non-matching code. The generator inserts conditional and
@@ -600,3 +686,9 @@ where $U\!B(d)$ is the set \text{$\{ Block(u) : u\in Users(d) \}$}.
 
 Phi-node coalescing allows {\ProjName} to produce smaller merged functions and reduce code size.
 Consequently, it also enables more functions to be profitably merged.
+
+\section{Evaluation}
+
+%\subsection{Quantative Evaluation}
+%\subsection{Qualitative Evaluation}
+
