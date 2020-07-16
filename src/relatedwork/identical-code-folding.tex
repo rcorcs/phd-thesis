@@ -1,121 +1,72 @@
 
-\section{Merging Identical Object Code}
+\subsection{Merging Identical Object Code During Link Time}
 
 The simplest way of merging identical functions is by looking at their object code, during link time.
 \textit{Identical code folding}~(ICF) is an optimisation that identifies and merges two or more read-only sections, typically functions, that have identical contents.
 This optimisation is commonly found in major linkers, such as \textit{gold}~\cite{tallam10,kwan12}, LLVM's \textit{lld}, and the MSVC linker~\cite{msvc-icf}.
 
-Figure~\ref{fig:icf-example} shows an example, adapted from Tallam~\etal~\cite{tallam10},
-of how generic programming in C++ can lead to identical functions in the object file.
-The C++ code in in Figure~\ref{fig:icf-example-code} presents
-a simple \textit{template class} and its member function being
-instantiated multiple times with different pointer types.
-Figure~\ref{fig:icf-example-object} shows the object code 
-targeting the Intel x86 architecture.
-For each instantiation of \textit{Foo}, a replica of its member
-function \textit{getElement} is created.
-Because the size of the different pointer types is the same,
-all replicas of \textit{getElement} are identical
-in the object file, which can be easily confirmed by
-comparing their binary representation. as shown in
-Figure~\ref{fig:icf-example-object}.
+Before applying ICS, it is a common practice for linkers to place functions in separate sections~\cite{tallam10,kwan12}.
+Therefore, merging identical functions can be generalised to the problem of merging identical sections.
+In the simplest case, two functions or sections are identical if they have exactly the smae binary representation.
+In general, two sections are considered identical if they have the identical section flags, data, code, and relocations.
+Two relocations are considered identical if they have the same relocation types, values, and if they point to the same or, recursively, identical sections.
 
-\begin{figure}[h]
+% Most object file formats, such as the \textit{Executable and Linkable Format} (ELF)~\cite{tallam10,kwan12}, are structured as separate sections of content, each section containing a certain type of content.
+% The main types are code segment, different types of data segment, and relocation information.
+% Relocation information describes how to modify other sections, connecting symbolic references to their definition.
+% In other words, it assigns actual addresses for position-dependent code and data.
+% For example, when a program calls a function, the associated call instruction must transfer control to the proper destination address at execution.
+
+Once two identical functions are identified, merging them requires only a simple operation.
+Two identical functions can be merged by simply keeping only one of them and redirecting every reference to the deleted functions to the one being kept.
+
+% This is a trivial operation and the main challenge lies on the search strategy. 
+
+% Figure~\ref{fig:icf-example} shows an example, adapted from Tallam~\etal~\cite{tallam10},
+% of how generic programming in C++ can lead to identical functions in the object file.
+% The C++ code in in Figure~\ref{fig:icf-example-code} presents
+% a simple \textit{template class} and its member function being
+% instantiated multiple times with different pointer types.
+% Figure~\ref{fig:icf-example-object} shows the object code 
+% targeting the Intel x86 architecture.
+% For each instantiation of \textit{Foo}, a replica of its member
+% function \textit{getElement} is created.
+% Because the size of the different pointer types is the same,
+% all replicas of \textit{getElement} are identical
+% in the object file, which can be easily confirmed by
+% comparing their binary representation. as shown in
+% Figure~\ref{fig:icf-example-object}.
+
+% \begin{figure}[h]
 % \begin{tabular}{cc}
 % \begin{subfigure}{.5\textwidth}
-% \begin{minted}[
-% frame=lines,
-% framesep=2mm,
-% baselinestretch=1,
-% %bgcolor=LightGray,
-% fontsize=\footnotesize,
-% %linenos
-% ]{c++}
-% template<typename T>
-% class Foo {
-%   ...
-%   T element;
-% public:
-%   ...
-%   T getElement() {
-%     return element;
-%   }
-% };
-
-% int main() {
-%   Foo<int *> p;
-%   Foo<float *> q;
-%   Foo<void *> r;
-%   ...
-%   auto *pptr = p.getElement();
-%   auto *qptr = q.getElement();
-%   auto *rptr = r.getElement();
-%   ...
-% }
-% \end{minted}
+% \includegraphics[scale=0.9]{src/relatedwork/figs/icf-example-1}
 % \caption{A \textit{template class} with several instantiations.}
 % \label{fig:icf-example-code}
 % \end{subfigure} &
 % \begin{subfigure}{.5\textwidth}
-% \vspace{10ex}
-% \begin{minted}[
-% escapeinside=||,
-% %fontfamily=tt,
-% frame=lines,
-% framesep=2mm,
-% baselinestretch=1,
-% %bgcolor=LightGray,
-% fontsize=\scriptsize,
-% %linenos
-% ]{nasm}
-% ; Disassembly of Foo<int *>::getElement()
-% section .text._ZN3FooIPiE10getElementEv:
-% _ZN3FooIPiE10getElementEv:   ; Hex Code
-%   mov  rax,QWORD PTR [rdi]  ; 48 8b 07
-%   ret                        ; c3
-
-% ; Disassembly of Foo<float *>::getElement()
-% section .text._ZN3FooIPfE10getElementEv:
-% _ZN3FooIPfE10getElementEv:   ; Hex Code
-%   mov  rax,QWORD PTR [rdi]  ; 48 8b 07
-%   ret                        ; c3
-
-% ; Disassembly of Foo<void *>::getElement()
-% section .text._ZN3FooIPvE10getElementEv:
-% _ZN3FooIPvE10getElementEv:   ; Hex Code
-%   mov  rax,QWORD PTR [rdi]  ; 48 8b 07
-%   ret                        ; c3
-% \end{minted}
-% \vspace{7ex}
+% \includegraphics[scale=0.9]{src/relatedwork/figs/icf-example-2}
 % \caption{Disassembled object file.}
 % \label{fig:icf-example-object}
 % \end{subfigure}
 % \end{tabular}
-\caption{Example showing how a member function of a \textit{template class}
-  can produce code replication susceptible to \textit{identical code folding}.
-  For each instantiation of \textit{Foo}, a replica of the function
-  \textit{getElement} is created for the template instance.
-  When instantiated with pointer types, the object code of these functions will be identical.}
-\label{fig:icf-example}
-\end{figure}
+% \caption{Example showing how a member function of a \textit{template class}
+%   can produce code replication susceptible to \textit{identical code folding}.
+%   For each instantiation of \textit{Foo}, a replica of the function
+%   \textit{getElement} is created for the template instance.
+%   When instantiated with pointer types, the object code of these functions will be identical.}
+% \label{fig:icf-example}
+% \end{figure}
 
-Most object file formats, such as the \textit{Executable and Linkable Format} (ELF)~\cite{tallam10,kwan12}, are structured as separate sections of content, each section containing a certain type of content.
-The main types are code segment, different types of data segment, and relocation information.
-Relocation information describes how to modify other sections, connecting symbolic references to their definition.
-In other words, it assigns actual addresses for position-dependent code and data.
-For example, when a program calls a function, the associated call instruction must transfer control to the proper destination address at execution.
-
-It is common practice for linkers to place functions in separate sections, as exemplified in Figure~\ref{fig:icf-example-object}.
-Therefore, merging identical functions can be generalised to the problem of merging identical sections.
-Two sections are considered identical if they have the identical section flags, data, code, and relocations.
-Two relocations are considered the identical if they have the same relocation types, values, and if they point to the same or identical sections.
-
-Since this equality has a cyclic definition, ICF is defined as a fixed-point computation, i.e., it is applied repeatedly until a convergence is obtained.
+Since the equality relation has a cyclic definition, ICF is defined as a fixed-point computation, i.e., it is applied repeatedly until a convergence is obtained.
 There are two approaches with distinct trade-offs.
 $(i)$ The pessimistic apprach starts with all sections marked as being different and then repeatedly compare them trying to prove their equality, grouping those found to be identical, including their relocations.
 This approach is implemented in the widely used \textit{gold} linker.
 $(ii)$ The optimistic apprach starts with all functions marked as potentially identical and then repeatedly compare trying to disprove their equality, partitioning those found to be different.
 This approach is implemented in LLVM's linker, \textit{lld}.
+
+
+
 
 % \subsection{The Pessimistic Algorithm}
 
@@ -145,7 +96,7 @@ This approach is implemented in LLVM's linker, \textit{lld}.
 
 % The optimistic algorithm is implemented in LLVM linker, lld.
 
-\begin{figure}[h]
+% \begin{figure}[h]
 % \begin{tabular}{cc}
 % \begin{subfigure}{.5\textwidth}
 % \begin{minted}[
@@ -218,17 +169,17 @@ This approach is implemented in LLVM's linker, \textit{lld}.
 % \label{fig:icf-example-object}
 % \end{subfigure}
 % \end{tabular}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[width=0.9\textwidth]{src/relatedwork/figs/icf-example}
-\caption{.}
-\label{fig:identical-example}
-\end{subfigure}
+% \begin{subfigure}{\textwidth}
+% \centering
+% \includegraphics[width=0.9\textwidth]{src/relatedwork/figs/icf-example}
+% \caption{.}
+% \label{fig:identical-example}
+% \end{subfigure}
 
-\caption{Example showing how a member function of a \textit{template class}
-  can produce code replication susceptible to \textit{identical code folding}.
-  For each instantiation of \textit{Foo}, a replica of the function
-  \textit{getElement} is created for the template instance.
-  When instantiated with pointer types, the object code of these functions will be identical.}
-\label{fig:icf-example}
-\end{figure}
+% \caption{Example showing how a member function of a \textit{template class}
+%   can produce code replication susceptible to \textit{identical code folding}.
+%   For each instantiation of \textit{Foo}, a replica of the function
+%   \textit{getElement} is created for the template instance.
+%   When instantiated with pointer types, the object code of these functions will be identical.}
+% \label{fig:icf-example}
+% \end{figure}

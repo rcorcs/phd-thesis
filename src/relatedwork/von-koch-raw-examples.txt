@@ -1,0 +1,1151 @@
+GCC
+
+Merging Set:
+; Function Attrs: minsize nounwind optsize
+define dso_local %struct.rtx_def* @gen_split_863(%struct.rtx_def** nocapture readonly %operands) local_unnamed_addr #1 {
+entry:
+  tail call void @start_sequence() #30
+  %arrayidx1 = getelementptr inbounds %struct.rtx_def*, %struct.rtx_def** %operands, i32 1
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %arrayidx1, align 4, !tbaa !7
+  %call = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call2 = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call3 = tail call %struct.rtx_def* @gen_rtx_CONST_INT(i32 0, i64 -4) #30
+  %call4 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 75, i32 4, %struct.rtx_def* %call2, %struct.rtx_def* %call3) #30
+  %call5 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call, %struct.rtx_def* %call4) #30
+  %call6 = tail call %struct.rtx_def* @emit_insn(%struct.rtx_def* %call5) #30
+  %call7 = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call8 = tail call %struct.rtx_def* @gen_rtx_MEM(i32 15, %struct.rtx_def* %call7) #30
+  %call9 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call8, %struct.rtx_def* %0) #30
+  %call10 = tail call %struct.rtx_def* @emit_insn(%struct.rtx_def* %call9) #30
+  %call11 = tail call %struct.rtx_def* @gen_sequence() #30
+  tail call void @end_sequence() #30
+  ret %struct.rtx_def* %call11
+}
+
+; Function Attrs: minsize nounwind optsize
+define dso_local %struct.rtx_def* @gen_split_866(%struct.rtx_def** nocapture readonly %operands) local_unnamed_addr #1 {
+entry:
+  tail call void @start_sequence() #30
+  %arrayidx1 = getelementptr inbounds %struct.rtx_def*, %struct.rtx_def** %operands, i32 1
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %arrayidx1, align 4, !tbaa !7
+  %call = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call2 = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call3 = tail call %struct.rtx_def* @gen_rtx_CONST_INT(i32 0, i64 -8) #30
+  %call4 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 75, i32 4, %struct.rtx_def* %call2, %struct.rtx_def* %call3) #30
+  %call5 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call, %struct.rtx_def* %call4) #30
+  %call6 = tail call %struct.rtx_def* @emit_insn(%struct.rtx_def* %call5) #30
+  %call7 = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call8 = tail call %struct.rtx_def* @gen_rtx_MEM(i32 16, %struct.rtx_def* %call7) #30
+  %call9 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call8, %struct.rtx_def* %0) #30
+  %call10 = tail call %struct.rtx_def* @emit_insn(%struct.rtx_def* %call9) #30
+  %call11 = tail call %struct.rtx_def* @gen_sequence() #30
+  tail call void @end_sequence() #30
+  ret %struct.rtx_def* %call11
+}
+
+
+
+; Function Attrs: minsize nounwind optsize
+define internal %struct.rtx_def* @gen_split_863__merged(%struct.rtx_def** nocapture readonly %operands, i32 %__merge_arg) local_unnamed_addr #1 {
+entry:
+  tail call void @start_sequence() #30
+  %arrayidx1 = getelementptr inbounds %struct.rtx_def*, %struct.rtx_def** %operands, i32 1
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %arrayidx1, align 4, !tbaa !7
+  %call = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  %call2 = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  switch i32 %__merge_arg, label %1 [
+    i32 1, label %2
+  ]
+
+1:                                                ; preds = %entry
+  %call3 = tail call %struct.rtx_def* @gen_rtx_CONST_INT(i32 0, i64 -4) #30
+  br label %4
+
+2:                                                ; preds = %entry
+  %3 = tail call %struct.rtx_def* @gen_rtx_CONST_INT(i32 0, i64 -8) #30
+  br label %4
+
+4:                                                ; preds = %2, %1
+  %5 = phi %struct.rtx_def* [ %call3, %1 ], [ %3, %2 ]
+  %call4 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 75, i32 4, %struct.rtx_def* %call2, %struct.rtx_def* %5) #30
+  %call5 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call, %struct.rtx_def* %call4) #30
+  %call6 = tail call %struct.rtx_def* @emit_insn(%struct.rtx_def* %call5) #30
+  %call7 = tail call %struct.rtx_def* @gen_rtx_REG(i32 4, i32 7) #30
+  switch i32 %__merge_arg, label %6 [
+    i32 1, label %7
+  ]
+
+6:                                                ; preds = %4
+  %call8 = tail call %struct.rtx_def* @gen_rtx_MEM(i32 15, %struct.rtx_def* %call7) #30
+  br label %9
+
+7:                                                ; preds = %4
+  %8 = tail call %struct.rtx_def* @gen_rtx_MEM(i32 16, %struct.rtx_def* %call7) #30
+  br label %9
+
+9:                                                ; preds = %7, %6
+  %10 = phi %struct.rtx_def* [ %call8, %6 ], [ %8, %7 ]
+  %call9 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %10, %struct.rtx_def* %0) #30
+  %call10 = tail call %struct.rtx_def* @emit_insn(%struct.rtx_def* %call9) #30
+  %call11 = tail call %struct.rtx_def* @gen_sequence() #30
+  tail call void @end_sequence() #30
+  ret %struct.rtx_def* %call11
+}
+
+Merged: @gen_split_863, @gen_split_866 = @gen_split_863__merged
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void
+c_finish_then ()
+{
+  tree if_stmt = if_stack[if_stack_pointer - 1].if_stmt;
+  RECHAIN_STMTS (if_stmt, THEN_CLAUSE (if_stmt));
+}
+
+
+void
+c_finish_else ()
+{
+  tree if_stmt = if_stack[if_stack_pointer - 1].if_stmt;
+  RECHAIN_STMTS (if_stmt, ELSE_CLAUSE (if_stmt));
+}
+
+
+Merging Set:
+; Function Attrs: minsize nounwind optsize
+define dso_local void @c_finish_then() local_unnamed_addr #1 {
+entry:
+  %0 = load %struct.if_elt*, %struct.if_elt** @if_stack, align 4, !tbaa !7
+  %1 = load i32, i32* @if_stack_pointer, align 4, !tbaa !3
+  %sub = add nsw i32 %1, -1
+  %if_stmt1 = getelementptr inbounds %struct.if_elt, %struct.if_elt* %0, i32 %sub, i32 4
+  %2 = load %union.tree_node*, %union.tree_node** %if_stmt1, align 4, !tbaa !163
+  %chain = getelementptr inbounds %union.tree_node, %union.tree_node* %2, i32 0, i32 0, i32 0, i32 0
+  %3 = bitcast %union.tree_node* %2 to i32*
+  %4 = load i32, i32* %3, align 4, !tbaa !11
+  %operands = getelementptr inbounds %union.tree_node, %union.tree_node* %2, i32 0, i32 0, i32 2
+  %arrayidx2 = getelementptr inbounds i32, i32* %operands, i32 1
+  store i32 %4, i32* %arrayidx2, align 4, !tbaa !11
+  store %union.tree_node* null, %union.tree_node** %chain, align 4, !tbaa !11
+  %call = tail call %struct.stmt_tree_s* @current_stmt_tree() #30
+  %x_last_stmt = getelementptr inbounds %struct.stmt_tree_s, %struct.stmt_tree_s* %call, i32 0, i32 0
+  store %union.tree_node* %2, %union.tree_node** %x_last_stmt, align 4, !tbaa !164
+  ret void
+}
+
+; Function Attrs: minsize nounwind optsize
+define dso_local void @c_finish_else() local_unnamed_addr #1 {
+entry:
+  %0 = load %struct.if_elt*, %struct.if_elt** @if_stack, align 4, !tbaa !7
+  %1 = load i32, i32* @if_stack_pointer, align 4, !tbaa !3
+  %sub = add nsw i32 %1, -1
+  %if_stmt1 = getelementptr inbounds %struct.if_elt, %struct.if_elt* %0, i32 %sub, i32 4
+  %2 = load %union.tree_node*, %union.tree_node** %if_stmt1, align 4, !tbaa !163
+  %chain = getelementptr inbounds %union.tree_node, %union.tree_node* %2, i32 0, i32 0, i32 0, i32 0
+  %3 = bitcast %union.tree_node* %2 to i32*
+  %4 = load i32, i32* %3, align 4, !tbaa !11
+  %operands = getelementptr inbounds %union.tree_node, %union.tree_node* %2, i32 0, i32 0, i32 2
+  %arrayidx2 = getelementptr inbounds i32, i32* %operands, i32 2
+  store i32 %4, i32* %arrayidx2, align 4, !tbaa !11
+  store %union.tree_node* null, %union.tree_node** %chain, align 4, !tbaa !11
+  %call = tail call %struct.stmt_tree_s* @current_stmt_tree() #30
+  %x_last_stmt = getelementptr inbounds %struct.stmt_tree_s, %struct.stmt_tree_s* %call, i32 0, i32 0
+  store %union.tree_node* %2, %union.tree_node** %x_last_stmt, align 4, !tbaa !164
+  ret void
+}
+
+
+; Function Attrs: minsize nounwind optsize
+define internal void @c_finish_then__merged(i32 %__merge_arg) local_unnamed_addr #1 {
+entry:
+  %0 = load %struct.if_elt*, %struct.if_elt** @if_stack, align 4, !tbaa !7
+  %1 = load i32, i32* @if_stack_pointer, align 4, !tbaa !3
+  %sub = add nsw i32 %1, -1
+  %if_stmt1 = getelementptr inbounds %struct.if_elt, %struct.if_elt* %0, i32 %sub, i32 4
+  %2 = load %union.tree_node*, %union.tree_node** %if_stmt1, align 4, !tbaa !163
+  %chain = getelementptr inbounds %union.tree_node, %union.tree_node* %2, i32 0, i32 0, i32 0, i32 0
+  %3 = bitcast %union.tree_node* %2 to i32*
+  %4 = load i32, i32* %3, align 4, !tbaa !11
+  %operands = getelementptr inbounds %union.tree_node, %union.tree_node* %2, i32 0, i32 0, i32 2
+  switch i32 %__merge_arg, label %5 [
+    i32 1, label %6
+  ]
+
+5:                                                ; preds = %entry
+  %arrayidx2 = getelementptr inbounds i32, i32* %operands, i32 1
+  br label %8
+
+6:                                                ; preds = %entry
+  %7 = getelementptr inbounds i32, i32* %operands, i32 2
+  br label %8
+
+8:                                                ; preds = %6, %5
+  %9 = phi i32* [ %arrayidx2, %5 ], [ %7, %6 ]
+  store i32 %4, i32* %9, align 4, !tbaa !11
+  store %union.tree_node* null, %union.tree_node** %chain, align 4, !tbaa !11
+  %call = tail call %struct.stmt_tree_s* @current_stmt_tree() #30
+  %x_last_stmt = getelementptr inbounds %struct.stmt_tree_s, %struct.stmt_tree_s* %call, i32 0, i32 0
+  store %union.tree_node* %2, %union.tree_node** %x_last_stmt, align 4, !tbaa !164
+  ret void
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Emit the label LABEL before the insn BEFORE.  */
+
+rtx
+emit_label_before (label, before)
+     rtx label, before;
+{
+  /* This can be called twice for the same label as a result of the
+     confusion that follows a syntax error!  So make it harmless.  */
+  if (INSN_UID (label) == 0)
+    {
+      INSN_UID (label) = cur_insn_uid++;
+      add_insn_before (label, before);
+    }
+
+  return label;
+}
+
+
+/* Emit the label LABEL after the insn AFTER.  */
+
+rtx
+emit_label_after (label, after)
+     rtx label, after;
+{
+  /* This can be called twice for the same label
+     as a result of the confusion that follows a syntax error!
+     So make it harmless.  */
+  if (INSN_UID (label) == 0)
+    {
+      INSN_UID (label) = cur_insn_uid++;
+      add_insn_after (label, after);
+    }
+
+  return label;
+}
+
+Merging Set:
+; Function Attrs: minsize nounwind optsize
+define dso_local %struct.rtx_def* @emit_label_before(%struct.rtx_def* returned %label, %struct.rtx_def* %before) local_unnamed_addr #1 {
+entry:
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %label, i32 0, i32 1, i32 0
+  %rtint = bitcast %union.anon* %arrayidx to i32*
+  %0 = load i32, i32* %rtint, align 4, !tbaa !11
+  %cmp = icmp eq i32 %0, 0
+  br i1 %cmp, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  %1 = load %struct.function*, %struct.function** @cfun, align 4, !tbaa !7
+  %emit = getelementptr inbounds %struct.function, %struct.function* %1, i32 0, i32 3
+  %2 = load %struct.emit_status*, %struct.emit_status** %emit, align 4, !tbaa !105
+  %x_cur_insn_uid = getelementptr inbounds %struct.emit_status, %struct.emit_status* %2, i32 0, i32 6
+  %3 = load i32, i32* %x_cur_insn_uid, align 4, !tbaa !717
+  %inc = add nsw i32 %3, 1
+  store i32 %inc, i32* %x_cur_insn_uid, align 4, !tbaa !717
+  store i32 %3, i32* %rtint, align 4, !tbaa !11
+  tail call void @add_insn_before(%struct.rtx_def* nonnull %label, %struct.rtx_def* %before) #30
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %entry
+  ret %struct.rtx_def* %label
+}
+
+; Function Attrs: minsize nounwind optsize
+define dso_local %struct.rtx_def* @emit_label_after(%struct.rtx_def* returned %label, %struct.rtx_def* %after) local_unnamed_addr #1 {
+entry:
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %label, i32 0, i32 1, i32 0
+  %rtint = bitcast %union.anon* %arrayidx to i32*
+  %0 = load i32, i32* %rtint, align 4, !tbaa !11
+  %cmp = icmp eq i32 %0, 0
+  br i1 %cmp, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  %1 = load %struct.function*, %struct.function** @cfun, align 4, !tbaa !7
+  %emit = getelementptr inbounds %struct.function, %struct.function* %1, i32 0, i32 3
+  %2 = load %struct.emit_status*, %struct.emit_status** %emit, align 4, !tbaa !105
+  %x_cur_insn_uid = getelementptr inbounds %struct.emit_status, %struct.emit_status* %2, i32 0, i32 6
+  %3 = load i32, i32* %x_cur_insn_uid, align 4, !tbaa !717
+  %inc = add nsw i32 %3, 1
+  store i32 %inc, i32* %x_cur_insn_uid, align 4, !tbaa !717
+  store i32 %3, i32* %rtint, align 4, !tbaa !11
+  tail call void @add_insn_after(%struct.rtx_def* nonnull %label, %struct.rtx_def* %after) #30
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %entry
+  ret %struct.rtx_def* %label
+}
+
+
+; Function Attrs: minsize nounwind optsize
+define internal %struct.rtx_def* @emit_label_before__merged(%struct.rtx_def* returned %label, %struct.rtx_def* %before, i32 %__merge_arg) local_unnamed_addr #1 {
+entry:
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %label, i32 0, i32 1, i32 0
+  %rtint = bitcast %union.anon* %arrayidx to i32*
+  %0 = load i32, i32* %rtint, align 4, !tbaa !11
+  %cmp = icmp eq i32 %0, 0
+  br i1 %cmp, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  %1 = load %struct.function*, %struct.function** @cfun, align 4, !tbaa !7
+  %emit = getelementptr inbounds %struct.function, %struct.function* %1, i32 0, i32 3
+  %2 = load %struct.emit_status*, %struct.emit_status** %emit, align 4, !tbaa !105
+  %x_cur_insn_uid = getelementptr inbounds %struct.emit_status, %struct.emit_status* %2, i32 0, i32 6
+  %3 = load i32, i32* %x_cur_insn_uid, align 4, !tbaa !717
+  %inc = add nsw i32 %3, 1
+  store i32 %inc, i32* %x_cur_insn_uid, align 4, !tbaa !717
+  store i32 %3, i32* %rtint, align 4, !tbaa !11
+  switch i32 %__merge_arg, label %4 [
+    i32 1, label %5
+  ]
+
+4:                                                ; preds = %if.then
+  tail call void @add_insn_before(%struct.rtx_def* nonnull %label, %struct.rtx_def* %before) #30
+  br label %6
+
+5:                                                ; preds = %if.then
+  tail call void @add_insn_after(%struct.rtx_def* nonnull %label, %struct.rtx_def* %before) #30
+  br label %6
+
+6:                                                ; preds = %5, %4
+  br label %if.end
+
+if.end:                                           ; preds = %6, %entry
+  ret %struct.rtx_def* %label
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Merging Set:
+; Function Attrs: minsize nounwind optsize
+define dso_local void @default_named_section_asm_out_destructor(%struct.rtx_def* %symbol, i32 %priority) #1 {
+entry:
+  %buf = alloca [16 x i8], align 1
+  %0 = getelementptr inbounds [16 x i8], [16 x i8]* %buf, i32 0, i32 0
+  call void @llvm.lifetime.start.p0i8(i64 16, i8* nonnull %0) #7
+  %cmp = icmp eq i32 %priority, 65535
+  br i1 %cmp, label %if.end, label %if.then
+
+if.then:                                          ; preds = %entry
+  %sub = sub nsw i32 65535, %priority
+  %call = call i32 (i8*, i8*, ...) @sprintf(i8* nonnull %0, i8* nonnull dereferenceable(1) getelementptr inbounds ([12 x i8], [12 x i8]* @.str.63.4315, i32 0, i32 0), i32 %sub) #30
+  br label %if.end
+
+if.end:                                           ; preds = %entry, %if.then
+  %section.0 = phi i8* [ %0, %if.then ], [ getelementptr inbounds ([7 x i8], [7 x i8]* @.str.62.4316, i32 0, i32 0), %entry ]
+  call void @named_section_flags(i8* nonnull %section.0, i32 512) #31
+  %1 = load i32, i32* @target_flags, align 4, !tbaa !3
+  %and = and i32 %1, 33554432
+  %tobool = icmp eq i32 %and, 0
+  %cond = select i1 %tobool, i32 32, i32 64
+  call void @assemble_align(i32 %cond) #31
+  %2 = load i32, i32* @target_flags, align 4, !tbaa !3
+  %and2 = and i32 %2, 33554432
+  %tobool3 = icmp eq i32 %and2, 0
+  %cond4 = select i1 %tobool3, i32 32, i32 64
+  %div = lshr exact i32 %cond4, 3
+  %call8 = call zeroext i1 @assemble_integer(%struct.rtx_def* %symbol, i32 %div, i32 %cond4, i32 1) #31
+  call void @llvm.lifetime.end.p0i8(i64 16, i8* nonnull %0) #7
+  ret void
+}
+
+; Function Attrs: minsize nounwind optsize
+define dso_local void @default_named_section_asm_out_constructor(%struct.rtx_def* %symbol, i32 %priority) #1 {
+entry:
+  %buf = alloca [16 x i8], align 1
+  %0 = getelementptr inbounds [16 x i8], [16 x i8]* %buf, i32 0, i32 0
+  call void @llvm.lifetime.start.p0i8(i64 16, i8* nonnull %0) #7
+  %cmp = icmp eq i32 %priority, 65535
+  br i1 %cmp, label %if.end, label %if.then
+
+if.then:                                          ; preds = %entry
+  %sub = sub nsw i32 65535, %priority
+  %call = call i32 (i8*, i8*, ...) @sprintf(i8* nonnull %0, i8* nonnull dereferenceable(1) getelementptr inbounds ([12 x i8], [12 x i8]* @.str.66.4322, i32 0, i32 0), i32 %sub) #30
+  br label %if.end
+
+if.end:                                           ; preds = %entry, %if.then
+  %section.0 = phi i8* [ %0, %if.then ], [ getelementptr inbounds ([7 x i8], [7 x i8]* @.str.65.4323, i32 0, i32 0), %entry ]
+  call void @named_section_flags(i8* nonnull %section.0, i32 512) #31
+  %1 = load i32, i32* @target_flags, align 4, !tbaa !3
+  %and = and i32 %1, 33554432
+  %tobool = icmp eq i32 %and, 0
+  %cond = select i1 %tobool, i32 32, i32 64
+  call void @assemble_align(i32 %cond) #31
+  %2 = load i32, i32* @target_flags, align 4, !tbaa !3
+  %and2 = and i32 %2, 33554432
+  %tobool3 = icmp eq i32 %and2, 0
+  %cond4 = select i1 %tobool3, i32 32, i32 64
+  %div = lshr exact i32 %cond4, 3
+  %call8 = call zeroext i1 @assemble_integer(%struct.rtx_def* %symbol, i32 %div, i32 %cond4, i32 1) #31
+  call void @llvm.lifetime.end.p0i8(i64 16, i8* nonnull %0) #7
+  ret void
+}
+
+
+; Function Attrs: minsize nounwind optsize
+define internal void @default_named_section_asm_out_destructor__merged(%struct.rtx_def* %symbol, i32 %priority, i32 %__merge_arg) #1 {
+entry:
+  %buf = alloca [16 x i8], align 1
+  %0 = getelementptr inbounds [16 x i8], [16 x i8]* %buf, i32 0, i32 0
+  call void @llvm.lifetime.start.p0i8(i64 16, i8* nonnull %0) #7
+  %cmp = icmp eq i32 %priority, 65535
+  %1 = icmp eq i32 %__merge_arg, 1
+  %2 = select i1 %1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str.65.4323, i32 0, i32 0), i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str.62.4316, i32 0, i32 0)
+  br i1 %cmp, label %if.end, label %if.then
+
+if.then:                                          ; preds = %entry
+  %sub = sub nsw i32 65535, %priority
+  switch i32 %__merge_arg, label %3 [
+    i32 1, label %4
+  ]
+
+3:                                                ; preds = %if.then
+  %call = call i32 (i8*, i8*, ...) @sprintf(i8* nonnull %0, i8* nonnull dereferenceable(1) getelementptr inbounds ([12 x i8], [12 x i8]* @.str.63.4315, i32 0, i32 0), i32 %sub) #30
+  br label %6
+
+4:                                                ; preds = %if.then
+  %5 = call i32 (i8*, i8*, ...) @sprintf(i8* nonnull %0, i8* nonnull dereferenceable(1) getelementptr inbounds ([12 x i8], [12 x i8]* @.str.66.4322, i32 0, i32 0), i32 %sub) #30
+  br label %6
+
+6:                                                ; preds = %4, %3
+  br label %if.end
+
+if.end:                                           ; preds = %6, %entry
+  %section.0 = phi i8* [ %0, %6 ], [ %2, %entry ]
+  call void @named_section_flags(i8* nonnull %section.0, i32 512) #31
+  %7 = load i32, i32* @target_flags, align 4, !tbaa !3
+  %and = and i32 %7, 33554432
+  %tobool = icmp eq i32 %and, 0
+  %cond = select i1 %tobool, i32 32, i32 64
+  call void @assemble_align(i32 %cond) #31
+  %8 = load i32, i32* @target_flags, align 4, !tbaa !3
+  %and2 = and i32 %8, 33554432
+  %tobool3 = icmp eq i32 %and2, 0
+  %cond4 = select i1 %tobool3, i32 32, i32 64
+  %div = lshr exact i32 %cond4, 3
+  %call8 = call zeroext i1 @assemble_integer(%struct.rtx_def* %symbol, i32 %div, i32 %cond4, i32 1) #31
+  call void @llvm.lifetime.end.p0i8(i64 16, i8* nonnull %0) #7
+  ret void
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Merging Set:
+; Function Attrs: minsize nounwind optsize
+define dso_local i32 @offsettable_nonstrict_memref_p(%struct.rtx_def* nocapture readonly %op) local_unnamed_addr #1 {
+entry:
+  %0 = getelementptr %struct.rtx_def, %struct.rtx_def* %op, i32 0, i32 0
+  %bf.load = load i32, i32* %0, align 4
+  %bf.clear = and i32 %bf.load, 65535
+  %cmp = icmp eq i32 %bf.clear, 66
+  br i1 %cmp, label %land.rhs, label %land.end
+
+land.rhs:                                         ; preds = %entry
+  %bf.lshr = lshr i32 %bf.load, 16
+  %bf.clear2 = and i32 %bf.lshr, 255
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %op, i32 0, i32 1, i32 0
+  %rtx = bitcast %union.anon* %arrayidx to %struct.rtx_def**
+  %1 = load %struct.rtx_def*, %struct.rtx_def** %rtx, align 4, !tbaa !11
+  %call = tail call i32 @offsettable_address_p(i32 0, i32 %bf.clear2, %struct.rtx_def* %1) #30
+  %tobool = icmp ne i32 %call, 0
+  %phitmp = zext i1 %tobool to i32
+  br label %land.end
+
+land.end:                                         ; preds = %land.rhs, %entry
+  %2 = phi i32 [ 0, %entry ], [ %phitmp, %land.rhs ]
+  ret i32 %2
+}
+
+; Function Attrs: minsize nounwind optsize
+define dso_local i32 @offsettable_memref_p(%struct.rtx_def* nocapture readonly %op) local_unnamed_addr #1 {
+entry:
+  %0 = getelementptr %struct.rtx_def, %struct.rtx_def* %op, i32 0, i32 0
+  %bf.load = load i32, i32* %0, align 4
+  %bf.clear = and i32 %bf.load, 65535
+  %cmp = icmp eq i32 %bf.clear, 66
+  br i1 %cmp, label %land.rhs, label %land.end
+
+land.rhs:                                         ; preds = %entry
+  %bf.lshr = lshr i32 %bf.load, 16
+  %bf.clear2 = and i32 %bf.lshr, 255
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %op, i32 0, i32 1, i32 0
+  %rtx = bitcast %union.anon* %arrayidx to %struct.rtx_def**
+  %1 = load %struct.rtx_def*, %struct.rtx_def** %rtx, align 4, !tbaa !11
+  %call = tail call i32 @offsettable_address_p(i32 1, i32 %bf.clear2, %struct.rtx_def* %1) #30
+  %tobool = icmp ne i32 %call, 0
+  %phitmp = zext i1 %tobool to i32
+  br label %land.end
+
+land.end:                                         ; preds = %land.rhs, %entry
+  %2 = phi i32 [ 0, %entry ], [ %phitmp, %land.rhs ]
+  ret i32 %2
+}
+
+; Function Attrs: minsize nounwind optsize
+define internal i32 @offsettable_nonstrict_memref_p__merged(%struct.rtx_def* nocapture readonly %op, i32 %__merge_arg) local_unnamed_addr #1 {
+entry:
+  %0 = getelementptr %struct.rtx_def, %struct.rtx_def* %op, i32 0, i32 0
+  %bf.load = load i32, i32* %0, align 4
+  %bf.clear = and i32 %bf.load, 65535
+  %cmp = icmp eq i32 %bf.clear, 66
+  br i1 %cmp, label %land.rhs, label %land.end
+
+land.rhs:                                         ; preds = %entry
+  %bf.lshr = lshr i32 %bf.load, 16
+  %bf.clear2 = and i32 %bf.lshr, 255
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %op, i32 0, i32 1, i32 0
+  %rtx = bitcast %union.anon* %arrayidx to %struct.rtx_def**
+  %1 = load %struct.rtx_def*, %struct.rtx_def** %rtx, align 4, !tbaa !11
+  switch i32 %__merge_arg, label %2 [
+    i32 1, label %3
+  ]
+
+2:                                                ; preds = %land.rhs
+  %call = tail call i32 @offsettable_address_p(i32 0, i32 %bf.clear2, %struct.rtx_def* %1) #30
+  br label %5
+
+3:                                                ; preds = %land.rhs
+  %4 = tail call i32 @offsettable_address_p(i32 1, i32 %bf.clear2, %struct.rtx_def* %1) #30
+  br label %5
+
+5:                                                ; preds = %3, %2
+  %6 = phi i32 [ %call, %2 ], [ %4, %3 ]
+  %tobool = icmp ne i32 %6, 0
+  %phitmp = zext i1 %tobool to i32
+  br label %land.end
+
+land.end:                                         ; preds = %5, %entry
+  %7 = phi i32 [ 0, %entry ], [ %phitmp, %5 ]
+  ret i32 %7
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rtx
+next_real_insn (insn)
+     rtx insn;
+{
+  while (insn)
+    {
+      insn = NEXT_INSN (insn);
+      if (insn == 0 || GET_CODE (insn) == INSN
+          || GET_CODE (insn) == CALL_INSN || GET_CODE (insn) == JUMP_INSN)
+        break;
+    }
+
+  return insn;
+}
+
+rtx
+prev_real_insn (insn)
+     rtx insn;
+{
+  while (insn)
+    {
+      insn = PREV_INSN (insn);
+      if (insn == 0 || GET_CODE (insn) == INSN
+          || GET_CODE (insn) == CALL_INSN || GET_CODE (insn) == JUMP_INSN)
+        break;
+    }
+
+  return insn;
+}
+
+
+
+Merging Set:
+; Function Attrs: minsize norecurse nounwind optsize readonly
+define dso_local %struct.rtx_def* @next_real_insn(%struct.rtx_def* readonly %insn) local_unnamed_addr #10 {
+entry:
+  br label %while.cond
+
+while.cond:                                       ; preds = %lor.lhs.false, %entry
+  %insn.addr.0 = phi %struct.rtx_def* [ %insn, %entry ], [ %0, %lor.lhs.false ]
+  %tobool = icmp eq %struct.rtx_def* %insn.addr.0, null
+  br i1 %tobool, label %while.end, label %while.body
+
+while.body:                                       ; preds = %while.cond
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %insn.addr.0, i32 0, i32 1, i32 2
+  %rtx = bitcast %union.anon* %arrayidx to %struct.rtx_def**
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %rtx, align 4, !tbaa !11
+  %cmp = icmp eq %struct.rtx_def* %0, null
+  br i1 %cmp, label %while.end, label %lor.lhs.false
+
+lor.lhs.false:                                    ; preds = %while.body
+  %1 = getelementptr %struct.rtx_def, %struct.rtx_def* %0, i32 0, i32 0
+  %bf.load = load i32, i32* %1, align 4
+  %bf.clear = and i32 %bf.load, 65535
+  %bf.clear.off = add nsw i32 %bf.clear, -32
+  %switch = icmp ult i32 %bf.clear.off, 3
+  br i1 %switch, label %while.end, label %while.cond
+
+while.end:                                        ; preds = %lor.lhs.false, %while.cond, %while.body
+  %insn.addr.1 = phi %struct.rtx_def* [ null, %while.body ], [ null, %while.cond ], [ %0, %lor.lhs.false ]
+  ret %struct.rtx_def* %insn.addr.1
+}
+
+
+; Function Attrs: minsize norecurse nounwind optsize readonly
+define dso_local %struct.rtx_def* @prev_real_insn(%struct.rtx_def* readonly %insn) local_unnamed_addr #10 {
+entry:
+  br label %while.cond
+
+while.cond:                                       ; preds = %lor.lhs.false, %entry
+  %insn.addr.0 = phi %struct.rtx_def* [ %insn, %entry ], [ %0, %lor.lhs.false ]
+  %tobool = icmp eq %struct.rtx_def* %insn.addr.0, null
+  br i1 %tobool, label %while.end, label %while.body
+
+while.body:                                       ; preds = %while.cond
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %insn.addr.0, i32 0, i32 1, i32 1
+  %rtx = bitcast %union.anon* %arrayidx to %struct.rtx_def**
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %rtx, align 4, !tbaa !11
+  %cmp = icmp eq %struct.rtx_def* %0, null
+  br i1 %cmp, label %while.end, label %lor.lhs.false
+
+lor.lhs.false:                                    ; preds = %while.body
+  %1 = getelementptr %struct.rtx_def, %struct.rtx_def* %0, i32 0, i32 0
+  %bf.load = load i32, i32* %1, align 4
+  %bf.clear = and i32 %bf.load, 65535
+  %bf.clear.off = add nsw i32 %bf.clear, -32
+  %switch = icmp ult i32 %bf.clear.off, 3
+  br i1 %switch, label %while.end, label %while.cond
+
+while.end:                                        ; preds = %lor.lhs.false, %while.cond, %while.body
+  %insn.addr.1 = phi %struct.rtx_def* [ null, %while.body ], [ null, %while.cond ], [ %0, %lor.lhs.false ]
+  ret %struct.rtx_def* %insn.addr.1
+}
+
+
+; Function Attrs: minsize norecurse nounwind optsize readonly
+define internal %struct.rtx_def* @next_real_insn__merged(%struct.rtx_def* readonly %insn, i32 %__merge_arg) local_unnamed_addr #10 {
+entry:
+  br label %while.cond
+
+while.cond:                                       ; preds = %lor.lhs.false, %entry
+  %insn.addr.0 = phi %struct.rtx_def* [ %insn, %entry ], [ %5, %lor.lhs.false ]
+  %tobool = icmp eq %struct.rtx_def* %insn.addr.0, null
+  br i1 %tobool, label %while.end, label %while.body
+
+while.body:                                       ; preds = %while.cond
+  switch i32 %__merge_arg, label %0 [
+    i32 1, label %1
+  ]
+
+0:                                                ; preds = %while.body
+  %arrayidx = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %insn.addr.0, i32 0, i32 1, i32 2
+  br label %3
+
+1:                                                ; preds = %while.body
+  %2 = getelementptr inbounds %struct.rtx_def, %struct.rtx_def* %insn.addr.0, i32 0, i32 1, i32 1
+  br label %3
+
+3:                                                ; preds = %1, %0
+  %4 = phi %union.anon* [ %arrayidx, %0 ], [ %2, %1 ]
+  %rtx = bitcast %union.anon* %4 to %struct.rtx_def**
+  %5 = load %struct.rtx_def*, %struct.rtx_def** %rtx, align 4, !tbaa !11
+  %cmp = icmp eq %struct.rtx_def* %5, null
+  br i1 %cmp, label %while.end, label %lor.lhs.false
+
+lor.lhs.false:                                    ; preds = %3
+  %6 = getelementptr %struct.rtx_def, %struct.rtx_def* %5, i32 0, i32 0
+  %bf.load = load i32, i32* %6, align 4
+  %bf.clear = and i32 %bf.load, 65535
+  %bf.clear.off = add nsw i32 %bf.clear, -32
+  %switch = icmp ult i32 %bf.clear.off, 3
+  br i1 %switch, label %while.end, label %while.cond
+
+while.end:                                        ; preds = %lor.lhs.false, %3, %while.cond
+  %insn.addr.1 = phi %struct.rtx_def* [ null, %3 ], [ null, %while.cond ], [ %5, %lor.lhs.false ]
+  ret %struct.rtx_def* %insn.addr.1
+}
+
+
+
+
+
+
+
+
+
+
+
+; Function Attrs: minsize nounwind optsize
+define dso_local %struct.rtx_def* @gen_peephole2_1264(%struct.rtx_def* nocapture readnone %curr_insn, %struct.rtx_def** nocapture %operands) local_unnamed_addr #1 {
+entry:
+  tail call void @start_sequence() #30
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %operands, align 4, !tbaa !7
+  %1 = getelementptr %struct.rtx_def, %struct.rtx_def* %0, i32 0, i32 0
+  %bf.load = load i32, i32* %1, align 4
+  %2 = and i32 %bf.load, 16711680
+  %cmp = icmp eq i32 %2, 327680
+  %cond = select i1 %cmp, i32 5, i32 4
+  %call = tail call i32 @true_regnum(%struct.rtx_def* %0) #30
+  %call2 = tail call %struct.rtx_def* @gen_rtx_REG(i32 %cond, i32 %call) #30
+  store %struct.rtx_def* %call2, %struct.rtx_def** %operands, align 4, !tbaa !7
+  %3 = load %struct.rtx_def*, %struct.rtx_def** getelementptr inbounds ([129 x %struct.rtx_def*], [129 x %struct.rtx_def*]* @const_int_rtx, i32 0, i32 64), align 4, !tbaa !7
+  %call5 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call2, %struct.rtx_def* %3) #30
+  %call6 = tail call %struct.rtx_def* @gen_rtx_REG(i32 52, i32 17) #30
+  %call7 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtvec_def*)* @gen_rtx_fmt_E to %struct.rtx_def* (i32, i32, %struct.rtx_def*)*)(i32 49, i32 0, %struct.rtx_def* %call6) #30
+  %call8 = tail call %struct.rtvec_def* (i32, ...) @gen_rtvec(i32 2, %struct.rtx_def* %call5, %struct.rtx_def* %call7) #30
+  %call9 = tail call %struct.rtx_def* @gen_rtx_fmt_E(i32 39, i32 0, %struct.rtvec_def* %call8) #30
+  %call10 = tail call %struct.rtx_def* @emit(%struct.rtx_def* %call9) #30
+  %call11 = tail call %struct.rtx_def* @gen_sequence() #30
+  tail call void @end_sequence() #30
+  ret %struct.rtx_def* %call11
+}
+
+; Function Attrs: minsize nounwind optsize
+define dso_local %struct.rtx_def* @gen_peephole2_1266(%struct.rtx_def* nocapture readnone %curr_insn, %struct.rtx_def** nocapture %operands) local_unnamed_addr #1 {
+entry:
+  tail call void @start_sequence() #30
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %operands, align 4, !tbaa !7
+  %1 = getelementptr %struct.rtx_def, %struct.rtx_def* %0, i32 0, i32 0
+  %bf.load = load i32, i32* %1, align 4
+  %2 = and i32 %bf.load, 16711680
+  %cmp = icmp eq i32 %2, 327680
+  %cond = select i1 %cmp, i32 5, i32 4
+  %call = tail call i32 @true_regnum(%struct.rtx_def* %0) #30
+  %call2 = tail call %struct.rtx_def* @gen_rtx_REG(i32 %cond, i32 %call) #30
+  store %struct.rtx_def* %call2, %struct.rtx_def** %operands, align 4, !tbaa !7
+  %3 = load %struct.rtx_def*, %struct.rtx_def** getelementptr inbounds ([129 x %struct.rtx_def*], [129 x %struct.rtx_def*]* @const_int_rtx, i32 0, i32 63), align 4, !tbaa !7
+  %call5 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call2, %struct.rtx_def* %3) #30
+  %call6 = tail call %struct.rtx_def* @gen_rtx_REG(i32 52, i32 17) #30
+  %call7 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtvec_def*)* @gen_rtx_fmt_E to %struct.rtx_def* (i32, i32, %struct.rtx_def*)*)(i32 49, i32 0, %struct.rtx_def* %call6) #30
+  %call8 = tail call %struct.rtvec_def* (i32, ...) @gen_rtvec(i32 2, %struct.rtx_def* %call5, %struct.rtx_def* %call7) #30
+  %call9 = tail call %struct.rtx_def* @gen_rtx_fmt_E(i32 39, i32 0, %struct.rtvec_def* %call8) #30
+  %call10 = tail call %struct.rtx_def* @emit(%struct.rtx_def* %call9) #30
+  %call11 = tail call %struct.rtx_def* @gen_sequence() #30
+  tail call void @end_sequence() #30
+  ret %struct.rtx_def* %call11
+}
+
+; Function Attrs: minsize nounwind optsize
+define internal %struct.rtx_def* @gen_peephole2_1264__merged(%struct.rtx_def* nocapture readnone %curr_insn, %struct.rtx_def** nocapture %operands, i32 %__merge_arg) local_unnamed_addr #1 {
+entry:
+  tail call void @start_sequence() #30
+  %0 = load %struct.rtx_def*, %struct.rtx_def** %operands, align 4, !tbaa !7
+  %1 = getelementptr %struct.rtx_def, %struct.rtx_def* %0, i32 0, i32 0
+  %bf.load = load i32, i32* %1, align 4
+  %2 = and i32 %bf.load, 16711680
+  %cmp = icmp eq i32 %2, 327680
+  %cond = select i1 %cmp, i32 5, i32 4
+  %call = tail call i32 @true_regnum(%struct.rtx_def* %0) #30
+  %call2 = tail call %struct.rtx_def* @gen_rtx_REG(i32 %cond, i32 %call) #30
+  store %struct.rtx_def* %call2, %struct.rtx_def** %operands, align 4, !tbaa !7
+  switch i32 %__merge_arg, label %3 [
+    i32 1, label %5
+  ]
+
+3:                                                ; preds = %entry
+  %4 = load %struct.rtx_def*, %struct.rtx_def** getelementptr inbounds ([129 x %struct.rtx_def*], [129 x %struct.rtx_def*]* @const_int_rtx, i32 0, i32 64), align 4, !tbaa !7
+  br label %7
+
+5:                                                ; preds = %entry
+  %6 = load %struct.rtx_def*, %struct.rtx_def** getelementptr inbounds ([129 x %struct.rtx_def*], [129 x %struct.rtx_def*]* @const_int_rtx, i32 0, i32 63), align 4, !tbaa !7
+  br label %7
+
+7:                                                ; preds = %5, %3
+  %8 = phi %struct.rtx_def* [ %4, %3 ], [ %6, %5 ]
+  %call5 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtvec_def*)* @gen_rtx_fmt_eE to %struct.rtx_def* (i32, i32, %struct.rtx_def*, %struct.rtx_def*)*)(i32 47, i32 0, %struct.rtx_def* %call2, %struct.rtx_def* %8) #30
+  %call6 = tail call %struct.rtx_def* @gen_rtx_REG(i32 52, i32 17) #30
+  %call7 = tail call %struct.rtx_def* bitcast (%struct.rtx_def* (i32, i32, %struct.rtvec_def*)* @gen_rtx_fmt_E to %struct.rtx_def* (i32, i32, %struct.rtx_def*)*)(i32 49, i32 0, %struct.rtx_def* %call6) #30
+  %call8 = tail call %struct.rtvec_def* (i32, ...) @gen_rtvec(i32 2, %struct.rtx_def* %call5, %struct.rtx_def* %call7) #30
+  %call9 = tail call %struct.rtx_def* @gen_rtx_fmt_E(i32 39, i32 0, %struct.rtvec_def* %call8) #30
+  %call10 = tail call %struct.rtx_def* @emit(%struct.rtx_def* %call9) #30
+  %call11 = tail call %struct.rtx_def* @gen_sequence() #30
+  tail call void @end_sequence() #30
+  ret %struct.rtx_def* %call11
+}
+
+Merged: @gen_peephole2_1264, @gen_peephole2_1266 = @gen_peephole2_1264__merged
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Generated automatically by the program `genemit'
+from the machine description file `md'.  */
+
+
+extern rtx gen_peephole2_1270 PARAMS ((rtx, rtx *));
+rtx
+gen_peephole2_1270 (curr_insn, operands)
+     rtx curr_insn ATTRIBUTE_UNUSED;
+     rtx *operands;
+{
+  rtx operand0;
+  rtx operand1;
+  rtx operand2;
+  rtx _val = 0;
+  HARD_REG_SET _regs_allocated;
+  CLEAR_HARD_REG_SET (_regs_allocated);
+  start_sequence ();
+operands[2] = GEN_INT (exact_log2 (INTVAL (operands[1])));
+  operand0 = operands[0];
+  operand1 = operands[1];
+  operand2 = operands[2];
+  emit (gen_rtx_PARALLEL (VOIDmode,
+        gen_rtvec (2,
+                gen_rtx_SET (VOIDmode,
+        operand0,
+        gen_rtx_ASHIFT (SImode,                       ///diff
+        copy_rtx (operand0),
+        operand2)),
+                gen_rtx_CLOBBER (VOIDmode,
+        gen_rtx_REG (CCmode,
+        17)))));
+  _val = gen_sequence ();
+  end_sequence ();
+  return _val;
+}
+
+
+extern rtx gen_peephole2_1271 PARAMS ((rtx, rtx *));
+rtx
+gen_peephole2_1271 (curr_insn, operands)
+     rtx curr_insn ATTRIBUTE_UNUSED;
+     rtx *operands;
+{
+  rtx operand0;
+  rtx operand1;
+  rtx operand2;
+  rtx _val = 0;
+  HARD_REG_SET _regs_allocated;
+  CLEAR_HARD_REG_SET (_regs_allocated);
+  start_sequence ();
+operands[2] = GEN_INT (exact_log2 (INTVAL (operands[1])));
+  operand0 = operands[0];
+  operand1 = operands[1];
+  operand2 = operands[2];
+  emit (gen_rtx_PARALLEL (VOIDmode,
+        gen_rtvec (2,
+                gen_rtx_SET (VOIDmode,
+        operand0,
+        gen_rtx_ASHIFT (DImode,                       ///diff
+        copy_rtx (operand0),
+        operand2)),
+                gen_rtx_CLOBBER (VOIDmode,
+        gen_rtx_REG (CCmode,
+        17)))));
+  _val = gen_sequence ();
+  end_sequence ();
+  return _val;
+}
+
+
+
+
+
+
+
+Merged: @gen_movdicc, @gen_movdfcc = @gen_movdicc__merged
+
+
+gen_cmpdi, @gen_cmpqi
+
+
+gen_split_863, @gen_split_866
+
+extern rtx gen_split_863 PARAMS ((rtx *));
+rtx
+gen_split_863 (operands)
+      rtx *operands;
+{
+  rtx operand0;
+  rtx operand1;
+  rtx _val = 0;
+  start_sequence ();
+  operand0 = operands[0];
+  operand1 = operands[1];
+  emit_insn (gen_rtx_SET (VOIDmode,
+        gen_rtx_REG (SImode,
+        7),
+        gen_rtx_PLUS (SImode,
+        gen_rtx_REG (SImode,
+        7),
+        GEN_INT (-4))));
+  emit_insn (gen_rtx_SET (VOIDmode,
+        gen_rtx_MEM (SFmode,
+        gen_rtx_REG (SImode,
+        7)),
+        operand1));
+  _val = gen_sequence ();
+  end_sequence ();
+  return _val;
+}
+
+extern rtx gen_split_866 PARAMS ((rtx *));
+rtx
+gen_split_866 (operands)
+      rtx *operands;
+{
+  rtx operand0;
+  rtx operand1;
+  rtx _val = 0;
+  start_sequence ();
+
+  operand0 = operands[0];
+  operand1 = operands[1];
+  emit_insn (gen_rtx_SET (VOIDmode,
+        gen_rtx_REG (SImode,
+        7),
+        gen_rtx_PLUS (SImode,
+        gen_rtx_REG (SImode,
+        7),
+        GEN_INT (-8))));
+  emit_insn (gen_rtx_SET (VOIDmode,
+        gen_rtx_MEM (DFmode,
+        gen_rtx_REG (SImode,
+        7)),
+        operand1));
+  _val = gen_sequence ();
+  end_sequence ();
+  return _val;
+}
+
+
+
+
+
+
+----------------------------
+
+double
+DMin(double *vec, int n)
+{
+  int i;
+  double best;
+
+  best = vec[0];
+  for (i = 1; i < n; i++)
+    if (vec[i] < best) best = vec[i];
+  return best;
+}
+
+double
+DMax(double *vec, int n)
+{
+  int i;
+  double best;
+
+  best = vec[0];
+  for (i = 1; i < n; i++)
+    if (vec[i] > best) best = vec[i];
+  return best;
+}
+
+
+Merging Set:
+; Function Attrs: minsize norecurse nounwind optsize readonly uwtable
+define dso_local double @DMax(double* nocapture readonly %vec, i32 %n) local_unnamed_addr #11 {
+entry:
+  %0 = load double, double* %vec, align 8, !tbaa !199
+  %1 = icmp sgt i32 %n, 1
+  %smax = select i1 %1, i32 %n, i32 1
+  %wide.trip.count = zext i32 %smax to i64
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.body, %entry
+  %indvars.iv = phi i64 [ %indvars.iv.next, %for.body ], [ 1, %entry ]
+  %best.0 = phi double [ %best.1, %for.body ], [ %0, %entry ]
+  %exitcond = icmp eq i64 %indvars.iv, %wide.trip.count
+  br i1 %exitcond, label %for.end, label %for.body
+
+for.body:                                         ; preds = %for.cond
+  %arrayidx1 = getelementptr inbounds double, double* %vec, i64 %indvars.iv
+  %2 = load double, double* %arrayidx1, align 8, !tbaa !199
+  %cmp2 = fcmp ogt double %2, %best.0
+  %best.1 = select i1 %cmp2, double %2, double %best.0
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %for.cond
+  ret double %best.0
+}
+
+; Function Attrs: minsize norecurse nounwind optsize readonly uwtable
+define dso_local double @DMin(double* nocapture readonly %vec, i32 %n) local_unnamed_addr #11 {
+entry:
+  %0 = load double, double* %vec, align 8, !tbaa !199
+  %1 = icmp sgt i32 %n, 1
+  %smax = select i1 %1, i32 %n, i32 1
+  %wide.trip.count = zext i32 %smax to i64
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.body, %entry
+  %indvars.iv = phi i64 [ %indvars.iv.next, %for.body ], [ 1, %entry ]
+  %best.0 = phi double [ %best.1, %for.body ], [ %0, %entry ]
+  %exitcond = icmp eq i64 %indvars.iv, %wide.trip.count
+  br i1 %exitcond, label %for.end, label %for.body
+
+for.body:                                         ; preds = %for.cond
+  %arrayidx1 = getelementptr inbounds double, double* %vec, i64 %indvars.iv
+  %2 = load double, double* %arrayidx1, align 8, !tbaa !199
+  %cmp2 = fcmp olt double %2, %best.0
+  %best.1 = select i1 %cmp2, double %2, double %best.0
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %for.cond
+  ret double %best.0
+}
+
+; Function Attrs: minsize norecurse nounwind optsize readonly uwtable
+define internal double @DMax__merged(double* nocapture readonly %vec, i32 %n, i32 %__merge_arg) local_unnamed_addr #11 {
+entry:
+  %0 = load double, double* %vec, align 8, !tbaa !199
+  %1 = icmp sgt i32 %n, 1
+  %smax = select i1 %1, i32 %n, i32 1
+  %wide.trip.count = zext i32 %smax to i64
+  br label %for.cond
+
+for.cond:                                         ; preds = %6, %entry
+  %indvars.iv = phi i64 [ %indvars.iv.next, %6 ], [ 1, %entry ]
+  %best.0 = phi double [ %best.1, %6 ], [ %0, %entry ]
+  %exitcond = icmp eq i64 %indvars.iv, %wide.trip.count
+  br i1 %exitcond, label %for.end, label %for.body
+
+for.body:                                         ; preds = %for.cond
+  %arrayidx1 = getelementptr inbounds double, double* %vec, i64 %indvars.iv
+  %2 = load double, double* %arrayidx1, align 8, !tbaa !199
+  switch i32 %__merge_arg, label %3 [
+    i32 1, label %4
+  ]
+
+3:                                                ; preds = %for.body
+  %cmp2 = fcmp ogt double %2, %best.0
+  br label %6
+
+4:                                                ; preds = %for.body
+  %5 = fcmp olt double %2, %best.0
+  br label %6
+
+6:                                                ; preds = %4, %3
+  %7 = phi i1 [ %cmp2, %3 ], [ %5, %4 ]
+  %best.1 = select i1 %7, double %2, double %best.0
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %for.cond
+  ret double %best.0
+}
+

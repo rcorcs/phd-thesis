@@ -1,7 +1,42 @@
 
 \section{Merging Beyond Identical Functions}
 
-The state-of-the-art function-merging technique exploits structural similarity among functions~\cite{edler14}.
+In the previous sections, we have seen compiler optimisations that merge identical functions.
+However, nearly identical functions, with only minor differences, are also commonly found.
+Figure~\ref{fig:example-similar} shows two examples of nearly identical functions found in real programs.
+The highlighted differences prevent these functions from being merged by the identical function merging techniques.
+%These functions are usually produced by copy-and-paste programming,
+%where a given code pattern is copied and then repurposed~\cite{kim04,jablonski10,ahmed15}.
+The first pair of functions, shown in Figure~\ref{fig:example-similar-1-hmmer}, illustrates code that is usually produced by copy-and-paste programming,
+where a given code pattern is copied and then repurposed~\cite{kim04,jablonski10,ahmed15}.
+The second pair of functions, shown in Figure~\ref{fig:example-similar-3-gcc}, are produced by generative programming~\cite{czarnecki99,draheim04}, where their code was
+automatically generated using a description language~\cite{ghica15}.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[width=0.9\textwidth]{src/relatedwork/figs/example-similar-1-hmmer}
+\caption{Two similar functions extracted from the \texttt{456.hmmer} benchmark.}
+\label{fig:example-similar-1-hmmer}
+\end{subfigure}
+%\begin{subfigure}{\textwidth}
+%\centering
+%\includegraphics[width=0.9\textwidth]{src/relatedwork/figs/example-similar-2-gcc}
+%\caption{Two similar functions extracted from the \texttt{403.gcc} benchmark.}
+%\label{fig:example-similar-2-gcc}
+%\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[width=0.9\textwidth]{src/relatedwork/figs/example-similar-3-gcc}
+\caption{Two similar functions extracted from the \texttt{403.gcc} benchmark.}
+\label{fig:example-similar-3-gcc}
+\end{subfigure}
+\caption{Example of }
+\label{fig:example-similar}
+\end{figure}
+
+Von Edler~et~al.~\cite{edler14} have proposed a function-merging technique exploits structural similarity among functions.
 Their optimization is able to merge similar functions that are not necessarily
 identical.
 Two functions are structurally similar if both their function types are equivalent

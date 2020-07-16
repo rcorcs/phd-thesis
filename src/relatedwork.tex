@@ -1,5 +1,60 @@
 \chapter{Related Work}
 
+
+\section{Merging Identical Functions}
+
+In this section, we will discuss existing optimisations for merging identical functions.
+Figure~\ref{fig:example-identical} illustrates how identical functions can appear in real programs.
+The first pair of functions, shown in Figure~\ref{fig:example-identical-1-sphinx3}, were extracted from the \texttt{482.sphinx3} benchmark.
+The only difference between these two functions is in their parameter type.
+However, all pointer types can be considered equivalent since they can be bitcasted in a losslessly way.
+These functions are usually produced by copy-and-paste programming, where a given code pattern is copied and then repurposed~\cite{kim04,jablonski10,ahmed15}.
+The second pair of functions, shown in Figure~\ref{fig:example-identical-2-gcc}, were extracted from the \texttt{403.gcc} benchmark and they are fully identical.
+These functions are part of GCC's backend, where it is common to have code that is automatically generated from a machine description~\cite{muchnick98,kolek13,ghica15}.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=0.9]{src/relatedwork/figs/example-identical-1-sphinx3}
+\caption{Two semantically identical functions extracted from the \texttt{482.sphinx3} benchmark.}
+\label{fig:example-identical-1-sphinx3}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=0.9]{src/relatedwork/figs/example-identical-2-gcc}
+\caption{Two semantically identical functions extracted from the \texttt{403.gcc} benchmark.}
+\label{fig:example-identical-2-gcc}
+\end{subfigure}
+\caption{Example of identical functions.}
+\label{fig:example-identical}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{src/relatedwork/figs/identical-example}
+\caption{Two function extracted from the \texttt{447.dealII} benchmark that are not identical at the source level, but after applying template specialization and optimizations they become identical at the IR level.}
+\label{fig:identical-example}
+\end{figure}
+
+Note, however, that functions can be identical at the IR or machine level without necessarily being identical at the source level.
+Figure~\ref{fig:identical-example} shows two real functions extract from the
+447.dealII program in the SPEC CPU2006~\cite{spec} benchmark suite.
+Although these two functions are not identical at the source level, they become
+identical after a template specialization and some optimizations are applied, in
+particular, constant propagation, constant folding, and dead-code elimination. 
+Specializing \verb|dim| to $1$ enables to completely remove the loop in the
+function \verb|PolynomialSpace|.
+Similarly, specializing \verb|dim| to $1$ results in only the first iteration
+of the loop in the function \verb|TensorProductPolynomials| being executed.
+The compiler is able to statically analyze and simiplify the loops in both
+functions, resulting in the identical functions shown at the bottom of
+Figure~\ref{fig:identical-example}.
+
+Identical code is particularly common in C++ programs
+with heavy use of \textit{parametric polymorphism}, via template or \textit{auto} type deduction.
+
+
 \input{src/relatedwork/identical-code-folding}
 \input{src/relatedwork/identical-merge}
 
