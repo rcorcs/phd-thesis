@@ -7,7 +7,7 @@ This optimisation is commonly found in major linkers, such as \textit{gold}~\cit
 
 Before applying ICS, it is a common practice for linkers to place functions in separate sections~\cite{tallam10,kwan12}.
 Therefore, merging identical functions can be generalised to the problem of merging identical sections.
-In the simplest case, two functions or sections are identical if they have exactly the smae binary representation.
+In the simplest case, two functions or sections are identical if they have exactly the same binary representation.
 In general, two sections are considered identical if they have the identical section flags, data, code, and relocations.
 Two relocations are considered identical if they have the same relocation types, values, and if they point to the same or, recursively, identical sections.
 
@@ -17,8 +17,10 @@ Two relocations are considered identical if they have the same relocation types,
 % In other words, it assigns actual addresses for position-dependent code and data.
 % For example, when a program calls a function, the associated call instruction must transfer control to the proper destination address at execution.
 
-Once two identical functions are identified, merging them requires only a simple operation.
-Two identical functions can be merged by simply keeping only one of them and redirecting every reference to the deleted functions to the one being kept.
+Once a set of identical functions have been identified, merging them requires a simple operation.
+Only one of the functions in the set is kept for the final binary and all the other copies are discarded.
+Afterwards, every reference to the discarded functions must be redirected to the kept function.
+%We then map the symbols corresponding to the duplicate functions to have the same value as the symbol of the kept function.
 
 % This is a trivial operation and the main challenge lies on the search strategy. 
 
@@ -59,18 +61,19 @@ Two identical functions can be merged by simply keeping only one of them and red
 % \end{figure}
 
 Since the equality relation has a cyclic definition, ICF is defined as a fixed-point computation, i.e., it is applied repeatedly until a convergence is obtained.
-There are two approaches with distinct trade-offs.
-$(i)$ The pessimistic apprach starts with all sections marked as being different and then repeatedly compare them trying to prove their equality, grouping those found to be identical, including their relocations.
+There are two approaches with distinct trade-offs:
+$(i)$ The pessimistic approach starts with all sections marked as being different and then repeatedly compare them trying to prove their equality, grouping those found to be identical, including their relocations.
 This approach is implemented in the widely used \textit{gold} linker.
-$(ii)$ The optimistic apprach starts with all functions marked as potentially identical and then repeatedly compare trying to disprove their equality, partitioning those found to be different.
+$(ii)$ The optimistic approach starts with all functions marked as potentially identical and then repeatedly compare trying to disprove their equality, partitioning those found to be different.
 This approach is implemented in LLVM's linker, \textit{lld}.
-
-
 
 
 % \subsection{The Pessimistic Algorithm}
 
-% The pessimistic algorithm is implemented in the gold linker.
+% The pessimistic algorithm is implemented in the \textit{gold} linker.
+% It starts by marking all functions as different and repeatedly compute their checksum to identify and merge more identical functions.
+% This has the advantage that the algorithm can stop at any iteration, before the actual convergence, and correctness will be guaranteed.
+% By limiting the number of iterations, regardless of convergence, we are essentially limiting the compilation-time overhead, potentially missing some optimisation opportunities.
 
 % We can start with marking all functions as different and repeatedly do
 % the checksumming.  This has the advantage that we do not need to wait
@@ -97,83 +100,19 @@ This approach is implemented in LLVM's linker, \textit{lld}.
 % The optimistic algorithm is implemented in LLVM linker, lld.
 
 % \begin{figure}[h]
-% \begin{tabular}{cc}
-% \begin{subfigure}{.5\textwidth}
-% \begin{minted}[
-% frame=lines,
-% framesep=2mm,
-% baselinestretch=1,
-% %bgcolor=LightGray,
-% fontsize=\footnotesize,
-% %linenos
-% ]{c++}
-% int zip() {
-%   return 0;
-% }
-% int zap() {
-%   return 0;
-% }
-% int foo() {
-%   return zip ();
-% }
-% int bar() {
-%   return zap ();
-% }
-% \end{minted}
-% \caption{A \textit{template class} with several instantiations.}
-% \label{fig:icf-example-code}
-% \end{subfigure} &
-% \begin{subfigure}{.5\textwidth}
-% \begin{minted}[
-% escapeinside=||,
-% frame=lines,
-% framesep=2mm,
-% baselinestretch=1,
-% %bgcolor=LightGray,
-% fontsize=\scriptsize,
-% %linenos
-% ]{gas}
 
-% section .text._Z3zipv:
-% _Z3zipv:                 ; Hex Code
-%  xor eax, eax            ; 31 c0
-%  ret                     ; c3    
-
-% section .text._Z3zapv:
-% _Z3zapv:
-%  xor eax, eax            ; 31 c0
-%  ret                     ; c3
-
-% section .text._Z3foov:
-% _Z3foov:
-%  push rax                ; 50
-%  call   6 |<\_Z3foov+0x6>|  ; e8 00 00 00 00
-%  pop rcx                 ; 59
-%  ret                     ; c3
-% section .rela.text._Z3foov ; Relocation
-% ; Type         Addend  Name
-%  X86_64_PC32    -4      _Z3zipv
-
-% section .text._Z3barv:
-% _Z3barv:
-%  push rax                ; 50
-%  call   6 |<\_Z3barv+0x6>|  ; e8 00 00 00 00
-%  pop rcx                 ; 59
-%  ret                     ; c3
-% section .rela.text._Z3barv ; Relocation
-% ; Type         Addend  Name
-%  X86_64_PC32    -4      _Z3zapv
-
-% \end{minted}
-% \caption{Disassembled object file.}
-% \label{fig:icf-example-object}
-% \end{subfigure}
-% \end{tabular}
 % \begin{subfigure}{\textwidth}
 % \centering
-% \includegraphics[width=0.9\textwidth]{src/relatedwork/figs/icf-example}
+% \includegraphics[width=0.9\textwidth]{src/relatedwork/figs/icf-example-code}
 % \caption{.}
-% \label{fig:identical-example}
+% \label{fig:identical-example-code}
+% \end{subfigure}
+
+% \begin{subfigure}{\textwidth}
+% \centering
+% \includegraphics[width=0.9\textwidth]{src/relatedwork/figs/icf-example-diagram}
+% \caption{.}
+% \label{fig:identical-example-diagram}
 % \end{subfigure}
 
 % \caption{Example showing how a member function of a \textit{template class}

@@ -29,16 +29,16 @@ two functions are different.
 
 When a pair of equivalent functions is identified, we can create either
 an alias or a \textit{thunk}.
-Aliasing etails eliminating one of the functions and replacing all its callsites
+Aliasing entails eliminating one of the functions and replacing all its call-sites
 to the other function.
 Thunks must be created when neither of the equivalent functions can be eliminated
 by aliasing.
 In such case, a thunk is created for either one of the functions, replacing its
-body by a call to the other function, which allows all callsites and name
+body by a call to the other function, which allows all call-sites and name
 references to both functions to be preserved.
 %In such case, the body of one of the functions is replaced by a call to the
-%other function, and all callsites to both functions are preserved.
-Aliasing is prefered since it is cheaper and adds no runtime overhead.
+%other function, and all call-sites to both functions are preserved.
+Aliasing is preferred since it is cheaper and adds no runtime overhead.
 The appropriate merging is applied according to following rules:
 \begin{itemize}
 \item If the address of at least one function is not taken, alias can be used.
@@ -83,7 +83,7 @@ Collisions in the hash affect the speed of the pass but not the correctness
 or determinism of the resulting transformation.
 
 A function hash is calculated by considering only the number of arguments and
-whether a function is varargs, the order of basic blocks (given by the
+whether a function contains variadic parameters, the order of basic blocks (given by the
 successors of each basic block in depth first order), and the order of
 opcodes of each instruction within each of these basic blocks.
 This mirrors the strategy of compare() uses to compare functions by walking the BBs in depth
