@@ -33,7 +33,7 @@ These functions are part of GCC's backend, where it is common to have code that 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.9]{src/relatedwork/figs/identical-example}
-\caption{Two function extracted from the \texttt{447.dealII} benchmark that are not identical at the source level, but after applying template specialization and optimizations they become identical at the IR level.}
+\caption{Two function extracted from the \texttt{447.dealII} benchmark that are not identical at the source level, but after applying template specialisation and optimisations they become identical at the IR level.}
 \label{fig:identical-example}
 \end{figure}
 
@@ -41,7 +41,7 @@ Note, however, that functions can be identical at the IR or machine level withou
 Figure~\ref{fig:identical-example} shows two real functions extract from the
 447.dealII program in the SPEC CPU2006~\cite{spec} benchmark suite.
 Although these two functions are not identical at the source level, they become
-identical after a template specialization and some optimizations are applied, in
+identical after a template specialisation and some optimisations are applied, in
 particular, constant propagation, constant folding, and dead-code elimination. 
 Specializing \verb|dim| to $1$ enables to completely remove the loop in the
 function \verb|PolynomialSpace|.
@@ -59,6 +59,8 @@ with heavy use of \textit{parametric polymorphism}, via template or \textit{auto
 \input{src/relatedwork/identical-merge}
 
 \input{src/relatedwork/von-koch}
+
+\textbf{TODO: Comparison table: Identical vs VonKoch vs Ours}
 
 \input{src/relatedwork/code-factoring}
 
