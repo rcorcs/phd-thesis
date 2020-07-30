@@ -1,5 +1,23 @@
 \chapter{Related Work}
 
+\section{Code-Size Optimisations}
+
+Although initially motivated by performance, many of the classical optimisations achieve better performance by reducing code size.
+A small code, besides having fewer instructions to execute, can also have a positive impact on the cache utilisation.
+Classical optimisations that are effective in reducing code size include the elimination of redundant, unreachable, and dead code, as well as certain kinds of strength reduction~\cite{cocke70,briggs97,debray00}.
+In this section, we will describe some of these classical size-reducing optimisations.
+
+\subsection{Unreachable-Code Elimination}
+
+Some functions may contain code that is unreachable. A code is unreachable if there is no valid control-flow path from the function's entry point that leads to it. Since unreachable code is guaranteed to never be executed, compilers should remove it to avoid code bloat.
+
+Often, unreachable code is uncovered by other optimizations. For example, after constant propagation, a conditional branch could have its condition evaluating to a constant, eliminating a path to one of its successor basic block. If no other path leads to that basic block, it becomes unreachable.
+
+The algorithm to eliminate unreachable code works in a mark-sweep manner, performing two passes over the basic blocks of the CFG. The reachability analysis optimistically assumes that all basic blocks are dead until proven otherwise. First, it marks all blocks as unreachable. Next, starting from the entry point, it marks each block that it can reach as reachable. If all branches and jumps are unambiguous, then all unmarked blocks can be deleted. With ambiguous branches or jumps, the compiler must preserve any block that the branch or jump can reach. This analysis is simple and inexpensive.
+
+\subsection{Dead-Code Elimination}
+
+
 
 \section{Merging Identical Functions}
 
