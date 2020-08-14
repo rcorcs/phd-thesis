@@ -1,5 +1,6 @@
 
 \chapter{Merging Pairs of Functions} \label{chp:fm-operation}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FMSA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section, we describe the proposed function-merging technique.
@@ -53,7 +54,7 @@ parameter.
 The \textit{linearisation}\footnote{Although linearisation of CFGs
 usually refers to a predicated representation, % resulting from an if-conversion,
 in this paper, we refer to a simpler definition.}
-of a function consits in specifying an ordering of the basic blocks based on a
+of a function consists in specifying an ordering of the basic blocks based on a
 traversal of the CFG and then producing a sequence of basic block labels and
 instructions, similar to a textual representation of the function.
 Although this operation is trivial, the specific ordering of the basic blocks
@@ -70,8 +71,8 @@ basic blocks, following a canonical ordering of the successors.
 %Figure~\ref{fig:branch-linearisation} shows an example of the linearisation 
 %using the canonical RPO.
 The RPO guarantees that the linearisation starts with the entry basic block and
-then proceeds favoring definitions before uses, except in the presence of loops.
-Although the specifc ordering produced by the canonical linearisation may not
+then proceeds favouring definitions before uses, except in the presence of loops.
+Although the specific ordering produced by the canonical linearisation may not
 be optimal, it is common practice for compilers to rely on prior
 canonicalisations, e.g., 
 canonical loops, canonical induction variables, canonical reassociation, etc.
@@ -251,7 +252,7 @@ of the cases where we need select instructions to distinguish between the functi
 There are multiple valid ways of merging parameter lists. For example, multiple
 parameters of one function may have the same type as a given parameter from the other
 function. In such cases, we select parameter pairs that minimize the number of
-select instructions. We find them by analyzing all pairs of equivalent instruction
+select instructions. We find them by analysing all pairs of equivalent instruction
 that use the parameters as operands. 
 Our experiments show that maximizing the matching of parameters, compared to never
 merging them, improves code-size reduction of individual benchmarks by up to 7\%.
@@ -287,7 +288,7 @@ from the aligned sequence, with each instruction pair treated almost in isolatio
 \paragraph*{Road map} In the rest of this section, we describe {\ProjName}, our novel approach for merging functions through sequence alignment with full
 support for the SSA form. By removing the need for preprocessing the input functions and performing register demoting, our approach is able
 to merge functions better and faster. Instead of translating the aligned functions directly to merged code, the {\ProjName} follows a
-top-down approach centered on the CFGs of the input functions. It iterates over the input CFGs, constructing the
+top-down approach centred on the CFGs of the input functions. It iterates over the input CFGs, constructing the
 CFG of the merged function, interweaving matching and non-matching instructions (Section~\ref{sec:code-gen-core}
 ). Afterwards, all edges and operands are resolved, including appropriately assigning the incoming values to all \textit{phi-nodes} (Section~\ref{sec:op-assign}).
 {\ProjName} is designed to preserve all properties of SSA form via the standard SSA construction algorithm (Sections~\ref{sec:ssa-fix}).
@@ -380,7 +381,7 @@ We have decided for this approach where phi-nodes are tied to labels because phi
 %\texttt{x\textsubscript{3}} are copied into \texttt{L\textsubscript{6}}, despite the fact it represents a pair of matching labels.
 Figure~\ref{fig:code-gen-cfg} shows an example where \textit{phi-nodes} are present in basic blocks
 with both matching or non-matching labels.
-The phi-node \texttt{x\textsubscript{5}} is simply copied into the merged basic block labeled \texttt{L\textsubscript{6}}.
+The phi-node \texttt{x\textsubscript{5}} is simply copied into the merged basic block labelled \texttt{L\textsubscript{6}}.
 
 Unlike other instructions, we do not merge \textit{phi-nodes} through sequence alignment.
 Instead, identical \textit{phi-nodes} are merged during the simplification process

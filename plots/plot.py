@@ -22,6 +22,8 @@ with open(path) as f:
       name = tmp[1]
     if name=='gfm':
       name = 'Current'
+    if name=='fm2':
+      name = 'SalSSA'
     if name=='fm2list':
       name = 'SalSSA-MOp'
     if name=='fm':
@@ -45,7 +47,8 @@ BlueRedPallete = ['black',sns.color_palette("Blues_r", n_colors=3)[0],sns.color_
 #oracle = ['FMSA [t=1]','FMSA [t=5]','FMSA [t=10]','FMSA [oracle]']
 #gorder = ['Identical','SOA','FMSA [t=1]','FMSA [t=5]','FMSA [t=10]','GFM [t=1]','GFM [t=5]','GFM [t=10]']
 #gorder = ['Identical','SOA','FMSA','Current']
-gorder = ['Identical','Edler','SalSSA-MOp']
+#gorder = ['Identical','Edler','SalSSA-MOp']
+gorder = ['Identical','FMSA','SalSSA']
 #gorder = ['FMSA','Current']
 #oracle = ['FMSA [t=1]','FMSA [t=5]','FMSA [t=10]','GFM [t=1]','GFM [t=5]','GFM [t=10]']
 
@@ -63,18 +66,12 @@ for k in data.keys():
 
 plts.bars(pdata,'Reduction (%)',groups=gorder,palette = BlueRedPallete,edgecolor='black',labelAverage=True,decimals=1,legendPosition='upper left')#,filename='code-size-reduction.pdf')
 
-
-pdata = {}
-for k in data.keys():
-  pdata[k] = {}
-  for name in gorder:
-    val = data[k][name]
-    #if name=='FMSA [oracle]':
-    #  val = min([data[k]['o.'+n] for n in oracle]) 
-    #  pdata[k]['FMSA [oracle]'] = (data[k]['o.bl']/val-1)*100
-    #else:
-    pdata[k][name] = (data[k]['bl']/val-1)*100
-    print(k, name, pdata[k][name])
-
-#plts.bars(pdata,'Reduction (%)',groups=gorder,palette = BlueRedPallete,edgecolor='black',labelAverage=True,decimals=1,legendPosition='upper left',filename='exec-size-reduction.pdf')
-plts.bars(pdata,'Reduction (%)',groups=gorder,palette = BlueRedPallete,edgecolor='black',labelAverage=True,decimals=1,legendPosition='upper left',filename=None)
+#pdata = {}
+#for k in data.keys():
+#  pdata[k] = {}
+#  for name in gorder:
+#    val = data[k][name]
+#    pdata[k][name] = (data[k]['bl']/val-1)*100
+#    print(k, name, pdata[k][name])
+#
+#plts.bars(pdata,'Reduction (%)',groups=gorder,palette = BlueRedPallete,edgecolor='black',labelAverage=True,decimals=1,legendPosition='upper left',filename=None)

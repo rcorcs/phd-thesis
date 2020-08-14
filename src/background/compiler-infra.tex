@@ -100,3 +100,20 @@ Therefore, allowing important inter-procedural optimisations to be applied on th
 
 In the LTO mode, compilers delay the generation of native object files.
 As shown in Figure~\ref{fig:full-LTO-pipeline}, all translation units are linked while still in an IR better suited for the late optimisations.
+
+
+\subsection{Target-Specific Cost Models} \label{sec:background:costmodel}
+
+Compilers have cost models to compare two pieces of code in order to decide whether or not a given code transformation is profitable.
+Therefore, these cost models play an essential role in the decision making of most compiler optimisations~\cite{porpodas18b,pohl18}.
+
+These cost models provide target-dependent cost estimations, with respect to a given metric, 
+approximating the cost of an IR instruction when lowered to machine instructions.
+Compilers usually provide multiple cost models, including: a performance cost model that estimates the latency of each instruction; a code-size cost model that estimates the binary size of each instruction.
+However, these cost models need not predict precisely the latency or binary size of each instruction, because, Ultimately, these costs are used only for comparing two pieces of code in order to guide optimisations.
+Therefore, the cost estimated for one instruction is only relevant relative to other instructions.
+
+% The actual cost of each instruction comes from querying this compiler's built-in cost model, which provides a target-dependent cost estimation that approximates the code-size cost of an IR instruction when lowered to machine instructions.
+% Our implementation makes use of the code-size costs provided by LLVM's target-transformation interface (TTI), which is widely used in the decision making of most optimisations~\cite{porpodas18b,pohl18}.
+
+%These cost models need to be defined only once per target architecture but they play an essential role in the decision making of most compiler optimisations. 

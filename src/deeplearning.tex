@@ -1,0 +1,33 @@
+
+\chapter{Avoiding Unprofitable Merge Operations with Deep Learning} \label{chp:deeplearning}
+
+Chapter~\ref{chp:opt-strategy} describes our strategy for ranking the function candidates that are more likely to be profitably merged.
+However, most of the merged functions are actually unprofitable candidates, since many functions are unique enough to have no profitable paring.
+Even if we consider only the top candidate functions, only about 13\% result in a profitable merge operation.
+
+Since the function merging operation is computationally expensive, ideally we need to focus our effort only to those are most likely to be profitable and avoid wastefully merging unprofitable pairs of functions.
+In this chapter, we describe our heuristic model based on deep-learning to predict whether a pair of functions can be
+profitably merged or not.
+This allows us to avoid merging pairs of functions that are unlikely to result in a profitable merge operation.
+
+\section{Learning a Profitability Model}
+
+\section{Overview}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.85]{src/deeplearning/figs/deeplearning-architecture.pdf}
+  \caption{
+      The proposed deep-learning model architecture that predicts which pairs of functions will be profitably merged. Code properties are extracted from each function into \textit{context vectors} by the language model.
+      These context vectors are cached to be later fed to the heuristic model to produce the final profitability prediction.}
+  \label{fig:heuristic-model-architecture}
+\end{figure}
+
+Figure~\ref{fig:heuristic-model-architecture} provides an overview of the prediction mechanism.
+Our mechanism follows a similar approach to previous deep-learning techniques for tuning compilers~\cite{cummins17, mendis19}.
+
+The same linearised functions used for the merge operations, as described in Chapter~\ref{chp:fm-operation}, are used as input to the prediction model.
+First, we use a language model based on recurrent neural networks to encode the input functions into context vectors of fixed size.
+These vector encodings can be computed only once per function an cached.
+Finally, the context vectors of two input functions are concatenated and fed to a dense deep neural network to classify whether or not those functions are profitably merged.
+

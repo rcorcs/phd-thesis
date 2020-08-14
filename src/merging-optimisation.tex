@@ -1,24 +1,24 @@
-
 \chapter{Optimisation Strategy} \label{chp:opt-strategy}
 
-\section{Profitability Cost Model}\label{sec:profit-model}
+Although the technique proposed in Chapter~ref{chp:fm-operation} is able to merge any two functions, it is not always profitable to do so.
+In fact, as it is only profitable to merge functions that are sufficiently similar, for most pairs of functions, merging them increases code size.
+Therefore, we must be able to decide which merge operations are profitable.
+%Therefore, we must be able to decide which pairs of functions are most likely to be profitably merged.
 
-After generating the code of the merged function, we need to estimate the code-size benefit of replacing the original pair of functions by the new merged function.
-In order to estimate the code-size benefit, we first compute the code-size cost for each instruction in all three functions, which is done with the help of the compiler's target-specific cost model.
+\section{Profitability Analysis}\label{sec:profit-model}
+
+A merge operation is profitable when replacing the original pair of functions by the merged function results in an overall smaller code.
+Since merging most pairs of functions tend to produce a much larger function, the profitability analysis is critical for the optimisation strategy.
+
+In order to estimate the code-size benefit, we first estimate the size of all three functions.
+The size of each function is estimated by summing up the estimated binary size of all instruction in the function.
+The binary size of each instruction is estimated by querying the compiler's built-in target-specific cost model.
+As described in Section~\ref{sec:background:costmodel}, although the cost model estimations are not necessarily precise, they are useful for comparing two pieces of code and deciding when a replacement is profitable.
+
 % The actual cost of each instruction comes from querying this compiler's built-in cost model, which provides a target-dependent cost estimation that approximates the code-size cost of an IR instruction when lowered to machine instructions.
-% Our implementation makes use of the code-size costs provided by LLVM's target-transformation interface (TTI), which is widely used in the decision making of most optimisations~\cite{porpodas18b,pohl18}.
 
-
-The compiler's cost model provides a target-dependent cost estimation that approximates the cost of an intermediate representation (IR) instruction when lowered to machine instructions.
-Compilers usually provide a performance cost model, which estimates the latency of each instruction, and a code-size cost model, which estimates the binary size of each instruction.
-These cost models play an essential role in the decision making of most compiler optimisations~\cite{porpodas18b,pohl18}.
-The absolute cost estimated for one instruction is less important than its relation to the cost of other instructions.
-Ultimately, these costs are used for comparing two pieces of code, informing the compiler's decision of whether or not a given transformation is profitable.
-%These cost models need to be defined only once per target architecture but they play an essential role in the decision making of most compiler optimisations. 
-
-In order to estimate code-size cost of one function, we sum up the code-size cost of all instruction by querying the cost model.
-In addition to measuring the difference in size of the merged function, we also need to take into account all extra costs involved:
-$(1)$ for the cases where we need to keep the original functions with a call to the merged function;
+In addition to measuring the difference in size of the merged function, we also need to take into account all extra costs involved in replacing the original functions with the merged one:
+$(1)$ for the cases where we need to keep a \textit{thunk} of the original functions, preserving their original signatures; % with a call to the merged function;
 and $(2)$ for the cases where we update the call graph, there might be an extra cost with a call to the merged function due to the increased number of arguments.
 
 Let $c(f)$ be the code-size cost of a given function $f$, and
@@ -61,8 +61,7 @@ However, the use of cost models is still a good trade-off between compilation ti
 
 %In this section, we describe our exploration infrastructure for the
 %function merging optimisation.
-Although the proposed technique is able to merge any two functions, it is not always profitable to merge them. In fact, as it is only
-profitable to merge functions that are sufficiently similar, for most pairs of functions, merging them increases code size.
+
 In this section, we introduce our framework for efficiently exploring the
 optimisation space, focusing on pairs of functions that are profitable to merge. 
 
@@ -81,10 +80,9 @@ optimisation space, focusing on pairs of functions that are profitable to merge.
 
 %\subsection{Ranking Infrastructure}
 
-For every function, ideally, we would like to try to merge it with all other functions and choose the pair that maximises the reduction in
-code size. However, this quadratic exploration over all pairs of functions results in prohibitively expensive compilation
-overhead. In order to avoid the quadratic exploration of all possible merges, we propose the exploration framework shown in
-Figure~\ref{fig:func-merge-opt-arch} for our optimisation.
+For every function, ideally, we would like to try to merge it with all other functions and choose the pair that maximises the reduction in code size.
+However, this quadratic exploration over all pairs of functions results in prohibitively expensive compilation overhead.
+In order to avoid the quadratic exploration of all possible merges, we propose the exploration framework shown in Figure~\ref{fig:func-merge-opt-arch} for our optimisation.
 \begin{figure}[t!]
   \centering
   \includegraphics[width=0.7\linewidth]{src/merging-optimisation/figs/func-merge-opt-arch.pdf}
@@ -133,7 +131,7 @@ The final estimate selects the minimum upper bound between the two, i.e.,
      s(f_1,f_2) = \min\{U\!B(f_1,f_2, Opcodes), U\!B(f_1,f_2, Types)\}
 \]
 This estimate results in a value in the range $[0,0.5]$,
-which encodes a description that favors maximizing both the opcode and type
+which encodes a description that favours maximizing both the opcode and type
 similarities, while also minimizing their respective differences.
 Identical functions will always result in the maximum value of $0.5$.
 
@@ -176,7 +174,7 @@ Finally, the new function is added to the optimisation working list.
 Because of this feedback loop, merge operations can also be performed on
 functions that resulted from previous merge operations.
 
-\subsection{Link-Time Optimisation}
+\section{Placement of the Optimisation}
 
 There are different ways of applying this optimisation, with different trade-offs.
 We can apply our optimisation on a per compilation-unit basis, which usually

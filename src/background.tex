@@ -11,3 +11,35 @@
 
 
 \input{src/background/sequence-alignment}
+
+\section{Machine Learning}
+
+Machine learning (ML) is the field of study of mathematical models that can automatically learn patterns from sample data, known as \textit{training} data, in order to make predictions for unseen data.
+It is commonly seen as a subset of artificial intelligence and a superset of deep-learning (DL), which is a family of machine learning methods based on artificial neural networks.
+
+Artificial neural networks (ANNs) are machine learning models that were vaguely inspired by the biological neural networks.
+These models are composed of artificial neurons, which are essentially mathematical functions known as \textit{activation functions}, mapping inputs to a single output that can be fed to multiple other neurons.
+These neurons are then connected by weighted edges.
+Figure~\ref{fig:ML-feed-forward-network} shows a simple ANN with multiple layers of neurons, with fully connect layers, i.e., a neuron has an edge to every neuron in the next layer.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.85]{src/background/figs/ML-feed-forward-network.pdf}
+  \caption{Example of an artificial neural network with multiple layers of neurons. Each circle represents an artificial neuron. Adjacent layers of neurons are fully connected.}
+  \label{fig:ML-feed-forward-network}
+\end{figure}
+
+Machine learning is used in Chapter~\ref{chp:deeplearning} to classify input sequences.
+This section describes the classification and sequential modelling techniques used in this thesis
+
+Classification concerns the mapping of input variables to a categorical label.
+The training of a classifier requires inputs for which the category is known, called labelled training data.
+
+%Sequence modelling concerns the process of capturing the underlying probability distribution that describes the input sequences.
+
+
+\subsection{Feed-forward Neural Networks}
+
+\subsection{Recurrent Neural Networks}
+
+\subsubsection{Gated Recurrent Units}
