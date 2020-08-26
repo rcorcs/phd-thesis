@@ -15,12 +15,90 @@
 \section{Machine Learning}
 
 Machine learning (ML) is the field of study of mathematical models that can automatically learn patterns from sample data, known as \textit{training} data, in order to make predictions for unseen data.
-It is commonly seen as a subset of artificial intelligence and a superset of deep-learning (DL), which is a family of machine learning methods based on artificial neural networks.
+Regression and classification are two common types of machine learning application~\cite{goodfellow16}.
 
+Regression concerns the prediction of a numerical value given some inputs, where an ML model learns the relationship between the outcome variable and one or more input features.
+Figure~\ref{fig:ml-regression} illustrates an example of a regression model.
+Based on the sample data, a curve is fitted, minimising the overall error between the sample data and the curve.
+This curve represents the model that can be used to estimate the outcome variable for an unseen feature data.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{.32\textwidth}
+    \center
+    \includegraphics[scale=0.8]{src/background/figs/ml-regression-sample}
+    \caption{Sample data.}
+    \label{fig:ml-regression-sample}
+  \end{subfigure}
+  \begin{subfigure}{.32\textwidth}
+    \center
+    \includegraphics[scale=0.8]{src/background/figs/ml-regression-fitted}
+    \caption{Fitted curve.}
+    \label{fig:ml-regression-fitted}
+  \end{subfigure}
+  \begin{subfigure}{.32\textwidth}
+    \center
+    \includegraphics[scale=0.8]{src/background/figs/ml-regression-model}
+    \caption{Model.}
+    \label{fig:ml-regression-model}
+  \end{subfigure}
+  \caption{
+    An illustration of a regression model using machine learning.
+    A regression model use the sample data to learn a function that maps the input features to an outcome numerical variable.
+  }
+  \label{fig:ml-regression}
+\end{figure}
+
+Classification concerns the prediction of a categorical label given some inputs, where an ML model learns the relationship between a finite set of labels and one or more input features.
+The training of a classifier requires inputs for which the category is known, called labelled training data.
+Figure~\ref{fig:ml-classifier} illustrates an example of a binary classification model.
+Based on the sample data, a curve is fitted, minimising the number of misclassification.
+This curve represents the model that can be used to predict the category of unseen feature data.
+
+% In this type of task, the computer program is asked to specify which of k categories some input belongs to. To solve this task, the learning algorithm is usually asked to produce a function f:Rn→ {1, . . . , k}. When y=f(x), the model assigns an input described by vector x to a category identiﬁed by numeric code y. There are other variants of the classiﬁcation task, for example, where f outputs a probability distribution over classes. An example of a classiﬁcation task is object recognition, where the input is an image (usually described as a set of pixel brightness values), and the output is a numeric code identifying the object in the image.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{.32\textwidth}
+    \center
+    \includegraphics[scale=0.8]{src/background/figs/ml-classifier-sample}
+    \caption{Sample data.}
+    \label{fig:ml-classifier-sample}
+  \end{subfigure}
+  \begin{subfigure}{.32\textwidth}
+    \center
+    \includegraphics[scale=0.8]{src/background/figs/ml-classifier-fitted}
+    \caption{Fitted curve.}
+    \label{fig:ml-classifier-fitted}
+  \end{subfigure}
+  \begin{subfigure}{.32\textwidth}
+    \center
+    \includegraphics[scale=0.8]{src/background/figs/ml-classifier-model}
+    \caption{Model.}
+    \label{fig:ml-classifier-model}
+  \end{subfigure}
+  \caption{
+    An illustration of a classification model using machine learning.
+    A regression model use the sample data to learn a function that maps the input features to an outcome numerical variable.
+  }
+  \label{fig:ml-classifier}
+\end{figure}
+
+%Machine learning is used in Chapter~\ref{chp:deeplearning} to classify input sequences.
+%This section describes the classification and sequential modelling techniques used in this thesis
+
+%Classification concerns the mapping of input variables to a categorical label.
+%
+%Sequence modelling concerns the process of capturing the underlying probability distribution that describes the input sequences.
+
+\subsection{Neural Networks}
+
+Machine is commonly seen as a subset of artificial intelligence and a superset of deep-learning (DL), which is a family of machine learning methods based on artificial neural networks.
 Artificial neural networks (ANNs) are machine learning models that were vaguely inspired by the biological neural networks.
 These models are composed of artificial neurons, which are essentially mathematical functions known as \textit{activation functions}, mapping inputs to a single output that can be fed to multiple other neurons.
-These neurons are then connected by weighted edges.
-Figure~\ref{fig:ML-feed-forward-network} shows a simple ANN with multiple layers of neurons, with fully connect layers, i.e., a neuron has an edge to every neuron in the next layer.
+These neurons are grouped into layers and connected across layers by weighted edges.
+Figure~\ref{fig:ML-feed-forward-network} shows a simple feed-forward ANN with multiple layers of neurons, with fully connect layers, i.e., a neuron has an edge to every neuron in the next layer.
+The first layer is the input layer, with $x_i$ being the input variables, and the last layer is the output layer, with $y_i$ being the output variables.
 
 \begin{figure}[h]
   \centering
@@ -29,17 +107,15 @@ Figure~\ref{fig:ML-feed-forward-network} shows a simple ANN with multiple layers
   \label{fig:ML-feed-forward-network}
 \end{figure}
 
-Machine learning is used in Chapter~\ref{chp:deeplearning} to classify input sequences.
-This section describes the classification and sequential modelling techniques used in this thesis
+\subsubsection{Feed-Forward Neural Networks}
 
-Classification concerns the mapping of input variables to a categorical label.
-The training of a classifier requires inputs for which the category is known, called labelled training data.
+A feed-forward neural networks is a simple but powerful neural network architecture where information flows through the layers in only one direction, namely, forward, as illustrated in Figure~\ref{fig:ML-feed-forward-network}.
+This model defines a mapping $\mathbf{y} = f(\mathbf{x};\mathbf{\theta})$, were $\mathbf{\theta}$ represents the parameters that are learnt, optimising the function approximation.
+The architecture of the feed-forward network is a direct acyclic graph, forming what is also known as a multi-layer perceptrons.
+The number of layers of the architecture is known as the depth of the model, with the final layer being the output layer.
 
-%Sequence modelling concerns the process of capturing the underlying probability distribution that describes the input sequences.
+\subsubsection{Recurrent Neural Networks}
 
 
-\subsection{Feed-forward Neural Networks}
+\paragraph{Gated Recurrent Units}
 
-\subsection{Recurrent Neural Networks}
-
-\subsubsection{Gated Recurrent Units}
