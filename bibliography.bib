@@ -1,0 +1,782 @@
+
+@misc{spec,
+  author = {{SPEC}},
+  title = {{Standard Performance Evaluation Corp Benchmarks}},
+  howpublished = {http://www.spec.org},
+  year = {2014}
+}
+
+
+@book{muchnick98,
+author = {Muchnick, Steven S.},
+title = {Advanced Compiler Design and Implementation},
+year = {1998},
+isbn = {1558603204},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA}
+}
+
+@book{cooper07,
+author = {Torczon, Linda and Cooper, Keith},
+title = {Engineering A Compiler},
+year = {2007},
+isbn = {012088478X},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+edition = {2nd}
+}
+
+
+@book{hennessy17,
+   title =     {Computer Architecture, Sixth Edition: A Quantitative Approach},
+   author =    {John L. Hennessy, David A. Patterson},
+   publisher = {Morgan Kaufmann},
+   year =      {2017},
+   edition =   {6},
+   volume =    {},
+}
+
+@BOOK{fisher05,
+  title={Embedded computing: a VLIW approach to architecture, compilers and tools},
+  author={Fisher, Joseph A and Faraboschi, Paolo and Young, Clifford},
+  year={2005},
+  publisher={Elsevier}
+}
+
+@book{goodfellow16,
+    title={Deep Learning},
+    author={Ian Goodfellow and Yoshua Bengio and Aaron Courville},
+    publisher={MIT Press},
+    note={http://www.deeplearningbook.org},
+    year={2016}
+}
+
+%%%%% Classic Code Size Optimisations
+
+@inproceedings{cocke70,
+ author = {Cocke, John},
+ title = {Global Common Subexpression Elimination},
+ booktitle = {Proceedings of a Symposium on Compiler Optimization},
+ year = {1970},
+ pages = {20--24},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@article{tanenbaum82,
+ author = {Tanenbaum, Andrew S. and van Staveren, Hans and Stevenson, Johan W.},
+ title = {Using Peephole Optimization on Intermediate Code},
+ journal = {ACM Trans. Program. Lang. Syst.},
+ volume = {4},
+ number = {1},
+ month = jan,
+ year = {1982},
+ pages = {21--36},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@inproceedings{massalin87,
+ author = {Massalin, Henry},
+ title = {Superoptimizer: A Look at the Smallest Program},
+ booktitle = {Proceedings of the Second International Conference on Architectual Support for Programming Languages and Operating Systems},
+ series = {ASPLOS II},
+ year = {1987},
+ pages = {122--126},
+ publisher = {IEEE Computer Society Press},
+ address = {Los Alamitos, CA, USA},
+}
+
+@article{briggs97,
+author = {Briggs, Preston and Cooper, Keith D. and Simpson, L. Taylor},
+title = {Value Numbering},
+journal = {Software: Practice and Experience},
+volume = {27},
+number = {6},
+pages = {701-724},
+year = {1997}
+}
+
+%%% Code compression
+
+@inproceedings{ernst97,
+ author = {Ernst, Jens and Evans, William and Fraser, Christopher W. and Proebsting, Todd A. and Lucco, Steven},
+ title = {Code Compression},
+ booktitle = {Proceedings of the ACM SIGPLAN 1997 Conference on Programming Language Design and Implementation},
+ series = {PLDI '97},
+ year = {1997},
+ pages = {358--365},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@article{debray00,
+ author = {Debray, Saumya K. and Evans, William and Muth, Robert and De Sutter, Bjorn},
+ title = {Compiler Techniques for Code Compaction},
+ journal = {ACM Trans. Program. Lang. Syst.},
+ volume = {22},
+ number = {2},
+ month = mar,
+ year = {2000},
+ pages = {378--415},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@inproceedings{loki04,
+  title={Code factoring in {GCC}},
+  author={L{\'o}ki, G{\'a}bor and Kiss, {\'A}kos and J{\'a}sz, Judit and Besz{\'e}des, {\'A}rp{\'a}d},
+  booktitle={Proceedings of the 2004 GCC Developers' Summit},
+  pages={79--84},
+  year={2004}
+}
+
+@inproceedings{chen03,
+author={Chen, Wen Ke and Li, Bengu and Gupta, Rajiv},
+editor={Cousot, Radhia},
+title={Code Compaction of Matching Single-Entry Multiple-Exit Regions},
+booktitle={Static Analysis},
+year={2003},
+publisher={Springer Berlin Heidelberg},
+address={Berlin, Heidelberg},
+pages={401--417}
+}
+
+@inproceedings{briggs94,
+ author = {Briggs, Preston and Cooper, Keith D.},
+ title = {Effective Partial Redundancy Elimination},
+ booktitle = {Proceedings of the ACM SIGPLAN 1994 Conference on Programming Language Design and Implementation},
+ series = {PLDI '94},
+ year = {1994},
+ location = {Orlando, Florida, USA},
+ pages = {159--170},
+ numpages = {12},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@INPROCEEDINGS{dreweke07,
+author={A. Dreweke and M. Worlein and I. Fischer and D. Schell and T. Meinl and M. Philippsen},
+booktitle={International Symposium on Code Generation and Optimization (CGO'07)},
+title={Graph-Based Procedural Abstraction},
+year={2007},
+volume={},
+number={},
+pages={259-270},
+month={March},}
+
+%%%%%%%% Code Size Motivation
+
+@inproceedings{weaver09,
+author={V. M. Weaver and S. A. McKee},
+booktitle={2009 IEEE International Conference on Computer Design},
+title={Code density concerns for new architectures},
+year={2009},
+volume={},
+number={},
+pages={459-464},
+month={Oct}
+}
+
+@inproceedings{edler10,
+ author = {Edler von Koch, Tobias J.K. and B\"{o}hm, Igor and Franke, Bj\"{o}rn},
+ title = {Integrated Instruction Selection and Register Allocation for Compact Code Generation Exploiting Freeform Mixing of 16- and 32-bit Instructions},
+ booktitle = {Proceedings of the 8th Annual IEEE/ACM International Symposium on Code Generation and Optimization},
+ series = {CGO '10},
+ year = {2010},
+ location = {Toronto, Ontario, Canada},
+ pages = {180--189},
+ numpages = {10},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+
+
+
+@InProceedings{plaza18,
+author="Plaza, Pedro
+and Sancristobal, Elio
+and Carro, German
+and Castro, Manuel
+and Ruiz, Elena",
+editor="Auer, Michael E.
+and Zutin, Danilo G.",
+title="Wireless Development Boards to Connect the World",
+booktitle="Online Engineering {\&} Internet of Things",
+year="2018",
+publisher="Springer International Publishing",
+address="Cham",
+pages="19--27",
+}
+
+@INPROCEEDINGS{varma04,
+author={A. Varma and S. S. Bhattacharyya},
+booktitle={Proceedings Design, Automation and Test in Europe Conference and Exhibition},
+title={{Java}-through-{C} compilation: an enabling technology for {Java} in embedded systems},
+year={2004},
+volume={3},
+number={},
+pages={161-166 Vol.3},
+month={Feb}
+}
+
+@article {auler17,
+author = {Auler, Rafael and Millani, Carlos Eduardo and Brisighello, Alexandre and Linhares, Alisson and Borin, Edson},
+title = {Handling {IoT} platform heterogeneity with {COISA}, a compact {OpenISA} virtual platform},
+journal = {Concurrency and Computation: Practice and Experience},
+volume = {29},
+number = {22},
+pages = {e3932},
+year = {2017},
+}
+
+@inproceedings{schultz03,
+ author = {Schultz, Ulrik Pagh and Burgaard, Kim and Christensen, Flemming Gram and Knudsen, J{\o}rgen Lindskov},
+ title = {Compiling {Java} for Low-end Embedded Systems},
+ booktitle = {Proceedings of the 2003 ACM SIGPLAN Conference on Language, Compiler, and Tool for Embedded Systems},
+ series = {LCTES '03},
+ year = {2003},
+ isbn = {1-58113-647-1},
+ location = {San Diego, California, USA},
+ pages = {42--50},
+ numpages = {9},
+ acmid = {780739},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Java, compilers, embedded systems, interfaces},
+}
+
+@ARTICLE{sehgal12,
+author={A. Sehgal and V. Perelman and S. Kuryla and J. Schonwalder},
+journal={IEEE Communications Magazine},
+title={Management of resource constrained devices in the internet of things},
+year={2012},
+volume={50},
+number={12},
+pages={144-149},
+month={December}
+}
+
+@ARTICLE{keoh14,
+author={S. L. Keoh and S. S. Kumar and H. Tschofenig},
+journal={IEEE Internet of Things Journal},
+title={Securing the Internet of Things: A Standardization Perspective},
+year={2014},
+volume={1},
+number={3},
+pages={265-275},
+month={June}
+}
+
+
+@misc{gcc,
+  author = {{Free Software Foundation}},
+  title = {{GCC}, the {GNU} Compiler Collection},
+  howpublished = {http://gcc.gnu.org},
+  year = {2018}
+}
+
+@INPROCEEDINGS{llvm,
+author={Lattner, C. and Adve, V.},
+booktitle={Proceedings of the International Symposium on Code Generation and Optimization (CGO)},
+title={{LLVM}: {A} compilation framework for lifelong program analysis transformation},
+year={2004},
+}
+
+@article{lattner20,
+  title={MLIR: A Compiler Infrastructure for the End of Moore's Law},
+  author={Lattner, Chris and Pienaar, Jacques and Amini, Mehdi and Bondhugula, Uday and Riddle, River and Cohen, Albert and Shpeisman, Tatiana and Davis, Andy and Vasilache, Nicolas and Zinenko, Oleksandr},
+  journal={arXiv preprint},
+  year={2020}
+}
+
+@misc{msvc-icf,
+  author = {},
+  title = {{Microsoft Visual Studio}. {I}dentical {COMDAT} Folding},
+  howpublished = {https://msdn.microsoft.com/en-us/library/bxwfs976.aspx},
+  year = {2020}
+}
+
+@INPROCEEDINGS{ghica15,
+  author={L. {Ghica} and N. {Tapus}},
+  booktitle={2015 IEEE International Conference on Intelligent Computer Communication and Processing (ICCP)}, 
+  title={Optimized retargetable compiler for embedded processors - GCC vs LLVM}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={103-108},
+}
+
+@INPROCEEDINGS{kolek13,
+  author={J. {Kolek} and Z. {Jovanović} and N. {Šljivić} and D. {Narančić}},
+  booktitle={2013 21st Telecommunications Forum Telfor (TELFOR)}, 
+  title={Adding microMIPS backend to the LLVM compiler infrastructure}, 
+  year={2013},
+  volume={},
+  number={},
+  pages={1015-1018},
+}
+
+@inproceedings{johnson17,
+author = {Johnson, Teresa and Amini, Mehdi and Li, Xinliang David},
+title = {ThinLTO: Scalable and Incremental LTO},
+year = {2017},
+isbn = {9781509049318},
+publisher = {IEEE Press},
+booktitle = {Proceedings of the 2017 International Symposium on Code Generation and Optimization},
+pages = {111–121},
+numpages = {11},
+keywords = {Optimization, Cross-module, Inter-procedural, Link-Time Optimization},
+location = {Austin, USA},
+series = {CGO ’17}
+}
+
+
+@inproceedings{porpodas18a,
+ author = {Porpodas, Vasileios and Rocha, Rodrigo C. O. and G\'{o}es, Lu\'{\i}s F. W.},
+ title = {Look-ahead {SLP}: Auto-vectorization in the Presence of Commutative Operations},
+ booktitle = {Proceedings of the 2018 International Symposium on Code Generation and Optimization},
+ series = {CGO 2018},
+ year = {2018},
+ isbn = {978-1-4503-5617-6},
+ location = {Vienna, Austria},
+ pages = {163--174},
+ numpages = {12},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@inproceedings{porpodas18b,
+ author = {{V. Porpodas, R. C. O. Rocha, and L. F. W. G\'{o}es}},
+ author_full = {Porpodas, Vasileios and Rocha, Rodrigo C. O. and G\'{o}es, Lu\'{\i}s F. W.},
+ title = {{VW-SLP}: Auto-vectorization with Adaptive Vector Width},
+ booktitle = {Proceedings of the 27th International Conference on Parallel Architectures and Compilation Techniques},
+ series = {PACT '18},
+ year = {2018},
+ location = {Limassol, Cyprus},
+ pages = {12:1--12:15},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+@inproceedings{pohl18,
+author={A. Pohl and B. Cosenza and B. Juurlink}, 
+booktitle={2018 IEEE International Conference on Cluster Computing (CLUSTER)}, 
+title={Cost Modelling for Vectorization on {ARM}}, 
+year={2018}, 
+volume={}, 
+number={}, 
+pages={644-645}, 
+month={Sept},
+}
+
+@ARTICLE{ravanelli18,
+  author={M. {Ravanelli} and P. {Brakel} and M. {Omologo} and Y. {Bengio}},
+  journal={IEEE Transactions on Emerging Topics in Computational Intelligence}, 
+  title={Light Gated Recurrent Units for Speech Recognition}, 
+  year={2018},
+  volume={2},
+  number={2},
+  pages={92-102}
+}
+
+@article{cho2014,
+  title={On the properties of neural machine translation: Encoder-decoder approaches},
+  author={Cho, Kyunghyun and Van Merri{\"e}nboer, Bart and Bahdanau, Dzmitry and Bengio, Yoshua},
+  journal={arXiv preprint arXiv:1409.1259},
+  year={2014}
+}
+
+
+@INPROCEEDINGS{cummins17,
+  author={C. {Cummins} and P. {Petoumenos} and Z. {Wang} and H. {Leather}},
+  booktitle={2017 26th International Conference on Parallel Architectures and Compilation Techniques (PACT)},
+  title={End-to-End Deep Learning of Optimization Heuristics},
+  year={2017},
+  volume={},
+  number={},
+  pages={219-232}
+}
+
+
+@InProceedings{mendis19,
+  title = 	 {Ithemal: Accurate, Portable and Fast Basic Block Throughput Estimation using Deep Neural Networks},
+  author = 	 {Charith Mendis and Alex Renda and Dr.Saman Amarasinghe and Michael Carbin},
+  booktitle = 	 {Proceedings of the 36th International Conference on Machine Learning},
+  pages = 	 {4505--4515},
+  year = 	 {2019},
+  editor = 	 {Kamalika Chaudhuri and Ruslan Salakhutdinov},
+  volume = 	 {97},
+  series = 	 {Proceedings of Machine Learning Research},
+  address = 	 {Long Beach, California, USA},
+  month = 	 {09--15 Jun},
+  publisher = 	 {PMLR},
+}
+
+@phdthesis{Graves12,
+ author = {Graves, A.},
+ school = {Technical University of Munich},
+ title = {{Supervised Sequence Labelling with Recurrent Neural Networks}},
+ year = {2012}
+}
+
+@inbook{rumelhart88,
+author = {Rumelhart, David E. and Hinton, Geoffrey E. and Williams, Ronald J.},
+title = {Learning Representations by Back-Propagating Errors},
+year = {1988},
+isbn = {0262010976},
+publisher = {MIT Press},
+address = {Cambridge, MA, USA},
+booktitle = {Neurocomputing: Foundations of Research},
+pages = {696–699},
+numpages = {4}
+}
+
+
+%% Linker ICF
+
+@inproceedings{tallam10,
+title	= {Safe {ICF}: Pointer Safe and Unwinding Aware Identical Code Folding in Gold},
+author	= {Sriraman Tallam and Cary Coutant and Ian Lance Taylor and Xinliang David Li and Chris Demetriou},
+year	= {2010},
+booktitle	= {GCC Developers Summit}
+}
+
+@inproceedings{kwan12,
+author={Doug Kwan and Jing Yu and B. Janakiraman},
+booktitle={Proceedings of Technical Program of 2012 VLSI Technology, System and Application},
+title={Google's {C/C++} toolchain for smart handheld devices},
+year={2012},
+volume={},
+number={},
+pages={1-4},
+month={April},}
+
+
+%% Identical Function Merging
+
+@misc{llvm-fm,
+  author = {},
+  title = {{The LLVM Compiler Infrastructure}. {MergeFunctions} pass, how it works},
+  howpublished = {http://llvm.org/docs/MergeFunctions.html},
+  year = {2020}
+}
+
+@article{livska14,
+  title={Optimizing large applications},
+  author={Li{\v{s}}ka, Martin},
+  journal={arXiv preprint arXiv:1403.6997},
+  year={2014}
+}
+
+
+%% Merging of Similar Functions
+
+@inproceedings{edler14,
+ acmid = {2597811},
+ address = {New York, NY, USA},
+ author = {Edler von Koch, Tobias J.K. and Franke, Bj\"{o}rn and Bhandarkar, Pranav and Dasgupta, Anshuman},
+ booktitle = {Proceedings of the 2014 SIGPLAN/SIGBED Conference on Languages, Compilers and Tools for Embedded Systems},
+ pages = {85--94},
+ publisher = {ACM},
+ series = {LCTES '14},
+ title = {Exploiting Function Similarity for Code Size Reduction},
+ year = {2014}
+}
+
+%% All Functions via Sequence Alignment
+
+@inproceedings{rocha19,
+ author = {Rocha, Rodrigo C. O. and Petoumenos, Pavlos and Wang, Zheng and Cole, Murray and Leather, Hugh},
+ title = {Function Merging by Sequence Alignment},
+ booktitle = {Proceedings of the 2019 IEEE/ACM International Symposium on Code Generation and Optimization},
+ series = {CGO 2019},
+ year = {2019},
+ pages = {149--163},
+ publisher = {IEEE Press},
+ address = {Piscataway, NJ, USA},
+} 
+
+
+
+
+@INPROCEEDINGS{ahmed15,
+  author={T. M. {Ahmed} and W. {Shang} and A. E. {Hassan}},
+  booktitle={2015 IEEE/ACM 12th Working Conference on Mining Software Repositories}, 
+  title={An Empirical Study of the Copy and Paste Behavior during Development}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={99-110},}
+
+  @INPROCEEDINGS{kim04,
+  author={ Miryung Kim and L. Bergman and T. Lau and D. Notkin},
+  booktitle={Proceedings. 2004 International Symposium on Empirical Software Engineering, 2004. ISESE '04.}, 
+  title={An ethnographic study of copy and paste programming practices in OOPL}, 
+  year={2004},
+  volume={},
+  number={},
+  pages={83-92},}
+
+@INPROCEEDINGS{jablonski10,
+  author={P. {Jablonski} and D. {Hou}},
+  booktitle={2010 IEEE 18th International Conference on Program Comprehension}, 
+  title={Aiding Software Maintenance with Copy-and-Paste Clone-Awareness}, 
+  year={2010},
+  volume={},
+  number={},
+  pages={170-179},}
+
+@article{draheim04,
+  title={An analytical comparison of generative programming technologies},
+  author={Draheim, Dirk and Lutteroth, Christof and Weber, Gerald},
+  year={2004}
+}
+
+@phdthesis{czarnecki99,
+  title={Generative programming-principles and techniques of software engineering based on automated configuration and fragment-based component models},
+  author={Czarnecki, Krzysztof},
+  year={1999},
+  school={Verlag nicht ermittelbar}
+}
+
+
+
+%% Low-end mobile phones
+
+
+@article{etzo10,
+author = {Etzo, Sebastiana and Collender, Guy},
+title = {The mobile phone ‘revolution’ in {Africa}: Rhetoric or reality?},
+journal = {African Affairs},
+volume = {109},
+number = {437},
+pages = {659-668},
+year = {2010},
+}
+@article{hart02,
+author={Hart,Stuart L. and Christensen,Clayton M.},
+year={2002},
+month={Fall},
+title={The great leap: Driving innovation from the base of the pyramid},
+journal={MIT Sloan Management Review},
+volume={44},
+number={1},
+pages={51-56},
+}
+
+@article{hahm16,
+  TITLE = {{Operating Systems for Low-End Devices in the Internet of Things: a Survey}},
+  AUTHOR = {Hahm, Oliver and Baccelli, Emmanuel and Petersen, Hauke and Tsiftes, Nicolas},
+  JOURNAL = {{IEEE Internet of Things Journal}},
+  PUBLISHER = {{IEEE}},
+  VOLUME = {3},
+  NUMBER = {5},
+  PAGES = {720-734},
+  YEAR = {2016},
+  MONTH = Oct,
+}
+
+@misc{androidGo,
+  title={{Android Oreo Go} edition.},
+  url={android.com/versions/oreo-8-0/go-edition/},
+  note = {}
+}
+
+
+@article{hirschberg75,
+ author = {Hirschberg, D. S.},
+ title = {A Linear Space Algorithm for Computing Maximal Common Subsequences},
+ journal = {Commun. ACM},
+ volume = {18},
+ number = {6},
+ month = jun,
+ year = {1975},
+ pages = {341--343},
+ numpages = {3},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@article{maier78,
+ author = {Maier, David},
+ title = {The Complexity of Some Problems on Subsequences and Supersequences},
+ journal = {J. ACM},
+ volume = {25},
+ number = {2},
+ month = apr,
+ year = {1978},
+ pages = {322--336},
+ numpages = {15},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@article{carrillo88,
+ author = {Carrillo, Humberto and Lipman, David},
+ title = {The Multiple Sequence Alignment Problem in Biology},
+ journal = {SIAM J. Appl. Math.},
+ volume = {48},
+ number = {5},
+ month = oct,
+ year = {1988},
+ pages = {1073--1082},
+ numpages = {10},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+}
+
+
+@article{smith81,
+title = "Identification of common molecular subsequences",
+journal = "Journal of Molecular Biology",
+volume = "147",
+number = "1",
+pages = "195 - 197",
+year = "1981",
+author = "T.F. Smith and M.S. Waterman"
+}
+
+@article{needleman70,
+title = "A general method applicable to the search for similarities in the amino acid sequence of two proteins",
+journal = "Journal of Molecular Biology",
+volume = "48",
+number = "3",
+pages = "443 - 453",
+year = "1970",
+author = "Saul B. Needleman and Christian D. Wunsch"
+}
+
+
+@article{wang94,
+author = {Wang, Lusheng and Jiang, Tao},
+title = {On the Complexity of Multiple Sequence Alignment},
+journal = {Journal of Computational Biology},
+volume = {1},
+number = {4},
+pages = {337-348},
+year = {1994},
+}
+
+
+@inproceedings{hickey11,
+ author = {Hickey, Glenn and Blanchette, Mathieu},
+ title = {A Probabilistic Model for Sequence Alignment with Context-sensitive Indels},
+ booktitle = {Proceedings of the 15th Annual International Conference on Research in Computational Molecular Biology},
+ series = {RECOMB'11},
+ year = {2011},
+ pages = {85--103},
+ numpages = {19},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+}
+
+@article{higgins89,
+  title={Fast and sensitive multiple sequence alignments on a microcomputer},
+  author={Higgins, Desmond G and Sharp, Paul M},
+  journal={Bioinformatics},
+  volume={5},
+  number={2},
+  pages={151--153},
+  year={1989},
+  publisher={Oxford University Press}
+}
+
+@article{zhang20covid19,
+title = "Probable Pangolin Origin of SARS-CoV-2 Associated with the COVID-19 Outbreak",
+journal = "Current Biology",
+volume = "30",
+number = "7",
+pages = "1346 - 1351.e2",
+year = "2020",
+issn = "0960-9822",
+author = "Tao Zhang and Qunfu Wu and Zhigang Zhang",
+keywords = "pangolin, SARS-CoV-2, COVID-19, origin",
+}
+
+@book{mount05book,
+  title={Bioinformatics: Sequence and Genome Analysis},
+  author={David W. Mount},
+  volume={564},
+  year={2001},
+  publisher={Cold Spring Harbor, NY: Cold Spring Harbor Laboratory Press}
+}
+
+@article{kruskal83,
+author = {Kruskal, Joseph B.},
+title = {An Overview of Sequence Comparison: Time Warps, String Edits, and Macromolecules},
+journal = {SIAM Review},
+volume = {25},
+number = {2},
+pages = {201-237},
+year = {1983},
+doi = {10.1137/1025045},
+}
+
+@inproceedings{haque09,
+ address = {New York, NY, USA},
+ author = {Haque, Waqar and Aravind, Alex and Reddy, Bharath},
+ booktitle = {Proceedings of the 2009 Conference on Information Science, Technology and Applications},
+ doi = {10.1145/1551950.1551980},
+ location = {Kuwait, Kuwait},
+ numpages = {8},
+ pages = {96–103},
+ publisher = {Association for Computing Machinery},
+ series = {ISTA ’09},
+ title = {Pairwise Sequence Alignment Algorithms: A Survey},
+ year = {2009}
+}
+
+
+
+
+
+@article{aasland68,
+title = {A One-Letter Notation for Amino Acid Sequences},
+author = {Aasland, Rein and Abrams, Charles and Ampe, Christophe and Ball, Linda J. and Bedford, Mark T. and Cesareni, Gianni and Gimona, Mario and Hurley, James H. and Jarchau, Thomas and Lehto, VP and Lemmon, MA and Linding, R and Mayer, BJ and Nagai, M and Sudol, M and Walter, U and Winder, SJ},
+journal = {European Journal of Biochemistry},
+volume = {5},
+number = {2},
+pages = {151-153},
+doi = {10.1111/j.1432-1033.1968.tb00350.x},
+year = {1968}
+}
+
+
+@article{lee02,
+    author = {Lee, Christopher and Grasso, Catherine and Sharlow, Mark F.},
+    title = "{Multiple sequence alignment using partial order graphs}",
+    journal = {Bioinformatics},
+    volume = {18},
+    number = {3},
+    pages = {452-464},
+    year = {2002},
+    month = {03},
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/18.3.452},
+}
+
+@article{hornik91,
+title = "Approximation capabilities of multilayer feedforward networks",
+journal = "Neural Networks",
+volume = "4",
+number = "2",
+pages = "251 - 257",
+year = "1991",
+issn = "0893-6080",
+author = "Kurt Hornik",
+}
+
+@inproceedings{lu17,
+author = {Lu, Zhou and Pu, Hongming and Wang, Feicheng and Hu, Zhiqiang and Wang, Liwei},
+title = {The Expressive Power of Neural Networks: A View from the Width},
+year = {2017},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+pages = {6232–6240},
+numpages = {9},
+location = {Long Beach, California, USA},
+series = {NIPS'17}
+}

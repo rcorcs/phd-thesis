@@ -1,6 +1,78 @@
 
 \chapter{Effective Function Merging in the SSA Form} \label{chp:pldi20}
 
+
+%Prior function merging methods were limited to identical or isomorphic functions,
+%but a recent work has generalized function merging to any arbitrary pair of functions.
+%The approach proposed in Chapter~\ref{chp:cgo19} first represents functions as nothing more
+%than linear sequences of instructions and labels.
+%Then it applies a sequence alignment algorithm, developed for bioinformatics, to discover
+%the optimal way to create pairs of mergeable instructions from the two input
+%sequences.
+%Finally, it generates the merged function where aligned pairs of matching
+%instructions are merged to a single instruction, while non-matching instructions
+%are simply copied into the merged function.
+
+While the technique proposed in Chapter~\ref{chp:cgo19} represents a leap forward, experiments show that FMSA fails to reduce code size in some cases where it would be intuitively expected to work.
+Even when handling similar functions that should be profitably merged, this algorithm may fail spectacularly, producing a merged function \textit{larger} than the combined input functions.
+%Even when handling similar functions, this algorithm may fail spectacularly,
+%producing a merged function which is \textit{larger} than the combined input
+%functions.
+%Their algorithm handles this problem by ignoring the merging output when it is
+%not profitable, resulting in missed opportunities to reduce code, which should
+%not happen.
+
+Closer inspection reveals that the problem stems from the inability of this
+approach to handle \textit{phi-nodes}. In SSA, \textit{phi-nodes} merge the
+assignments of a single variable that arrive from different control flow paths.
+As such, they are closely tied to how control and data flow across basic blocks
+and cannot be merged without examining their control flow context.
+FMSA generates code directly from the aligned sequences, where
+control flow information has been lost, merging instructions blindly with little
+to no consideration for their context, so it cannot handle \textit{phi-nodes}.
+It overcomes this hurdle by applying register demotion, which replaces
+\textit{phi-nodes} with stack variables.
+This works but only by artificially increasing the size of the input functions,
+often by twice or more their original size, the exact opposite of what function merging
+tries to achieve.
+A final post-merging step of register promotion is supposed to reverse this code
+bloating but it often fails, leading to unprofitable merged functions.
+
+Our idea is to keep the one thing that works well in FMSA, the idea of using sequence alignment on functions, and build
+around it a new function merging methodology that can handle directly control and data flow with no need for register demotion. Our proposed approach,
+{\ProjName}, achieves this with a new code generator for aligned functions. Instead of translating the alignment directly into a merged function,
+our approach generates code from the input control-flow graphs, using the alignment only to specify pairs of matching labels and instructions.
+The generator then produces code top-down, starting with the control flow graph of the merged function, then populating with instructions, arguments and labels, and
+finally with \textit{phi-nodes} which maintain the correct flow of data.
+{\ProjName} is carefully designed to produce correct but, still, succinct code. A final post-generator stage applies a novel optimization,
+\textit{phi-node coalescing}, that eliminates superfluous phi-nodes and select instructions, reducing even further the code size.
+
+%This optimization combines disjoint value definitions from both input functions,
+%reducing the number of phi-nodes and selection instructions required for the final merged function.
+%\textit{Phi-node coalescing} has the benefit of reducing register pressure therefore
+%resulting in smaller code.
+
+%\fixme{Mention results about memory usage.}
+{\ProjName} produces functions much smaller than those produced by FMSA. In many cases, it produces profitable merged functions where FMSA
+fails. On average, it reduces about twice as much code as their approach, 11.4\% to 14.5\% compared to 5.6\% to 6.2\% depending on the
+function merging configuration. On top of that, the compile-time overhead is much lower. Sequence alignment has a quadratic relationship
+with function size, while the overhead of code generation and later optimization passes is proportional to function size. By avoiding
+register demotion, we keep input function sequences smaller and we produce smaller functions, leading to an average compilation overhead of
+5\%, $3\times$ less than FMSA, and an overhead in no case more than 55\%, compared to the maximum overhead of 314\% for FMSA. Similarly,
+{\ProjName} uses half the amount of memory required on average by FMSA during compilation.
+
+With this paper, we make the following contributions:
+\begin{itemize}
+  \item The first approach that fully supports the SSA form when merging functions through sequence alignment.
+  %\item A new flexible merged function generator that handles control flow and data flow efficiently.
+  \item A novel optimization called phi-node coalescing that reduces the number of phi-nodes and selections in merged functions.
+  \item {\ProjName} achieves about twice as much code size reduction than the state of the art with significantly lower compilation time
+        overheads.
+  %\item {\ProjName} achieves about $2\times$ better function merging for $3\times$ less overhead than the state-of-the-art, making
+  %    function merging worthwhile for large code bases.
+\end{itemize}
+
+
 \input{src/pldi20/motivation}
 
 \input{src/pldi20/contribution}

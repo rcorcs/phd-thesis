@@ -84,21 +84,26 @@ This curve represents the model that can be used to predict the category of unse
   \label{fig:ml-classifier}
 \end{figure}
 
-%Machine learning is used in Chapter~\ref{chp:deeplearning} to classify input sequences.
-%This section describes the classification and sequential modelling techniques used in this thesis
-
-%Classification concerns the mapping of input variables to a categorical label.
-%
-%Sequence modelling concerns the process of capturing the underlying probability distribution that describes the input sequences.
-
 \subsection{Neural Networks}
 
 Machine is commonly seen as a subset of artificial intelligence and a superset of deep-learning (DL), which is a family of machine learning methods based on artificial neural networks.
 Artificial neural networks (ANNs) are machine learning models that were vaguely inspired by the biological neural networks.
 These models are composed of artificial neurons, which are essentially mathematical functions known as \textit{activation functions}, mapping inputs to a single output that can be fed to multiple other neurons.
-These neurons are grouped into layers and connected across layers by weighted edges.
-Figure~\ref{fig:ML-feed-forward-network} shows a simple feed-forward ANN with multiple layers of neurons, with fully connect layers, i.e., a neuron has an edge to every neuron in the next layer.
+These neurons are connected by weighted edges, forming a graph, i.e., the artificial neural network.
+
+\subsubsection{Feed-Forward Neural Networks}
+
+A feed-forward neural networks is a simple but powerful neural network architecture where information flows through the layers in only one direction, namely, forward, as illustrated in Figure~\ref{fig:ML-feed-forward-network}.
+Feed-forward neural networks with multiple layers work as universal function approximators of any bounded continuous function to arbitrary precision~\cite{hornik91,lu17}.
+Essentially, this model defines a mapping $\mathbf{y} = f(\mathbf{x};\mathbf{\theta})$, were $\mathbf{\theta}$ represents the parameters that are learnt, optimising the function approximation.
+
+The architecture of the feed-forward network is a direct acyclic graph, where the neurons are grouped in layers, forming what is also known as a multi-layer perceptrons.
+The neurons are connected only across layers, i.e., the neurons in one layer are connect to the neurons following layer.
 The first layer is the input layer, with $x_i$ being the input variables, and the last layer is the output layer, with $y_i$ being the output variables.
+All other layers in between are the hidden layers, for which there are no known ground truth values.
+The value for these hidden layers are computed using a specific activation function that is chosen per layer.
+The number of layers of the architecture is known as the depth of the model, with the final layer being the output layer.
+When designing the architecture of a feed-forward neural network, in addition to the activation functions in each layer, we must also decide on how many layers the network should contain, how these layers should be connected to each other, and how many units should be in each layer~\cite{goodfellow16}.
 
 \begin{figure}[h]
   \centering
@@ -107,15 +112,8 @@ The first layer is the input layer, with $x_i$ being the input variables, and th
   \label{fig:ML-feed-forward-network}
 \end{figure}
 
-\subsubsection{Feed-Forward Neural Networks}
+\paragraph{Back-propagation}
 
-A feed-forward neural networks is a simple but powerful neural network architecture where information flows through the layers in only one direction, namely, forward, as illustrated in Figure~\ref{fig:ML-feed-forward-network}.
-This model defines a mapping $\mathbf{y} = f(\mathbf{x};\mathbf{\theta})$, were $\mathbf{\theta}$ represents the parameters that are learnt, optimising the function approximation.
-The architecture of the feed-forward network is a direct acyclic graph, forming what is also known as a multi-layer perceptrons.
-The number of layers of the architecture is known as the depth of the model, with the final layer being the output layer.
-
-\subsubsection{Recurrent Neural Networks}
-
-
-\paragraph{Gated Recurrent Units}
-
+Neural networks can use a large variety of learning algorithms.
+Learning consists of finding weights for the parameters in order to minimise the prediction error.
+The most widely used learning technique is known as back-propagation~\cite{rumelhart88,goodfellow16}.

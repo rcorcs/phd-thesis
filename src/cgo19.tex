@@ -1,6 +1,41 @@
 
 \chapter{Function Merging by Sequence Alignment} \label{chp:cgo19}
 
+In this chapter, we present our novel function merging technique.
+Our approach is based upon the concept of sequence alignment, developed in
+bioinformatics for identifying functional or evolutionary relationships between
+different DNA or RNA sequences. Similarly, we use sequence alignment to find
+areas of functional similarity in arbitrary function pairs. Aligned segments
+with equivalent code are merged. The remaining segments where the two functions
+differ are added to the new function too but have their code guarded by a
+function identifier. This approach leads to significant code size reduction.
+
+Applying sequence alignment to all pairs of functions is prohibitively expensive
+even for medium sized programs. To counter this, our technique is integrated with
+a ranking-based exploration mechanism that efficiently focuses the search to the most
+promising pairs of functions. %\todo{whats interesting about this ranking?}.
+As a result, we achieve our code size savings while introducing little compilation-time
+overhead.
+
+Compared to identical function merging, we introduce extra code to be executed,
+namely the code that chooses between dissimilar sequences in merged functions.
+A naive implementation could easily hurt performance, e.g by merging two hot functions
+with only few similarities. Our implementation can avoid this by incorporating
+profiling information to identify blocks of hot code and effectively minimize 
+the overhead in this portion of the code.
+%disable code size optimizations for them. 
+
+In this chapter, we make the following contributions:
+\begin{itemize}
+  \item We are the first to allow merging arbitrary functions, even ones with
+    different signatures and CFGs.
+  \item A novel ranking mechanism for focusing inter-procedural optimizations
+    to the most profitable function pairs.
+  \item Our function merging by sequence alignment technique is able to reduce
+     code size by up to 25\% on Intel and 30\% on ARM, significantly outperforming the
+    state-of-the-art, while introducing minimal compile-time and negligible run-time overheads.
+\end{itemize}
+
 \input{src/cgo19/motivation}
 
 \input{src/cgo19/proposed}
