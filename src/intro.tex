@@ -87,8 +87,6 @@ Our insight is that the weak results of existing function merging implementation
 % are not due to the lack of duplicate code but due to the rigid, overly restrictive
 % algorithms they use to find duplicates.
 
-\section{Contribution}
-
 Our approach is based upon the concept of sequence alignment, developed in bioinformatics for identifying functional or evolutionary relationships between different DNA or RNA sequences.
 Similarly, we use sequence alignment to find areas of functional similarity in arbitrary function pairs.
 Aligned segments with equivalent code are merged.
@@ -110,13 +108,45 @@ profiling information to identify blocks of hot code and effectively minimize
 the overhead in this portion of the code.
 %disable code size optimisations for them. 
 
-In this paper, we make the following contributions:
+\section{Contribution}
+
+In this thesis, we make the following contributions:
 \begin{itemize}
-  \item We are the first to allow merging arbitrary functions, even ones with
-    different signatures and CFGs.
-  \item A novel ranking mechanism for focusing inter-procedural optimisations
-    to the most profitable function pairs.
-  \item Our function merging by sequence alignment technique is able to reduce
-     code size by up to 25\% on Intel and 30\% on ARM, significantly outperforming the
-    state-of-the-art, while introducing minimal compile-time and negligible run-time overheads.
+  \item 
+  We present a novel function merging optimisation for code size reduction.
+  Our technique is the first that allows merging arbitrary functions, including functions with different signatures and CFGs.
+  The proposed optimisation uses sequence alignment to identify code similarity and guide the merging operation.
+  It also merges parameters based on their usage and handles different returning types.
+
+  \item
+  A novel ranking mechanism for focusing our optimisation on function pairs that are more likely to be profitably merged.
+  The proposed mechanism first pre-computes fingerprints summarising each function and later use them to rank function candidates based on the fingerprint similarity.
+  For each function, merging will be only attempted for the top ranked candidates, significantly reducing compilation overhead while still significantly improving on code size reduction.
+
+  %\item
+  %Our function merging by sequence alignment technique is able to reduce code size by up to 25\% on Intel and 30\% on ARM, significantly outperforming the state-of-the-art, while introducing minimal compile-time and negligible run-time overheads.
+
+  \item
+  An improved code generator for the function merging transformation, effectively merging functions in the SSA form, including phi-nodes.
+  The new approach includes a novel phi-node coalescing optimisation tailored for function merging, reducing the total number of phi-nodes and easing the pressure on registers.
+
+  \item
+  A profitability model based on deep learning that is integrated as part of the decision-making heuristic of the function merging optimisation.
+  This classification model allows us to reduce even further the amount of unprofitable merging attempts.   
+
 \end{itemize}
+
+
+\section{Structure}
+
+This thesis is organised as follows:
+\begin{description}
+\item[Chapter 2] provides the main background related to this thesis. It provides an overview of the compiler architecture and compiler optimisations for code size reduction.
+It also provides terminology and describes the sequence alignment algorithm from bioinformatics.
+Finally, it describes the deep learning techniques used in this work.
+\item[Chapter 3] surveys the relevant literature. First we describe the classic compiler optimisations that works by reducing code size. Second, we study the existing techniques on function merging and other techniques related to identifying code similarity. Finally, we present key papers focused on applying machine learning for tuning heuristics that guide compiler optimisations.
+\item[Chapter 4] describes our novel function merging technique based on sequence alignment, as well as its accompanying search strategy, where a fingerprint-based ranking mechanism is used to focus the optimisation on functions with more similarities.
+\item[Chapter 5] describes our new code generator for the function merging that is capable of effectively handling functions in the SSA form.
+\item[Chapter 6] describes our deep learning model for identifying pairs of functions that can be profitably merged.
+\item[Chapter 7] summarises the overall findings of the thesis and outlines potential avenues for future research.
+\end{description}
