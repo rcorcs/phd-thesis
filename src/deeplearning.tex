@@ -1,7 +1,7 @@
 
 \chapter{Avoiding Unprofitable Merge Operations with Deep Learning} \label{chp:deeplearning}
 
-Chapter~\ref{chp:opt-strategy} describes our strategy for ranking the function candidates that are more likely to be profitably merged.
+Chapter~\ref{chp:cgo19} describes our strategy for ranking the function candidates that are more likely to be profitably merged.
 However, most of the merged functions are actually unprofitable candidates, since many functions are unique enough to have no profitable paring.
 Even if we consider only the top candidate functions, only about 13\% result in a profitable merge operation.
 
@@ -12,7 +12,7 @@ This allows us to avoid merging pairs of functions that are unlikely to result i
 
 \section{Motivation} \label{sec:deeplearning:motivation}
 
-In this section, we discuss two weaknesses in the state-of-the-art function merging optimization~\cite{rocha20}.
+In this section, we discuss two weaknesses in our current function merging optimization.
 First, we show that there is a significant opportunity in reduction that can be gained by having a better profitability analysis.
 %Second, we show that we can save compilation time by bailing out early from unprofitable merge operations, avoiding wasteful merges.
 Second, we show that most function merging attempts are thrown away as they cause code bloat, according to the profitability analysis.
