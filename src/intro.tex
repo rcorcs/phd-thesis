@@ -5,7 +5,7 @@ In recent years, the market for mobile and embedded systems has been rapidly gro
 These systems must often run on inexpensive and resource-constrained devices, with limited memory, storage, CPU caches. %and their applications are designed with different goals compared to traditional computing systems.
 Applications for these systems are designed and built with different goals compared to traditional computing systems since their binaries must fit in a budget memory size.
 %One way to deal with limited memory is to develop compilation techniques which generate small binaries.
-Compilation techniques must be primarily focused on optimising for binary size.
+Hence, compilation techniques must be primarily focused on optimising for binary size.
 %Compilation techniques can be used to 
 %It is therefore important that program these system are optimised for binary size.
 
@@ -37,7 +37,7 @@ Code-size optimisations work by replacing a piece of code with another that is s
 Classical optimisations that are effective in reducing code size include the elimination of redundant, unreachable, and dead code, as well as certain kinds of strength reduction~\cite{cocke70,briggs97,debray00}.
 Although initially motivated by performance, these classical optimisations achieve better performance by focusing on code-size reduction.
 
-One optimisation that can potentially reduce code size is function merging.
+One important optimisation capable of reducing code size is function merging.
 In its simplest form, function merging reduces replicated code by combining multiple identical functions into a single one~\cite{llvm-fm,livska14}.
 This optimisation is found in linkers, by the name of \textit{identical code folding}~(ICF), where text-identical functions at the bit level are merged~\cite{tallam10,kwan12,msvc-icf}.
 However, such solutions are platform-specific and need to be adapted for each object code format and hardware architecture.

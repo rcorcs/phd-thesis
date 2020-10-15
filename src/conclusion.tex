@@ -1,43 +1,54 @@
 
 \chapter{Conclusion} \label{chp:conclusion}
 
-This thesis presents a novel compiler optimisation for reducing code size by merging functions.
-Chapter~\ref{chp:fm-operation} describes our novel approach, based on sequence alignment, for merging any two functions.
-Chapter~\ref{chp:opt-strategy} describes how our function merging technique can be combined with a optimisation strategy in order to search for profitable functions to merge, which includes a profitability cost model and a ranking of candidate functions.
 
-This chapter is structured as follows:
-Section~\ref{sec:conclusion:contribution} summarises the main contributions of this thesis,
-%Section 7.2 presents a critical analysis of this work,
-Section~\ref{sec:conclusion:futurework} describes future research directions,
-and finally Section~\ref{sec:conclusion:summary}  provides concluding remarks.
+This thesis presents a novel compiler optimisation based on function merging to reduce code size.
+The function merging optimisation consists in combining multiple functions with similarity into a single function, in order to reuse code, removing redundancies, and reducing code size.
 
+%Chapter~\ref{chp:cgo19} describes our novel approach, based on sequence alignment, for merging any two functions.
+%We also describe how this function merging technique can be integrated with an optimisation strategy.
+%In order to find profitable merged functions, we propose a fingerprint-based ranking mechanism and a profitability cost %model.
+%Chapter~\ref{chp:pldi20} 
 
-% We have presented {\ProjName}, a novel compiler-based function merging technique with full support for the SSA form.
-% Unlike the previous state-of-the-art, which has to apply register demotion to eliminate the commonly used \textit{phi-nodes} in SSA,
-% {\ProjName} directly processes \textit{phi-nodes} using a more powerful code generator.
-% As a result, {\ProjName} avoids the code bloating problem introduced by register demotion and
-% increases the chances of generating profitable merged functions. We have implemented {\ProjName} in LLVM and evaluated it on the SPEC CPU2006
-% and CPU2017 benchmark suites. {\ProjName} delivers on average 9.5\% code reduction for the lowest exploration threshold. Compared to the previous
-% function merging state-of-the-art, {\ProjName} achieves $2\times$ more reduction on binary size with 3$\times$ less compile-time overhead and less than half the amount of memory required by it.
+%describes how our function merging technique can be combined with a optimisation strategy in order to search for profitable functions to merge, which includes a profitability cost model and a ranking of candidate functions.
 
-% We proposed a novel function merging approach based on sequence alignment, called FMSA. This was the first technique capable of merging any two functions, if deemed profitable, achieving up to 30\% of code-size reduction on SPEC 2006, about twice as much as the past state of the art.
-% Although this technique offers significant improvements over previous ones, there are still many limitations and missed opportunities that prevent us from achieving all the available code compression.
-% We need to improve the code generator, exploit code reordering, work at different scopes, scale to huge programs, avoid runtime slowdowns, work on JITs, and adopt machine learned heuristics.
-% %To address these missed opportunities,
-% %We plan to create a better code generator, a new approach that handles code reordering and merges code across different scopes, more accurate cost models
-% %, with a better ranking mechanism and code aligner powered by deep learning.
-% This will result in smaller programs without runtime or compile time overheads.
+%This chapter is structured as follows:
+%Section~\ref{sec:conclusion:contribution} summarises the main contributions of this thesis,
+%%%%Section 7.2 presents a critical analysis of this work,
+%Section~\ref{sec:conclusion:futurework} describes future research directions,
+%and finally Section~\ref{sec:conclusion:summary}  provides concluding remarks.
 
 \section{Contribution} \label{sec:conclusion:contribution}
 
-This thesis presents a novel function merging technique alongside an optimisation strategy.
-Our novel technique uses sequence alignment algorithms from bioinformatics in order to identify the similarity between functions being merged.
-The proposed optimisation is very effective at reducing code size by merging arbitrary functions.
-Our approach does not suffer from any of the major limitations of existing solutions, outperforming them by more than 2.4$\times$.
-We also proposed a ranking-based exploration mechanism to focus the optimization on promising pairs of functions.
-Ranking reduces the compilation-time overhead by orders of magnitude compared to an exhaustive quadratic exploration. 
-With this framework, our optimization is able to reduce code size by up to 25\%, with an overall average of about 6\%, while introducing an average compilation-time overhead of only 15\%.
-Coupled with profiling information, our optimization introduces no statistically significant impact on performance.
+\subsection{Function Merging Optimisation}
+
+Chapter~\ref{chp:cgo19} describes a novel function merging optimisation.
+Our function merging technique is the first capable of merging any two functions.
+In order to achieve that, our technique uses sequence alignment algorithms, from bioinformatics, to identify regions of similarity and difference between two functions.
+The sequence alignment algorithm produces this similarity information by searching for the best alignment between sequences, given a penalty system. 
+The resulting aligned sequence is then used to generate a merged function that can replace both input functions.
+
+Since we are able to merge arbitrary pairs of functions, we also need to identify which pairs of functions can be profitably merged, reducing code size.
+First, we use a profitability cost model that estimates the binary size of the input functions and the merged function.
+Two input functions can be profitably merged if replacing them by a merged function results in an overall smaller code.
+Then we integrate our function merging technique with a search strategy.
+
+Trying to merge every pair of functions in order to identify the most profitable ones is prohibitive.
+Besides the quadratic search itself, merging two functions involve a sequence alignment, which is quadratic on the size of the functions.
+Since an exhaustive search is infeasible, we need a better search strategy.
+First, we pre-compute the fingerprint, which is a fixed-size representation, of every function in the program.
+These fingerprints can be efficiently compared in constant time.
+For each function, the search strategy consists in ranking all other candidate functions based on a fingerprint similarity.
+Finally, the proposed optimisation will attempt to merge only the top ranked candidate functions.
+
+Our optimization is able to reduce code size by up to 25\%, with an overall average of about 6\%, while introducing an average compilation-time overhead of only 15\%.
+Compared to prior techniques, which contain many limitations on which functions they can merge, our approach is able to outperform them by more than 2.4$\times$ on code size reduction.
+Moreover, coupled with profiling information, our optimization introduces no statistically significant impact on performance.
+
+\subsection{SalSSA}
+
+Chapter~\ref{chp:pldi20} describes a novel approach for merging functions which is capable of effectively handling the SSA form.
+
 
 \section{Future Work} \label{sec:conclusion:futurework}
 
