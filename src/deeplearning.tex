@@ -70,19 +70,19 @@ As a result, a considerable amount of compilation time is wasted producing merge
 %This also includes the time wasted producing unprofitable merged functions.
 %Therefore, it is important to avoid merging unprofitable functions.
 
-Figure~\ref{fig:unprofitable-compile-time-percentage} shows the time spent producing unprofitable merged functions relative to the total compilation time of the function merging optimization.
+%Figure~\ref{fig:unprofitable-compile-time-percentage} shows the time spent producing unprofitable merged functions relative to the total compilation time of the function merging optimization.
 Since most of the merged functions are thrown away for being unprofitable, it is expected that most of the compilation time is also spent producing those merged functions.
-However, this impact is also aggravated when several of the unprofitable merged functions are much larger than the profitable ones.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.8\textwidth]{src/deeplearning/figs/unprofitable-compile-time-percentage.pdf}
-  \caption{The percentage of compilation-time spent on unprofitable merge operations.}
-  \label{fig:unprofitable-compile-time-percentage}
-\end{figure}
-
+This impact is also aggravated when several of the unprofitable merged functions are much larger than the profitable ones.
 Therefore, it is of utmost importance that we avoid merging unprofitable functions.
 If we could eliminate all the time wasted on unprofitable merge operations, we would free compilation time for more useful computation.
+
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=0.8\textwidth]{src/deeplearning/figs/unprofitable-compile-time-percentage.pdf}
+%  \caption{The percentage of compilation-time spent on unprofitable merge operations.}
+%  \label{fig:unprofitable-compile-time-percentage}
+%\end{figure}
+
 
 \subsection{Summary}
 
