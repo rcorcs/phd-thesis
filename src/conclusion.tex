@@ -45,10 +45,19 @@ Our optimization is able to reduce code size by up to 25\%, with an overall aver
 Compared to prior techniques, which contain many limitations on which functions they can merge, our approach is able to outperform them by more than 2.4$\times$ on code size reduction.
 Moreover, coupled with profiling information, our optimization introduces no statistically significant impact on performance.
 
-\subsection{SalSSA}
+\subsection{Effective Code Generator for the SSA Form}
+
+In order to simplify its code generator, the technique proposed in Chapter~\ref{chp:cgo19} replaced all phi-nodes with memory operations by first applying register demotion.
+This tends to almost double the function size, increasing compilation time and hindering function merging, as it expects that applying register promotion to the merged function will reverse the negative effect of the earlier register demotion.
+This is often not possible because function merging can add complexity to the memory operations, resulting in unnecessarily larger merged functions.
 
 Chapter~\ref{chp:pldi20} describes a novel approach for merging functions which is capable of effectively handling the SSA form.
+The proposed approach, called SalSSA, achieves this with a new code generator.
+Instead of translating the aligned sequences directly into a merged function, SalSSA generates code from the input control-flow graphs, using the alignment only to specify pairs of matching labels and instructions.
+The generator then produces code top-down, starting with the control flow graph of the merged function, then populating with instructions, arguments and labels, and finally with phi-nodes which maintain the correct flow of data.
 
+Chapter~\ref{chp:pldi20} also introduces a novel phi-node coalescing optimisation which is integrated with function merging in order to produce fewer phi-nodes and selections in the merged functions.
+This optimisation pairs disjoint values coming from each one of the input functions so that they can share the same phi-nodes.
 
 \section{Future Work} \label{sec:conclusion:futurework}
 
@@ -127,24 +136,11 @@ However, this is essential to enable the use of LTO on real programs while keepi
 
 \subsection{Powered by Deep Learning}
 
-In order to reduce compilation time while also being effective, 
-the ranking-based exploration mechanism tries to efficiently focus the search 
-only to the most promising pairs of functions.
-However, the existing solution is still very wasteful as most of the merged functions are
-discarded by the profitability analysis.
-Identifying what would be profitably merged is a very challenging task.
-
-Given our group's expertise on the area, we plan to use solutions based on deep learning to efficiently predict which pairs of functions are most likely to be profitable to merge.
-This approach has the potential to reduce compilation time even further while also improving the compression by finding profitable candidates that are currently missed.
-Having accurate target-specific cost models is crucial for the effectiveness of the profitability analysis.
-We plan to explore the use of machine learning techniques to develop more accurate cost models.
-
 One can investigate the use of deep learning to align two functions and better identifying what can be merged.
 Sequence alignment focusses only on maximizing the number of merged instructions,
 without necessarily minimizing the number of operand selections or branches.
 A smarter approach that understands how instructions interact with each other would be
 very beneficial.
-
 
 \subsection{Avoiding Performance Overheads}
 

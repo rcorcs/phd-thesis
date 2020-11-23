@@ -90,9 +90,13 @@ In this paper, our goal is to develop a solution capable of identifying whether 
 If we could predict which pairs of function are more likely to cause code bloat, we could avoid wasting time merging them in the first place and having to estimate their binary sizes.
 Bailing out early frees time to be spent on more profitable merge operations.
 
+
+
+
+
 \section{Our Novel Profitability Analysis}
 
-\subsection{Realistic Code-Size Cost}
+\subsection{Realistic Code-Size Cost} \label{sec:recompilation-mechanism}
 
 In Section~\ref{sec:deeplearning:motivation}, we describe the limitations of code size estimation using existing compiler's cost models.
 In our motivation, we use an oracle cost model, with perfect information, that can be obtained by recompiling the whole program in order to decide which version produces a smaller binary.
@@ -114,15 +118,15 @@ Figure~\ref{fig:our-cost-model-callgraph-1} illustrates an example of code extra
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{\textwidth}
-\centering
-  \includegraphics[scale=0.8]{src/deeplearning/figs/our-cost-model-callgraph-1.pdf}
+\begin{subfigure}{0.45\textwidth}
+  \centering
+  \includegraphics[scale=0.6]{src/deeplearning/figs/our-cost-model-callgraph-1.pdf}
   \caption{Extracted code without function merging.}
   \label{fig:our-cost-model-callgraph-1}
 \end{subfigure}
-\begin{subfigure}{\textwidth}
+\begin{subfigure}{0.45\textwidth}
 \centering
-  \includegraphics[scale=0.8]{src/deeplearning/figs/our-cost-model-callgraph-2.pdf}
+  \includegraphics[scale=0.6]{src/deeplearning/figs/our-cost-model-callgraph-2.pdf}
   \caption{Extracted code with function merging.}
   \label{fig:our-cost-model-callgraph-2}
 \end{subfigure}
@@ -136,11 +140,11 @@ Once the function merging has been applied, the code is recompiled.
 If function merging produces a smaller binary, then these changes are also applied to the real program.
 %As shown in Figure~\ref{fig:our-cost-model-callgraph-2}, when applying function merging to the extracted code, it is able to 
 
-\subsection{Learning a Profitability Model}
+\subsection{Learning a Profitability Model} \label{sec:deepprofit-model}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.85]{src/deeplearning/figs/deeplearning-architecture.pdf}
+  \includegraphics[width=0.45\textwidth]{src/deeplearning/figs/deeplearning-architecture.pdf}
   \caption{
       The proposed deep-learning model architecture that predicts which pairs of functions will be profitably merged. Code properties are extracted from each function into \textit{context vectors} by the language model.
       These context vectors are cached to be later fed to the heuristic model to produce the final profitability prediction.}
@@ -155,20 +159,94 @@ First, we use a language model based on recurrent neural networks to encode the 
 These vector encodings can be computed only once per function an cached.
 Finally, the context vectors of two input functions are concatenated and fed to a feed-forward neural network that classifies whether or not those functions are profitably merged.
 
+\subsection{Search Strategy}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.45\textwidth]{src/deeplearning/figs/func-merge-opt-new-arch.pdf}
+  \caption{Overview of our extended exploration framework.}
+  \label{fig:func-merge-opt-new-arch}
+\end{figure}
+
+Figure~\ref{fig:func-merge-opt-new-arch} shows how we extend the search strategy described in Section~\ref{sec:framework}.
+We keep the fingerprint-based ranking mechanism, from the original strategy, that avoids a prohibitive quadratic exploration over all pairs of functions.
+For each function, a priority queue is used to rank the topmost similar candidates on a fingerprint-based distance metric.
+A greedy exploration is performed on the topmost similar candidates up to a threshold limit, terminating after finding the first candidate that results in a profitable merge and committing that merge operation.
+Unlike the prior profitability analysis that simply used the built-in compiler cost model, the new search strategy has a two-tier approach with increasing accuracy and computational cost.
+
+The first-tier is the ML-based approach described in Section~\ref{sec:deepprofit-model}.
+The main goal of the first-tier is to avoid going to the highly expensive second-tier for clearly unprofitable pairs of input functions. 
+First, we pre-compute a fixed-length encoding for every function, using a recurrent neural network.
+Similar to the fingerprints, these fixed-length encodings need only be computed once for each function.
+During the actual search, the encodings of the input pair of functions are then fed into a binary-classifier that predicts the profitability of merging those functions.
+Only the positive predictions move forward to the second-tier.
+
+The second-tier is the partial recompilation mechanism described in Section~\ref{sec:recompilation-mechanism}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Evaluation}
 
-\begin{figure}[h]
+%\begin{figure*}[h]
+%  \centering
+%  \includegraphics[width=\textwidth]{src/deeplearning/figs/code-size-oracle-vs-partial.pdf}
+%  \vspace{-2.5em}
+%  \caption{.}
+%  \label{fig:code-size-oracle-vs-partial}
+%\end{figure*}
+
+
+%\begin{figure*}[h]
+%  \centering
+%  \includegraphics[width=\textwidth]{src/deeplearning/figs/code-size-partial.pdf}
+%  \vspace{-2.5em}
+%  \caption{.}
+%  \label{fig:code-size-partial}
+%\end{figure*}
+
+\begin{figure*}[h]
   \centering
-  \includegraphics[width=\textwidth]{src/deeplearning/figs/code-size-partial-oracle-v1.pdf}
-  \caption{Code-size reduction using the built-in cost model versus our partial recompilation approach.}
-  \label{fig:code-size-partial-oracle}
-\end{figure}
+  \includegraphics[width=0.7\textwidth]{src/deeplearning/figs/prediction-ss.pdf}
+  \caption{Evaluation of the \textit{sensitivity} (true-positive rate) and \textit{specificity} (true-negative rate) of our profitability classifier.
+  Sensitivity represents all profitable merging attempts that our model correctly identifies. 
+  Specificity represents how many unprofitable merging attempts our predictive model is able to avoid.
+  }
+  \label{fig:prediction-ss}
+\end{figure*}
 
 
-
-\begin{figure}[h]
+\begin{figure*}[h]
   \centering
-  \includegraphics[width=\textwidth]{src/deeplearning/figs/code-size-prediction.pdf}
+  \includegraphics[width=0.8\textwidth]{src/deeplearning/figs/code-size-reduction-threshold-tuning.pdf}
   \caption{.}
-  \label{fig:code-size-with-prediction}
+  \label{fig:code-size-reduction}
+\end{figure*}
+
+
+%\begin{figure*}[h]
+%  \centering
+%  \includegraphics[width=0.7\textwidth]{src/deeplearning/figs/skipped-attempts.pdf}
+%  \vspace{-2.5em}
+%  \caption{.}
+%  \label{fig:skipped-attempts}
+%\end{figure*}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{src/deeplearning/figs/compilation-time-speedup.pdf}
+  \caption{Compilation-time speedup over the version using partial recompilation.}
+  \label{fig:compilation-time-speedup}
 \end{figure}
+

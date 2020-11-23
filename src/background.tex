@@ -156,3 +156,20 @@ The LSTM augments RNN design with the addition of a cell for storing information
 
 Gated recurrent units (GRUs) are a gating mechanism in recurrent neural networks, introduced in 2014 by Kyunghyun Cho et al. The GRU is like a long short-term memory (LSTM) with a forget gate but has fewer parameters than LSTM, as it lacks an output gate. GRU's performance on certain tasks of polyphonic music modeling, speech signal modeling and natural language processing was found to be similar to that of LSTM. GRUs have been shown to exhibit even better performance on certain smaller and less frequent datasets.
 
+\subsection{Evaluation}
+
+\subsubsection{Evaluating Binary Classifiers}
+
+The goal of a binary classifier is to correctly assign one out of two labels for a given input.
+Without loss of generality, we can assume the two labels are ``positive'' and ``negative''.
+Figure~\ref{fig:evaluation-classification} represents all four possibilities for the labelling produced by a binary classification.
+True positives refer to correct classification of positive labels.
+False positives refer to incorrect classification of what should have been positive labels.
+Similarly, we have two possible classifications regarding the negative label.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.85]{src/background/figs/evaluation-classification.pdf}
+  \caption{.}
+  \label{fig:evaluation-classification}
+\end{figure}

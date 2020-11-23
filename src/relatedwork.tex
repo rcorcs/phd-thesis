@@ -144,3 +144,22 @@ However, Ithemal has an architecture with two LSTM stages.
 The first LSTM processes the tokens that compose one instruction.
 The second LSTM processes the encoded instructions that are produced by the first LSTM.
 The output of the second LSTM is aggregated into the final throughput prediction.
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Machine learning has demonstrated promises in automating the process of compiler heuristic construction \cite{wang18}.
+Many prior studies have shown that machine-learned models can outperform expert-crafted heuristics ~\cite{cavazos05,leather09, wang2014automatic,mendis19}.
+However, a significant barrier still exists – programs must be represented as a set of features that serve as inputs to a machine learning tool.
+Traditionally, this requires experts' involvement to extract the crucial elements of the program. 
+
+In recent year, deep learning has been employed for modeling program structures.
+A key advantage of deep learning is that it can automatically find the right feature representations from training data without human involvement \cite{allamanis2018survey}. For examples, DeepTune uses LSTM to extract program representations OpenCL code \cite{ cummins17}; Inst2vec applies LSTM to learn program representation from LLVM IR \cite{ben2018neural}; and Ithemal~\cite{mendis19} employes LSTM to estimate the throughput of a set of machine instructions. Our work builds upon these past foundations to use LSTM to automatically construct a cost model to estimate if it is worthwhile to merge a pair of functions. Our work is the first in exploiting deep neural networks for compile-time code size reduction. We show how function merging can be formulated as a machine learning problem so that one can construct a cost model from the compiler IR using LSTM. 
+

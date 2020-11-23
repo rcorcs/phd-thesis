@@ -16,8 +16,11 @@ Hence, compilation techniques must be primarily focused on optimising for binary
 %At the same time, low-end devices have been playing an important role in driving
 %innovation in developing countries~\cite{hart02,etzo10}.
 
-Mobile systems need to support as many devices as possible, including low-end devices with limited resources~\cite{hart02,etzo10}.
-Another concern for mobile systems is the data consumption when downloading application, which needs to be minimised as data over wireless carriers can be either limited or expensive.
+%Modern mobile application binaries are bulky for many reasons: software and its dependencies, fast-paced addition of new features, high-level language constructs, and statically linked platform libraries.
+Modern mobile applications tend to have large binaries that need to support as many devices as possible, including low-end devices with limited resources~\cite{hart02,etzo10}.
+For these systems, reducing the binary size helps to improve the end-user experience but it is also critical for conforming with vendor's download-size limitations.
+These restrictions to download size may significantly impact revenues for critical businesses.
+Moreover, data consumption over wireless carriers can be either limited or expensive.
 As a result, there is an increasing focus on the development of programs tailored for these low-end devices with limited memory sizes~\cite{androidGo,hahm16}.
 
 In a similar way, embedded systems are becoming increasingly complex, with their application binaries often reaching several megabytes in size, turning memory size into a limiting factor~\cite{plaza18}.
