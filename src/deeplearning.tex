@@ -118,15 +118,16 @@ Figure~\ref{fig:our-cost-model-callgraph-1} illustrates an example of code extra
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{0.45\textwidth}
+\begin{subfigure}{\textwidth}
   \centering
-  \includegraphics[scale=0.6]{src/deeplearning/figs/our-cost-model-callgraph-1.pdf}
+  \includegraphics[scale=0.8]{src/deeplearning/figs/our-cost-model-callgraph-1.pdf}
   \caption{Extracted code without function merging.}
   \label{fig:our-cost-model-callgraph-1}
 \end{subfigure}
-\begin{subfigure}{0.45\textwidth}
+\\
+\begin{subfigure}{\textwidth}
 \centering
-  \includegraphics[scale=0.6]{src/deeplearning/figs/our-cost-model-callgraph-2.pdf}
+  \includegraphics[scale=0.8]{src/deeplearning/figs/our-cost-model-callgraph-2.pdf}
   \caption{Extracted code with function merging.}
   \label{fig:our-cost-model-callgraph-2}
 \end{subfigure}
@@ -144,7 +145,7 @@ If function merging produces a smaller binary, then these changes are also appli
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.45\textwidth]{src/deeplearning/figs/deeplearning-architecture.pdf}
+  \includegraphics[width=0.65\textwidth]{src/deeplearning/figs/deeplearning-architecture.pdf}
   \caption{
       The proposed deep-learning model architecture that predicts which pairs of functions will be profitably merged. Code properties are extracted from each function into \textit{context vectors} by the language model.
       These context vectors are cached to be later fed to the heuristic model to produce the final profitability prediction.}
@@ -163,7 +164,7 @@ Finally, the context vectors of two input functions are concatenated and fed to 
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.45\textwidth]{src/deeplearning/figs/func-merge-opt-new-arch.pdf}
+  \includegraphics[width=0.65\textwidth]{src/deeplearning/figs/func-merge-opt-new-arch.pdf}
   \caption{Overview of our extended exploration framework.}
   \label{fig:func-merge-opt-new-arch}
 \end{figure}
@@ -182,20 +183,9 @@ During the actual search, the encodings of the input pair of functions are then 
 Only the positive predictions move forward to the second-tier.
 
 The second-tier is the partial recompilation mechanism described in Section~\ref{sec:recompilation-mechanism}.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+This is an accurate but expensive profitability analysis.
+It requires the compilation of the input functions as well as the merged function, in order to know their final binary size.
+If the object file containing the merged function is smaller than the alternative, the merged function is committed, otherwise we rollback to the original version with both input functions.
 
 \section{Evaluation}
 
@@ -216,9 +206,13 @@ The second-tier is the partial recompilation mechanism described in Section~\ref
 %  \label{fig:code-size-partial}
 %\end{figure*}
 
+Figure~\ref{fig:prediction-ss} shows the evaluation of both the \textit{sensitivity} and \textit{specificity} of our ML-based profitability classifier.
+Essentially, the \textit{sensitivity} (true-positive rate) translates to code-size reduction as it represents the identification of actually profitable functions. 
+\textit{Specificity} (true-negative rate) translates directly to fewer recompilations as it represents unprofitable functions being ignored.
+
 \begin{figure*}[h]
   \centering
-  \includegraphics[width=0.7\textwidth]{src/deeplearning/figs/prediction-ss.pdf}
+  \includegraphics[width=0.85\textwidth]{src/deeplearning/figs/prediction-ss.pdf}
   \caption{Evaluation of the \textit{sensitivity} (true-positive rate) and \textit{specificity} (true-negative rate) of our profitability classifier.
   Sensitivity represents all profitable merging attempts that our model correctly identifies. 
   Specificity represents how many unprofitable merging attempts our predictive model is able to avoid.
@@ -229,7 +223,7 @@ The second-tier is the partial recompilation mechanism described in Section~\ref
 
 \begin{figure*}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{src/deeplearning/figs/code-size-reduction-threshold-tuning.pdf}
+  \includegraphics[width=0.85\textwidth]{src/deeplearning/figs/code-size-reduction-threshold-tuning.pdf}
   \caption{.}
   \label{fig:code-size-reduction}
 \end{figure*}
@@ -245,7 +239,7 @@ The second-tier is the partial recompilation mechanism described in Section~\ref
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.5\textwidth]{src/deeplearning/figs/compilation-time-speedup.pdf}
+  \includegraphics[width=0.95\textwidth]{src/deeplearning/figs/compilation-time-speedup.pdf}
   \caption{Compilation-time speedup over the version using partial recompilation.}
   \label{fig:compilation-time-speedup}
 \end{figure}

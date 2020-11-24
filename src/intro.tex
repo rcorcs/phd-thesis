@@ -147,10 +147,10 @@ In this thesis, we make the following contributions:
   Phi-node coalescing is able to reduce the number of phi-nodes and selection, producing smaller merged functions and reducing code size even further.
 
   \item
-  We develop a profitability model based on deep learning that is integrated as part of the decision-making heuristic of the function merging optimisation.
-  This classification model allows us to reduce the number of unprofitable merging attempts even further.
+  We propose a two-tier profitability analysis for the decision-making heuristic of the function merging optimisation.
+  First, we use a deep learning model responsible for filtering out pairs of input functions that are more likely to result in an unprofitable merge operation.
+  Second, we use a more accurate but expensive cost model based on a partial recompilation of the code.
 \end{itemize}
-
 
 \section{Structure}
 
@@ -165,9 +165,9 @@ Finally, it describes the deep learning techniques used in this work.
 
 \item[Chapter~\ref{chp:cgo19}] describes our novel function merging technique based on sequence alignment, as well as its accompanying search strategy, where a fingerprint-based ranking mechanism is used to focus the optimisation on functions with more similarities. %Evaluation methodology
 
-\item[Chapter~\ref{chp:pldi20}] describes our new code generator for function merging that is capable of effectively handling functions in the SSA form.
+\item[Chapter~\ref{chp:pldi20}] describes our new code generator for function merging that is capable of effectively handling functions in the SSA form, optimizing phi-nodes.
 
-\item[Chapter~\ref{chp:deeplearning}] describes our deep learning model for identifying pairs of functions that can be profitably merged.
+\item[Chapter~\ref{chp:deeplearning}] describes our two-tier profitability analysis based on deep learning and partial recompilation.
 
 \item[Chapter~\ref{chp:conclusion}] summarises the overall findings of the thesis and outlines potential avenues for future research.
 
