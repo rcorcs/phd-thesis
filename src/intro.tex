@@ -1,14 +1,20 @@
 
 \chapter{Introduction}
 
-In recent years, the market for mobile and embedded systems has been rapidly growing.
-These systems must often run on inexpensive and resource-constrained devices, with limited memory, storage, CPU caches. %and their applications are designed with different goals compared to traditional computing systems.
-Applications for these systems are designed and built with different goals compared to traditional computing systems since their binaries must fit in a budget memory size.
+%Code size is a critical issue whenever the program size becomes too large for the available resources.
+Program size is a critical issue whenever it becomes excessively large relative to given constraints such as the addressable memory space, storage size, download bandwidth, etc.
+As programs gain new features over time, continuously growing in complexity, program size can often become a critical issue for anything ranging from the context of tiny embedded devices up to extremely large programs in servers.
+As a result, reducing the code size is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17} and compilation techniques must be developed and tuned primarily for optimising binary size.
+
+%For example, mobile and embedded systems must often run on inexpensive and resource-constrained devices , with limited memory, storage, and CPU caches.
+%This ranges from programs for small 
+%In recent years, the market for mobile and embedded systems has been rapidly growing.
+%These systems must often run on inexpensive and resource-constrained devices, with limited memory, storage, CPU caches. %and their applications are designed with different goals compared to traditional computing systems.
+%Applications for these systems are designed and built with different goals compared to traditional computing systems since their binaries must fit in a limited memory size.
 %One way to deal with limited memory is to develop compilation techniques which generate small binaries.
-Hence, compilation techniques must be primarily focused on optimising for binary size.
+%Hence, compilation techniques must be primarily focused on optimising for binary size.
 %Compilation techniques can be used to 
 %It is therefore important that program these system are optimised for binary size.
-
 
 %Furthermore, the rise of the Internet of Things (IoT) depends heavily on tiny and efficient devices.
 %Some of these devices can have as little as only a few kilobytes of
@@ -27,6 +33,11 @@ In a similar way, embedded systems are becoming increasingly complex, with their
 Just adding more memory is not always a viable option.
 Highly integrated systems-on-chip are common in this market and their memories typically occupy the largest fraction of the chip area, contributing to most of the overall cost.
 Even small increases in memory area translate directly to equivalent increases in cost, which lead to enormous levels of lost profit at large scales~\cite{edler10}.
+
+Beyond just mobile and embedded systems, address space also limits how large programs can become.
+Upgrading computers at scale is a challenging and costly process even for large datacenters~\cite{yan16,neamtiu11}.
+As a result, outdated 32-bit machines have an addressable memory space limited to less than 4.5~GB, setting a limit on program size.
+This limitation is even more noticeable on smaller machines with shorter word widths.
 
 In such constrained scenarios, reducing the application footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17}.
 This is traditionally achieved by focusing on reducing the code size, either when designing the source code or by tuning the compiler to optimise for size~\cite{fisher05,sehgal12,hennessy17,rocha19}.
@@ -111,9 +122,9 @@ overhead.
 Compared to identical function merging, we introduce extra code to be executed,
 namely the code that chooses between dissimilar sequences in merged functions.
 A naive implementation could easily hurt performance, e.g by merging two hot functions
-with only few similarities. Our implementation can avoid this by incorporating
-profiling information to identify blocks of hot code and effectively minimise 
-the overhead in this portion of the code.
+with only few similarities. It is also possible to avoid performance degradation by incorporating
+profiling information in the decision-making, enabling the compiler to avoid merging functions that contain hot code, as shown in Chapter~\ref{chp:cgo19}.
+%identify blocks of hot code and effectively minimise the overhead in this portion of the code.
 %disable code size optimisations for them. 
 
 \section{Contribution}
@@ -167,7 +178,7 @@ Finally, it describes the deep learning techniques used in this work.
 
 \item[Chapter~\ref{chp:pldi20}] describes our new code generator for function merging that is capable of effectively handling functions in the SSA form, optimizing phi-nodes.
 
-\item[Chapter~\ref{chp:deeplearning}] describes our two-tier profitability analysis based on deep learning and partial recompilation.
+\item[Chapter~\ref{chp:deeplearning}] describes our two-tier profitability analysis based on deep learning and partial recompilation. Our partial recompilation mechanism is based on {\itercomp}, where we recompile sections of code to discover profitable merging opportunities. We also propose the use of deep learning to reduce the number of recompilations needed by predicting clearly unprofitable merging attempts.
 
 \item[Chapter~\ref{chp:conclusion}] summarises the overall findings of the thesis and outlines potential avenues for future research.
 

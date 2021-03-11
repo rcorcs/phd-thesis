@@ -1,0 +1,98 @@
+fm2:
+Merged: @LBM_compareVelocityField, @LBM_storeVelocityField = @_m_f_0
+Merged: @LBM_initializeSpecialCellsForLDC, @LBM_initializeSpecialCellsForChannel = @_m_f_1
+
+1)
+Attempting: @LBM_handleInOutFlow, @LBM_performStreamCollideBGK : 220
+Across Basic Blocks
+Matches: 326, 836
+Estimated Sizes: 708 + 482 <= 1471? -281 (0) Reduction: -23% 1 : @LBM_handleInOutFlow; @LBM_performStreamCollideBGK
+
+2) None
+
+3)
+Attempting: @LBM_compareVelocityField, @LBM_storeVelocityField : 23
+Across Basic Blocks
+Matches: 155, 199
+Estimated Sizes: 181 + 167 <= 257? 91 (1) Reduction: 26% 1 : @LBM_compareVelocityField; @LBM_storeVelocityField
+Merged: @LBM_compareVelocityField, @LBM_storeVelocityField = @_m_f_0
+
+4)
+Attempting: @LBM_initializeSpecialCellsForLDC, @LBM_initializeSpecialCellsForChannel : 19
+Across Basic Blocks
+Matches: 48, 65
+Estimated Sizes: 50 + 36 <= 80? 6 (1) Reduction: 6% 1 : @LBM_initializeSpecialCellsForLDC; @LBM_initializeSpecialCellsForChannel
+Merged: @LBM_initializeSpecialCellsForLDC, @LBM_initializeSpecialCellsForChannel = @_m_f_1
+
+========================================================
+
+fm2c5b:
+
+1)
+Attempting: @LBM_handleInOutFlow, @LBM_performStreamCollideBGK : 220
+Matches: 7, 1155
+Estimated Sizes: 708 + 482 <= 1188? 2 (1) Reduction: 0% 1 : @LBM_handleInOutFlow; @LBM_performStreamCollideBGK
+Merged: @LBM_handleInOutFlow, @LBM_performStreamCollideBGK = @_m_f_0
+
+
+1: BB %entry
+2: BB %entry
+----
+1:   br label %for.cond
+2:   br label %for.cond
+----
+1: BB %for.cond390
+2: BB %for.cond
+----
+1:   %cmp391 = icmp ult i64 %indvars.iv, 208000000
+2:   %cmp = icmp ult i64 %indvars.iv, 208000000
+----
+1:   br i1 %cmp391, label %for.body393, label %for.end1020
+2:   br i1 %cmp, label %for.body, label %for.end
+----
+...
+
+2)
+Attempting: @_m_f_0, @LBM_performStreamCollideTRT : 653
+Matches: 131, 1538
+Estimated Sizes: 1188 + 513 <= 1624? 77 (1) Reduction: 4% 1 : @_m_f_0; @LBM_performStreamCollideTRT
+Merged: @_m_f_0, @LBM_performStreamCollideTRT = @_m_f_1
+
+3)
+Attempting: @LBM_compareVelocityField, @LBM_storeVelocityField : 23
+Matches: 40, 314
+Estimated Sizes: 181 + 167 <= 353? -5 (0) Reduction: -1% 1 : @LBM_compareVelocityField; @LBM_storeVelocityField
+
+4)
+Attempting: @LBM_initializeSpecialCellsForLDC, @LBM_initializeSpecialCellsForChannel : 19
+Matches: 32, 81
+Estimated Sizes: 50 + 36 <= 103? -17 (0) Reduction: -19% 1 : @LBM_initializeSpecialCellsForLDC; @LBM_initializeSpecialCellsForChannel
+
+========================================================
+
+fm2c5:
+
+1)
+Attempting: @LBM_handleInOutFlow, @LBM_performStreamCollideBGK : 220
+Matches: 7, 1155 (3 blocks)
+Estimated Sizes: 708 + 482 <= 1188? 2 (1) Reduction: 0% 1 : @LBM_handleInOutFlow; @LBM_performStreamCollideBGK
+Merged: @LBM_handleInOutFlow, @LBM_performStreamCollideBGK = @_m_f_0
+
+2)
+Attempting: @_m_f_0, @LBM_performStreamCollideTRT : 653
+Matches: 130, 1539 (5 blocks)
+Estimated Sizes: 1188 + 513 <= 1624? 77 (1) Reduction: 4% 1 : @_m_f_0; @LBM_performStreamCollideTRT
+Merged: @_m_f_0, @LBM_performStreamCollideTRT = @_m_f_1
+
+3)
+Attempting: @LBM_compareVelocityField, @LBM_storeVelocityField : 23
+Matches: 36, 318 (8 blocks)
+Estimated Sizes: 181 + 167 <= 339? 9 (1) Reduction: 2% 1 : @LBM_compareVelocityField; @LBM_storeVelocityField
+Merged: @LBM_compareVelocityField, @LBM_storeVelocityField = @_m_f_2
+
+4)
+Attempting: @LBM_initializeSpecialCellsForLDC, @LBM_initializeSpecialCellsForChannel : 19
+Matches: 32, 81 (9 blocks)
+Estimated Sizes: 50 + 36 <= 81? 5 (1) Reduction: 5% 1 : @LBM_initializeSpecialCellsForLDC; @LBM_initializeSpecialCellsForChannel
+Merged: @LBM_initializeSpecialCellsForLDC, @LBM_initializeSpecialCellsForChannel = @_m_f_3
+

@@ -1,0 +1,296 @@
+Attempting: @_ZN7way2obj7destroyEv, @_ZN15largesolidarrayIP6regobjE7destroyEv : 8
+1: BB %entry
+2: BB %entry
+----
+1: -
+2:   %rccellar = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %this, i64 0, i32 3
+----
+1: -
+2:   tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %rccellar) #23
+----
+1: -
+2:   %dccellar = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %this, i64 0, i32 2
+----
+1: -
+2:   tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %dccellar) #23
+----
+1: -
+2:   %freecellholder = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %this, i64 0, i32 1
+----
+1: -
+2:   tail call void @_ZN9flexstackIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %freecellholder) #23
+----
+1: -
+2:   %0 = bitcast %class.largesolidarray* %this to i8**
+----
+1:   br label %for.cond
+2: -
+----
+1: BB %for.cond
+2: -
+----
+1:   %exitcond.not = icmp eq i64 %indvars.iv, 256
+2: -
+----
+1:   br i1 %exitcond.not, label %for.end, label %for.body
+2: -
+----
+1: BB %for.body
+2: -
+----
+1:   %arrayidx = getelementptr inbounds %class.way2obj, %class.way2obj* %this, i64 0, i32 4, i64 %indvars.iv
+2: -
+----
+1:   tail call void @_ZN9flexarrayI6pointtE7destroyEv(%class.flexarray.3* nonnull dereferenceable(16) %arrayidx) #23
+2: -
+----
+1:   %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+2: -
+----
+1:   br label %for.cond
+2: -
+----
+1: BB %for.end
+2: -
+----
+1:   %mapp = getelementptr inbounds %class.way2obj, %class.way2obj* %this, i64 0, i32 0
+2: -
+----
+1:   %0 = load i8*, i8** %mapp, align 8, !tbaa !2
+2: -
+----
+1:   tail call void @free(i8* %0) #24
+2: -
+----
+1:   %waymap = getelementptr inbounds %class.way2obj, %class.way2obj* %this, i64 0, i32 1
+2: -
+----
+1:   %1 = bitcast %struct.waymapcellt** %waymap to i8**
+2: -
+----
+1:   %2 = load i8*, i8** %1, align 8, !tbaa !10
+2:   %1 = load i8*, i8** %0, align 8, !tbaa !2
+----
+1:   tail call void @free(i8* %2) #24
+2:   tail call void @free(i8* %1) #24
+----
+1:   ret void
+2:   ret void
+----
+
+F1:
+; Function Attrs: minsize nounwind optsize uwtable
+define dso_local void @_ZN7way2obj7destroyEv(%class.way2obj* nonnull dereferenceable(4432) %this) local_unnamed_addr #13 align 2 {
+entry:
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.body, %entry
+  %indvars.iv = phi i64 [ %indvars.iv.next, %for.body ], [ 0, %entry ]
+  %exitcond.not = icmp eq i64 %indvars.iv, 256
+  br i1 %exitcond.not, label %for.end, label %for.body
+
+for.body:                                         ; preds = %for.cond
+  %arrayidx = getelementptr inbounds %class.way2obj, %class.way2obj* %this, i64 0, i32 4, i64 %indvars.iv
+  tail call void @_ZN9flexarrayI6pointtE7destroyEv(%class.flexarray.3* nonnull dereferenceable(16) %arrayidx) #23
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %for.cond
+  %mapp = getelementptr inbounds %class.way2obj, %class.way2obj* %this, i64 0, i32 0
+  %0 = load i8*, i8** %mapp, align 8, !tbaa !118
+  tail call void @free(i8* %0) #24
+  %waymap = getelementptr inbounds %class.way2obj, %class.way2obj* %this, i64 0, i32 1
+  %1 = bitcast %struct.waymapcellt** %waymap to i8**
+  %2 = load i8*, i8** %1, align 8, !tbaa !155
+  tail call void @free(i8* %2) #24
+  ret void
+}
+
+
+F2:
+; Function Attrs: inlinehint minsize optsize uwtable
+define linkonce_odr dso_local void @_ZN15largesolidarrayIP6regobjE7destroyEv(%class.largesolidarray* nonnull dereferenceable(64) %this) local_unnamed_addr #16 comdat align 2 {
+entry:
+  %rccellar = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %this, i64 0, i32 3
+  tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %rccellar) #23
+  %dccellar = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %this, i64 0, i32 2
+  tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %dccellar) #23
+  %freecellholder = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %this, i64 0, i32 1
+  tail call void @_ZN9flexstackIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %freecellholder) #23
+  %0 = bitcast %class.largesolidarray* %this to i8**
+  %1 = load i8*, i8** %0, align 8, !tbaa !112
+  tail call void @free(i8* %1) #24
+  ret void
+}
+
+F1-F2:
+define private void @.m.f.13(i1 %0, %class.way2obj* nonnull dereferenceable(4432) %1, %class.largesolidarray* nonnull dereferenceable(64) %2) local_unnamed_addr comdat($_ZN15largesolidarrayIP6regobjE7destroyEv) align 2 {
+entry:
+  br i1 %0, label %src.bb, label %split.bb4
+
+m.inst.bb:                                        ; preds = %split.bb4, %src.bb3
+  %.0 = phi i8** [ %12, %src.bb3 ], [ %16, %split.bb4 ]
+  %3 = select i1 %0, i8** %.0, i8** %.0
+  %4 = load i8*, i8** %3, align 8
+  tail call void @free(i8* %4) #23
+  ret void
+
+src.bb:                                           ; preds = %entry, %src.bb2
+  %5 = phi i64 [ %8, %src.bb2 ], [ 0, %entry ]
+  %6 = icmp eq i64 %5, 256
+  br i1 %6, label %src.bb3, label %src.bb2
+
+src.bb2:                                          ; preds = %src.bb
+  %7 = getelementptr inbounds %class.way2obj, %class.way2obj* %1, i64 0, i32 4, i64 %5
+  tail call void @_ZN9flexarrayI6pointtE7destroyEv(%class.flexarray.3* nonnull dereferenceable(16) %7) #24
+  %8 = add nuw nsw i64 %5, 1
+  br label %src.bb
+
+src.bb3:                                          ; preds = %src.bb
+  %9 = getelementptr inbounds %class.way2obj, %class.way2obj* %1, i64 0, i32 0
+  %10 = load i8*, i8** %9, align 8
+  tail call void @free(i8* %10) #23
+  %11 = getelementptr inbounds %class.way2obj, %class.way2obj* %1, i64 0, i32 1
+  %12 = bitcast %struct.waymapcellt** %11 to i8**
+  br label %m.inst.bb
+
+split.bb4:                                        ; preds = %entry
+  %13 = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %2, i64 0, i32 3
+  tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %13) #24
+  %14 = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %2, i64 0, i32 2
+  tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %14) #24
+  %15 = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %2, i64 0, i32 1
+  tail call void @_ZN9flexstackIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %15) #24
+  %16 = bitcast %class.largesolidarray* %2 to i8**
+  br label %m.inst.bb
+}
+F1-F2:
+define private void @.m.f.13(i1 %0, %class.way2obj* nonnull dereferenceable(4432) %1, %class.largesolidarray* nonnull dereferenceable(64) %2) local_unnamed_addr comdat($_ZN15largesolidarrayIP6regobjE7destroyEv) align 2 {
+entry:
+  br i1 %0, label %src.bb, label %split.bb4
+
+m.inst.bb:                                        ; preds = %split.bb4, %src.bb3
+  %.0 = phi i8** [ %12, %src.bb3 ], [ %16, %split.bb4 ]
+  %3 = select i1 %0, i8** %.0, i8** %.0
+  %4 = load i8*, i8** %3, align 8
+  tail call void @free(i8* %4) #23
+  ret void
+
+src.bb:                                           ; preds = %entry, %src.bb2
+  %5 = phi i64 [ %8, %src.bb2 ], [ 0, %entry ]
+  %6 = icmp eq i64 %5, 256
+  br i1 %6, label %src.bb3, label %src.bb2
+
+src.bb2:                                          ; preds = %src.bb
+  %7 = getelementptr inbounds %class.way2obj, %class.way2obj* %1, i64 0, i32 4, i64 %5
+  tail call void @_ZN9flexarrayI6pointtE7destroyEv(%class.flexarray.3* nonnull dereferenceable(16) %7) #24
+  %8 = add nuw nsw i64 %5, 1
+  br label %src.bb
+
+src.bb3:                                          ; preds = %src.bb
+  %9 = getelementptr inbounds %class.way2obj, %class.way2obj* %1, i64 0, i32 0
+  %10 = load i8*, i8** %9, align 8
+  tail call void @free(i8* %10) #23
+  %11 = getelementptr inbounds %class.way2obj, %class.way2obj* %1, i64 0, i32 1
+  %12 = bitcast %struct.waymapcellt** %11 to i8**
+  br label %m.inst.bb
+
+split.bb4:                                        ; preds = %entry
+  %13 = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %2, i64 0, i32 3
+  tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %13) #24
+  %14 = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %2, i64 0, i32 2
+  tail call void @_ZN9flexarrayIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %14) #24
+  %15 = getelementptr inbounds %class.largesolidarray, %class.largesolidarray* %2, i64 0, i32 1
+  tail call void @_ZN9flexstackIiE7destroyEv(%class.flexstack* nonnull dereferenceable(16) %15) #24
+  %16 = bitcast %class.largesolidarray* %2 to i8**
+  br label %m.inst.bb
+}
+
+Estimated Sizes: 17 + 13 <= 29? 1 (1) Reduction: 3% 1 : @_ZN7way2obj7destroyEv; @_ZN15largesolidarrayIP6regobjE7destroyEv
+Merged: @_ZN7way2obj7destroyEv, @_ZN15largesolidarrayIP6regobjE7destroyEv = @.m.f.13
+
+
+
+------------------------------------------------------------------------------------------
+
+
+
+F1:
+0000000000003a8a <_ZN7way2obj7destroyEv>:
+    3a8a:       41 57                   push   r15
+    3a8c:       41 56                   push   r14
+    3a8e:       53                      push   rbx
+    3a8f:       49 89 fe                mov    r14,rdi
+    3a92:       4c 8d bf 18 01 00 00    lea    r15,[rdi+0x118]
+    3a99:       31 db                   xor    ebx,ebx
+    3a9b:       48 81 fb 00 10 00 00    cmp    rbx,0x1000
+    3aa2:       74 0f                   je     3ab3 <_ZN7way2obj7destroyEv+0x29>
+    3aa4:       49 8d 3c 1f             lea    rdi,[r15+rbx*1]
+    3aa8:       e8 00 00 00 00          call   3aad <_ZN7way2obj7destroyEv+0x23>
+    3aad:       48 83 c3 10             add    rbx,0x10
+    3ab1:       eb e8                   jmp    3a9b <_ZN7way2obj7destroyEv+0x11>
+    3ab3:       49 8b 3e                mov    rdi,QWORD PTR [r14]
+    3ab6:       e8 00 00 00 00          call   3abb <_ZN7way2obj7destroyEv+0x31>
+    3abb:       49 8b 7e 08             mov    rdi,QWORD PTR [r14+0x8]
+    3abf:       5b                      pop    rbx
+    3ac0:       41 5e                   pop    r14
+    3ac2:       41 5f                   pop    r15
+    3ac4:       e9 00 00 00 00          jmp    3ac9 <_Z8myrandomv>
+
+
+
+F2:
+0000000000000000 <_ZN15largesolidarrayIP6regobjE7destroyEv>:
+   0:   53                      push   rbx
+   1:   48 89 fb                mov    rbx,rdi
+   4:   48 83 c7 28             add    rdi,0x28
+   8:   e8 00 00 00 00          call   d <_ZN15largesolidarrayIP6regobjE7destroyEv+0xd>
+   d:   48 8d 7b 18             lea    rdi,[rbx+0x18]
+  11:   e8 00 00 00 00          call   16 <_ZN15largesolidarrayIP6regobjE7destroyEv+0x16>
+  16:   48 8d 7b 08             lea    rdi,[rbx+0x8]
+  1a:   e8 00 00 00 00          call   1f <_ZN15largesolidarrayIP6regobjE7destroyEv+0x1f>
+  1f:   48 8b 3b                mov    rdi,QWORD PTR [rbx]
+  22:   5b                      pop    rbx
+  23:   e9 00 00 00 00          jmp    28 <.LCPI64_4>
+
+
+
+
+F1-F2:
+0000000000000000 <.text..L_m_f_13>:
+   0:   53                      push   rbx
+   1:   40 f6 c7 01             test   dil,0x1
+   5:   0f 84 4b 00 00 00       je     56 <.text..L_m_f_13+0x56>
+   b:   31 db                   xor    ebx,ebx
+   d:   48 81 fb 00 10 00 00    cmp    rbx,0x1000
+  14:   0f 84 29 00 00 00       je     43 <.text..L_m_f_13+0x43>
+  1a:   66 0f 1f 44 00 00       nop    WORD PTR [rax+rax*1+0x0]
+  20:   48 8d 93 00 00 00 00    lea    rdx,[rbx+0x0]
+  27:   bf 01 00 00 00          mov    edi,0x1
+  2c:   be 01 00 00 00          mov    esi,0x1
+  31:   e8 00 00 00 00          call   36 <.text..L_m_f_13+0x36>
+  36:   48 83 c3 10             add    rbx,0x10
+  3a:   48 81 fb 00 10 00 00    cmp    rbx,0x1000
+  41:   75 dd                   jne    20 <.text..L_m_f_13+0x20>
+  43:   48 8b 3d 00 00 00 00    mov    rdi,QWORD PTR [rip+0x0]        # 4a <.text..L_m_f_13+0x4a>
+  4a:   e8 00 00 00 00          call   4f <.text..L_m_f_13+0x4f>
+  4f:   bb 00 00 00 00          mov    ebx,0x0
+  54:   eb 2e                   jmp    84 <.text..L_m_f_13+0x84>
+  56:   48 89 f3                mov    rbx,rsi
+  59:   48 8d 4e 28             lea    rcx,[rsi+0x28]
+  5d:   bf 01 00 00 00          mov    edi,0x1
+  62:   31 f6                   xor    esi,esi
+  64:   e8 00 00 00 00          call   69 <.text..L_m_f_13+0x69>
+  69:   48 8d 4b 18             lea    rcx,[rbx+0x18]
+  6d:   bf 01 00 00 00          mov    edi,0x1
+  72:   31 f6                   xor    esi,esi
+  74:   e8 00 00 00 00          call   79 <.text..L_m_f_13+0x79>
+  79:   48 8d 4b 08             lea    rcx,[rbx+0x8]
+  7d:   31 ff                   xor    edi,edi
+  7f:   e8 00 00 00 00          call   84 <.text..L_m_f_13+0x84>
+  84:   48 8b 3b                mov    rdi,QWORD PTR [rbx]
+  87:   5b                      pop    rbx
+  88:   e9 00 00 00 00          jmp    8d <_ZL5y3rnd+0x35>
+
+
+105 vs 142 (merged version is bigger)

@@ -1,0 +1,186 @@
+471.omnetpp.fm2c5.txt 
+
+
+1: BB %sw.bb
+2: BB %entry
+----
+1:   %8 = getelementptr inbounds %class.cPar, %class.cPar* %this, i64 0, i32 5
+2: -
+----
+1: -
+2:   %bb = alloca [128 x i8], align 16
+----
+1:   %sht = bitcast %union.anon.131* %8 to i8*
+2: -
+----
+1: -
+2:   %typechar.i = getelementptr inbounds %class.cPar, %class.cPar* %this, i64 0, i32 1
+----
+1:   %9 = load i8, i8* %sht, align 8, !tbaa !2, !range !14
+2:   %0 = load i8, i8* %typechar.i, align 8, !tbaa !2
+----
+1:   %tobool6.not = icmp eq i8 %9, 0
+2:   %cmp.i = icmp eq i8 %0, 73
+----
+1:   br i1 %tobool6.not, label %cond.false, label %cond.true
+2:   br i1 %cmp.i, label %if.then, label %if.end
+
+
+Mismatched:
+  %8 = getelementptr inbounds %class.cPar, %class.cPar* %this, i64 0, i32 5
+  %bb = alloca [128 x i8], align 16
+2 x 3
+Mismatched:
+  %sht = bitcast %union.anon.131* %8 to i8*
+  %typechar.i = getelementptr inbounds %class.cPar, %class.cPar* %this, i64 0, i32 1
+4 x 5
+Matched:
+  %9 = load i8, i8* %sht, align 8, !tbaa !2, !range !14
+  %0 = load i8, i8* %typechar.i, align 8, !tbaa !2
+6 x 8
+Matched:
+  %tobool6.not = icmp eq i8 %9, 0
+  %cmp.i = icmp eq i8 %0, 73
+8 x 9
+Matched:
+  br i1 %tobool6.not, label %cond.false, label %cond.true
+  br i1 %cmp.i, label %if.then, label %if.end
+10 x 10
+Profitable
+
+
+%entry x %entry
+0 x 0
+Mismatched:
+  %argc = getelementptr inbounds %class.ArgList, %class.ArgList* %this, i64 0, i32 0
+  %idx = getelementptr inbounds %class.cModule, %class.cModule* %this, i64 0, i32 9
+2 x 3
+Matched:
+  store i32 %ac, i32* %argc, align 8, !tbaa !2
+  store i32 %i, i32* %idx, align 8, !tbaa !2
+4 x 6
+Mismatched:
+  %argv = getelementptr inbounds %class.ArgList, %class.ArgList* %this, i64 0, i32 1
+  %vectsize = getelementptr inbounds %class.cModule, %class.cModule* %this, i64 0, i32 10
+6 x 9
+Mismatched:
+  store i8** %av, i8*** %argv, align 8, !tbaa !8
+  store i32 %n, i32* %vectsize, align 4, !tbaa !11
+8 x 11
+Matched:
+  ret void
+  ret void
+10 x 14
+Unprofitable
+
+
+
+
+
+%if.end25x %catch
+0 x 0
+Mismatched:
+  %outvectmgr = getelementptr inbounds %class.TOmnetApp, %class.TOmnetApp* %this, i64 0, i32 21
+  %exn.slot.14 = extractvalue { i8*, i32 } %.pn249.pn.pn.pn, 0
+2 x 3
+Mismatched:
+  %18 = bitcast %class.cOutputVectorManager** %outvectmgr to i8**
+  %42 = tail call i8* @__cxa_begin_catch(i8* %exn.slot.14) #43
+4 x 5
+Mismatched:
+  store i8* %call15, i8** %18, align 8, !tbaa !19
+  %str.i.i256 = getelementptr inbounds i8, i8* %42, i64 8
+6 x 7
+Mismatched:
+  %str.i225 = getelementptr inbounds %class.TOmnetApp, %class.TOmnetApp* %this, i64 0, i32 12, i32 0
+  %43 = bitcast i8* %str.i.i256 to i8**
+8 x 9
+Matched:
+  %19 = load i8*, i8** %str.i225, align 8, !tbaa !17
+  %44 = load i8*, i8** %43, align 8, !tbaa !16
+10 x 12
+Mismatched:
+  %call30 = invoke i8* @_Z9createOnePKc(i8* %19) #40
+          to label %invoke.cont29 unwind label %lpad26
+  invoke void (%class.cEnvir*, i8*, ...) @_ZN6cEnvir9printfmsgEPKcz(%class.cEnvir* nonnull dereferenceable(97) %this, i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str.13.117, i64 0, i64 0), i8* %44) #40
+          to label %invoke.cont162 unwind label %lpad159
+12 x 15
+Unprofitable
+
+
+
+
+
+%if.else98x %if.then58
+0 x 0
+Mismatched:
+  %inc105 = add nsw i32 %26, 1
+  %26 = load i8*, i8** %dispstr, align 8, !tbaa !8
+2 x 3
+Mismatched:
+  store i32 %inc105, i32* %numargs95, align 8, !tbaa !15
+  %strlen = tail call i64 @strlen(i8* nonnull dereferenceable(1) %26)
+4 x 5
+Matched:
+  %add.ptr106 = getelementptr inbounds i8, i8* %d.0, i64 1
+  %endptr = getelementptr i8, i8* %26, i64 %strlen
+6 x 8
+Mismatched:
+  %idxprom120 = sext i32 %26 to i64
+  %27 = bitcast i8* %endptr to i16*
+8 x 11
+Mismatched:
+  %arrayidx121 = getelementptr inbounds %"struct.cDisplayStringParser::Tag", %"struct.cDisplayStringParser::Tag"* %24, i64 %idxprom93, i32 2, i64 %idxprom120
+  store i16 44, i16* %27, align 1
+10 x 13
+Mismatched:
+  store i8* %add.ptr106, i8** %arrayidx121, align 8, !tbaa !18
+  %.pre = load %"struct.cDisplayStringParser::Tag"*, %"struct.cDisplayStringParser::Tag"** %tags, align 8, !tbaa !9
+12 x 15
+Matched:
+  br label %for.inc128
+  br label %if.end61
+14 x 18
+Unprofitable
+
+
+
+
+
+
+
+
+
+
+----
+1: BB %sw.bb91
+2: BB %sw.bb10
+----
+1:   %40 = getelementptr inbounds %class.cPar, %class.cPar* %this, i64 0, i32 5
+2:   %12 = getelementptr inbounds %class.cPar, %class.cPar* %this, i64 0, i32 5
+----
+1:   %val93 = bitcast %union.anon.131* %40 to i64*
+2:   %val = bitcast %union.anon.131* %12 to i64*
+----
+1:   %41 = load i64, i64* %val93, align 8, !tbaa !2
+2:   %13 = load i64, i64* %val, align 8, !tbaa !9
+----
+1:   %tobool94.not = icmp eq i64 %41, 0
+2:   %tobool12.not = icmp eq i64 %13, 0
+----
+1:   %cond95 = select i1 %tobool94.not, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.25.819, i64 0, i64 0), i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.24.815, i64 0, i64 0)
+2:   %cond13 = select i1 %tobool12.not, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.25.819, i64 0, i64 0), i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.24.815, i64 0, i64 0)
+----
+1:   %call96 = tail call i32 (i8*, i8*, ...) @sprintf(i8* nonnull %incdec.ptr, i8* nonnull dereferenceable(1) getelementptr inbounds ([7 x i8], [7 x i8]* @.str.23.870, i64 0, i64 0), i8* %cond95) #41
+2: -
+----
+1: -
+2:   %call14 = call i8* @strcpy(i8* nonnull %5, i8* nonnull dereferenceable(1) %cond13) #42
+----
+1:   br label %cleanup
+2:   br label %sw.epilog106
+----
+
+
+
+

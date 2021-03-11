@@ -1,0 +1,41 @@
+\begin{abstract}
+
+Function merging is an important optimization for reducing code size.
+It merges multiple functions into a single one, eliminating duplicate code among them.
+The existing state-of-the-art relies on a well-known sequence alignment algorithm to identify duplicate code across whole functions. However, this algorithm is quadratic in time and space on the number of instructions. This leads to very high time overheads and prohibitive levels of memory usage even for medium sized benchmarks. For larger programs, it becomes impractical.
+%it just becomes practically impossible to use.
+% MC: just ... practically is too much qualification
+%identifies the duplicate segments of code by applying a quadratic sequence alignment algorithm on linearized sequences of the whole input functions.
+%For programs with large functions, this cost becomes noticeable in terms of memory usage and runtime.
+
+% PP: I am not convinced that we should talk about this in the abstract. This is an orthogonal and probably secondary problem. I am leaving it here for now but we should rethink it. 
+% MC: If it stays you need to stress explicitly that as well as "contributing nothing" this wastes a lot of time.
+This is made worse by an overly eager merging approach. All selected pairs of functions will be merged. Only then will this approach estimate the potential benefit from merging and decide whether to replace the original functions with the merged one. Given that most pairs are unprofitable, a significant amount of time is wasted producing merged functions that are simply thrown away.
+%most merge operations contribute nothing towards reducing code size. 
+%Another significant cost stems from compilation time wasted producing merged functions that will be thrown away, because a majority of the merging attempts are unprofitable.
+%A profitability analysis decides which version to keep, the original pair of functions or the merged one, only after the merged function has already been generated and simplified.
+
+In this paper, we propose {\ProjName}, a novel function merging technique that delivers similar levels of code size reduction for significantly lower time overhead and memory usage.
+Unlike the state-of-the-art, our alignment strategy works at the block level.
+%Its main innovation is an alignment strategy that works at the basic block level.
+%We align individual pairs of blocks and we decide separately for each one whether this is profitable.
+Since basic blocks are usually much shorter than functions, even a quadratic alignment is acceptable.
+However, we also propose a linear algorithm for aligning blocks of the same size at a much lower cost.
+We extend this strategy with a multi-tier profitability analysis that bails out early from unprofitable merging attempts.
+By aligning individual pairs of blocks, we are able to decide their alignment's profitability separately and before actually generating code.
+%We align individual pairs of blocks, deciding their alignment profitability separately and before actually generating code.
+%We extend this with a lower cost linear alignment algorithm and a multi-tier profitability analysis that bails out early from unprofitable merging attempts. 
+
+%which includes a multi-tier profitability analysis.
+%This analysis is integrated into our new alignment strategy that works on the level of basic blocks, where only profitable pairing of blocks are considered for merging.
+%The fine-grain aspect of analyzing the profitability per block allows {\ProjName} to bail out early from unprofitable merging attempts.
+%%If no profitable pair of blocks are found, {\ProjName} bails out before producing the merged function, speeding up its running time.
+%%Since basic blocks are already linearized segments of code, {\ProjName} eliminates the need for the linearization phase.
+Experimental results on SPEC 2006 and 2017 show that {\ProjName} needs orders of magnitude less memory, using up to \fixme{48}~MB or \fixme{5.6}~MB, depending on the variant used, while the state-of-the-art requires 32~GB in the worst case. {\ProjName} also runs over 4.5$\times$ faster, while still achieving comparable code size reduction. Combined with the speedup of later compilation stages due to the reduced number of functions, {\ProjName} contributes to a reduced end-to-end compilation time.
+%it translates into a net-zero aggregate time overhead for {\ProjName}.
+
+%with an average memory usage of either 4.5~MB or 620~KB, depending on the variant used, while {\SOAName} requires 2.4 GB on average (32 GB in the worst case).
+%Overall, {\ProjName} is faster and tends to produce smaller merged functions than the state-of-the-art, resulting in a larger number of profitably merged functions.
+%Moreover, {\ProjName} reduces the end-to-end compilation time by up to 18\%.
+
+\end{abstract}

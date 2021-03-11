@@ -1,0 +1,48 @@
+
+\section{Tuning Compilers with Deep Learning}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Machine learning has demonstrated promises in automating the process of compiler heuristic construction~\cite{wang18}.
+Many prior studies have shown that machine-learned models can outperform expert-crafted heuristics~\cite{cavazos05,leather09, wang14, mendis19}.
+However, a significant barrier still exists -- programs must be represented as a set of features that serve as inputs to a machine learning tool.
+Traditionally, this requires experts' involvement to extract the crucial elements of the program. 
+
+%There is been many work using machine learning as a heuristic for tuning runtime systems~\cite{andreasson02,wang09,castro11,rocha17,pereira17} and compilers~\cite{cavazos05,leather09,cummins17,wang18,mendis19}.
+
+Cavazos and O'Boyle~\cite{cavazos05} propose the use of genetic algorithm to tune the heuristics of function inlining.
+They use genetic algorithm to optimise the values for different features that control the inlining heuristic.
+%Some of these features are the size of the callee and caller functions.
+These features are chosen by the compiler writer and they define the maximum size allowed by the inlining transformation for the callee and the caller functions, the maximum size for callee functions that are hot or that should always be inlined, etc.
+The optimised features are then used to define the rules of the inlining heuristic, describing which call sites should be allowed for inlining.
+The fitness function of the genetic algorithm involves the actual runtime of the compiled program, rendering the feature optimisation process very costly.
+However, their approach is able to achieve significant speedups over the baseline.
+
+The quality of these features is critical to the improvements resulting from machine learning solutions.
+Leather~et~al.~\cite{leather09} propose the use of genetic programming in order to also automate the selection of these features.
+The feature space is described by a grammar and is then searched with genetic programming and predictive modelling, to avoid recompilation of the program for each step in searching the optimization space.
+The genetic programming technique is used to generate features that are fed to a decision tree.
+This machine learning solution form the decision-making heuristics for the loop-unrolling optimisation.
+They show that the automated selection of features outperform hand-coded features, for the same machine learning procedure based on decision trees.
+
+
+In recent year, deep learning has been employed for modelling program structures.
+A key advantage of deep learning is that it can automatically find the right feature representations from training data without human involvement~\cite{allamanis2018survey}.
+%For examples, DeepTune uses LSTM to extract program representations OpenCL code \cite{ cummins17}; Inst2vec applies LSTM to learn program representation from LLVM IR \cite{ben2018neural}; and Ithemal~\cite{mendis19} employes LSTM to estimate the throughput of a set of machine instructions. Our work builds upon these past foundations to use LSTM to automatically construct a cost model to estimate if it is worthwhile to merge a pair of functions. Our work is the first in exploiting deep neural networks for compile-time code size reduction. We show how function merging can be formulated as a machine learning problem so that one can construct a cost model from the compiler IR using LSTM. 
+
+Cummins~et~al.~\cite{cummins17} propose DeepTune, which uses deep neural networks to learn optimization heuristics directly on raw code, unifying the search for features and decision-making heuristics into a single learning model.
+Since the program, in its textual form, can be seen as a sequence of tokens of variable length, using a recurrent neural networks becomes a natural choice.
+DeepTune has an LSTM-based language model that processes raw code, producing a fixed-size encoding which is then fed to a heuristic model based on a feed-forward neural network.
+
+Mendis~et~al.~\cite{mendis19} propose Ithemal, a tool which uses deep neural networks to predict the throughput of a set of machine instructions.
+Ithemal can be used as a cost model for compiler optimisations and code generation, aiding the decision of whether a transformation would result in faster code.
+Similar to DeepTune, Ithemal also processes raw machine instructions using an LSTM-based language model.
+However, Ithemal has an architecture with two LSTM stages.
+The first LSTM processes the tokens that compose one instruction.
+The second LSTM processes the encoded instructions that are produced by the first LSTM.
+The output of the second LSTM is aggregated into the final throughput prediction.
+
+Our work builds upon these past foundations to use recurrent networks to automatically construct a cost model to estimate if it is worthwhile to merge a pair of functions.
+Our work is the first in exploiting deep neural networks for compile-time code size reduction.
+We show how function merging can be formulated as a machine learning problem so that one can construct a cost model from the compiler IR.

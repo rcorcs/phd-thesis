@@ -1,0 +1,9 @@
+\section{Conclusion}
+
+% We have presented HyFM, a novel technique for compiler-based function merging. HyFM is designed to improve the scalability of the state-of-the-art function merging technique by reducing the compilation time and memory usage. HyFM provides a set of profitability analysis to enable function merging to be performed at the basic block level to reduce the compilation and memory overhead. It also allows the compiler to bail out early from unprofitable merging attempts to save compilation time
+
+We have presented \ProjName, a novel technique for compiler-based function merging. By operating on individual pairs of basic blocks, it eliminates most of the time and space overheads of the previous state-of-the-art approach. Through its multi-tier profitability analysis, it allows the compiler to bail out early from unprofitable merging attempts saving additional compilation time.
+
+We evaluate \ProjName by applying it to SPEC CPU2006 and 2017 benchmark suites. Experimental results show that  \ProjName achieves comparable and often better results in code size reduction than the state-of-the-art. However, \ProjName achieves this while running over 4$\times$ faster and using orders of magnitude less memory. We further demonstrate how different variants of \ProjName can be developed, giving users the flexibility to control the trade-off between compilation overhead and code size reduction. 
+
+Future work for improving function merging could focus on an even finer grain tier to the profitability analysis that works on individual pairs of aligned instructions. Another aspect that could be improved is the strategy for pairing functions, the most expensive part of function merging for some benchmarks.

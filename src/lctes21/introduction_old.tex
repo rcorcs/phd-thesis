@@ -1,0 +1,80 @@
+\section{Introduction}
+\label{sec:introduction}
+
+While often overlooked, program size can be a first-order constraint. Regardless of the type of the system, from IoT devices up to cloud servers, they are all operating under limited addressable memory, storage, or bandwidth. When the program becomes excessively large relative to the given constraints, this has a detrimental effect on the system. 
+This is very likely to happen as programs gain new features over time, continuously growing in complexity.
+In such scenarios, reducing the application footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17,chabbi21}.
+%This is traditionally achieved by focusing on reducing the code size, either when designing the source code or by tuning the compiler to optimize for size~\cite{fisher05,sehgal12,hennessy17,rocha19,rocha20}.
+%Therefore, compilation techniques must be developed and tuned primarily for optimizing binary size.
+%Therefore, it is important to design new compilation techniques primarily focused on optimizing for binary size.
+
+% Modern mobile applications tend to have large binaries that need to support as many devices as possible, including low-end devices with limited resources~\cite{hart02,etzo10,chabbi21}.
+% For these systems, reducing the binary size helps to improve the end-user experience but it is also critical for conforming with vendor's download-size limitations.
+% These restrictions to download size may significantly impact revenues for critical businesses.
+% Moreover, data consumption over wireless carriers can be either limited or expensive.
+
+% In a similar way, embedded systems are becoming increasingly complex, with their application binaries often reaching several megabytes in size, rendering memory size a limiting factor~\cite{plaza18}.
+% Just adding more memory is not always a viable option.
+% Highly integrated systems-on-chip are common in this market and their memories typically occupy the largest fraction of the chip area, contributing to most of the overall cost.
+% Even small increases in memory area translate directly to equivalent increases in cost, which lead to enormous levels of lost profit at large scales~\cite{edler10}.
+
+% Beyond just mobile and embedded systems, address space also limits how large programs can become.
+% Upgrading computers at scale is a challenging and costly process even for large datacenters~\cite{yan16,neamtiu11}.
+% As a result, outdated 32-bit machines have an addressable memory space limited to less than 4.5~GB, setting a limit on program size.
+% This limitation is even more noticeable on smaller machines with shorter word widths.
+
+One important optimization for reducing code size is function merging.
+In its simplest form, function merging reduces replicated code by combining multiple identical functions into a single one~\cite{llvm-fm,livska14}.
+This optimization is often found in linkers, by the name of \textit{identical code folding}~(ICF), where text-identical functions at the bit level are merged~\cite{tallam10,kwan12,msvc-icf}.
+More advanced approaches can identify similar, but not necessarily identical, functions, replacing them with a single function that combines the two code sequences~\cite{edler14}. Parts common in both functions are replaced by a single subsequence, while code unique to either of them is copied as is to the new function and made conditional to a function identifier.
+
+Recent work has generalized function merging to work on arbitrary pairs of functions.
+The state-of-the-art {\SOAName}~\cite{rocha19, rocha20} technique works in three major phases.
+First, it applies a quadratic sequence alignment algorithm on pairs of linearized input functions, to maximize the number of matching mergeable instructions while maintaining the relative order of the two instruction sequences.
+Second, it performs code generation, producing the merged function where aligned pairs of matching instructions are merged to a single instruction, while non-matching instructions are simply copied into the merged function.
+Finally, a profitability analysis is used to decide whether the merged function should replace the two original functions or be rejected.
+
+Analyzing the state of the art technique revealed that it suffers from significant compile-time inefficiencies, both in terms of time and memory usage.
+These inefficiencies stem from two key factors:
+1) Its use of a sequence alignment algorithm with a quadratic complexity both on time and space.
+2) Its wasteful approach of producing several merged functions that will be thrown away by the profitability analysis.
+
+% Function merging benefits greatly from being employed during link time, where it has access to the whole program.
+% Link-time optimizations (LTO) are performed once the whole program has been linked into a single module, exposing more optimization opportunitiess~\cite{bus04,sutter07,johnson17}.
+% On the other hand, as most other interprocedural optimizations, its compile-time cost increases dramatically with program size, both in terms of time and memory usage~\cite{triantafyllis06,ali13,johnson17}.
+% On the other hand, keeping the whole program in memory tends to add pressure to the memory system.
+% Therefore, it is important for the function merging to be easy on memory to avoid compounding with the already memory hungry LTO mode.
+
+In this paper, we propose {\ProjName}, a novel function merging technique that addresses these performance inefficiencies.
+Our solution is three fold:
+\begin{itemize} %[noitemsep,topsep=3pt]
+   \item We align the input functions on a per basic block manner.
+   Similar basic blocks are paired based on the distance between their fingerprint.
+   Even if a quadratic alignment algorithm is used, the largest basic block in a program tends to be much smaller than the largest function.
+   \item We propose a linear pairwise alignment to be used as an alternative to the quadratic one.
+   This technique is restricted to merging only basic blocks of the same size.
+   \item A new multi-tier profitability analysis is employed at different levels of granularity.
+   The first-tier is a fine-grain analysis that evaluates the profitability of aligning individual pairs of basic blocks.
+   The second-tier analysis evaluates whether or not the already generated merged function reduces code size and therefore should be kept.
+   The first-tier analysis is key for speeding up compilation time by bailing out early from unprofitable merging attempts.
+   It's fine-grain aspect is also important for producing better merged functions.
+\end{itemize}
+
+% \begin{itemize} %[noitemsep,topsep=3pt]
+%   \item A novel function merging strategy that work on the level of basic blocks. Working on the basic-bock level removes the need for the linearization phase from {\SOAName} while also enabling the other contributions.
+%   Similar basic blocks are paired using a fingerprint-based ranking mechanism.
+%   \item A multi-tier profitability analysis.
+%   The first-tier is a fine-grain analysis that evaluates the profitability of aligning individual pairs of basic blocks.
+%   The second-tier analysis evaluates whether or not the merged function reduces code size and therefore should be kept.
+%   The first-tier analysis is key for speeding up compilation time by bailing out early from unprofitable merging attempts.
+%   It is also crucial for uncovering better code size reduction.
+%   \item A greedy alignment strategy that works in a pairwise manner on basic blocks of the same size, replacing the quadratic sequence alignment algorithm by one that is linear on the size of the basic blocks.
+%   \item
+%   Unlike the state-of-the-art, SalSSA, which increases end-to-end compilation time, our novel technique actually reduces compilation time.
+%   %Reducing the number of functions, by merging them, tends to reduce compilation time.
+%   %This is achieved by speeding up the function merging pass enough so that the  
+% \end{itemize}
+
+Experimental results on SPEC CPU 2006 and 2017 show that {\ProjName} runs over 4.5$\times$ faster than {\SOAName}, reducing end-to-end compilation time by up to 18\%.
+{\ProjName} is also significantly easier on peak memory usage by orders of magnitude, using up to 48~MB or 5.6~MB, depending on the variant used, while {\SOAName} requires 32~GB in the worst case.
+We achieve all these compilation-time benefits without degrading its capabilities for code size reduction.

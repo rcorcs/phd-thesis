@@ -1,0 +1,107 @@
+Attempting: @quantum_delete_qureg, @quantum_delete_qureg_hashpreserve : 1
+1: BB %entry
+2: BB %entry
+----
+1:   tail call void @quantum_destroy_hash(%struct.quantum_reg_struct* %reg) #18
+2: -
+----
+1:   %node = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 3
+2:   %node = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 3
+----
+1:   %0 = bitcast %struct.quantum_reg_node_struct** %node to i8**
+2:   %0 = bitcast %struct.quantum_reg_node_struct** %node to i8**
+----
+1:   %1 = load i8*, i8** %0, align 8, !tbaa !2
+2:   %1 = load i8*, i8** %0, align 8, !tbaa !2
+----
+1:   tail call void @free(i8* %1) #19
+2:   tail call void @free(i8* %1) #18
+----
+1:   %size = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 1
+2:   %size = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 1
+----
+1:   %2 = load i32, i32* %size, align 4, !tbaa !8
+2:   %2 = load i32, i32* %size, align 4, !tbaa !8
+----
+1:   %sub = sub nsw i32 0, %2
+2:   %sub = sub nsw i32 0, %2
+----
+1:   %conv = sext i32 %sub to i64
+2:   %conv = sext i32 %sub to i64
+----
+1:   %mul = shl nsw i64 %conv, 4
+2:   %mul = shl nsw i64 %conv, 4
+----
+1:   %3 = call i64 @.m.f.14(i1 false, %struct.quantum_matrix_struct* nocapture undef, i64 %mul) #20
+2:   %3 = call i64 @.m.f.14(i1 false, %struct.quantum_matrix_struct* nocapture undef, i64 %mul) #19
+----
+1:   store %struct.quantum_reg_node_struct* null, %struct.quantum_reg_node_struct** %node, align 8, !tbaa !2
+2:   store %struct.quantum_reg_node_struct* null, %struct.quantum_reg_node_struct** %node, align 8, !tbaa !2
+----
+1:   ret void
+2:   ret void
+----
+Offending: 0 0.000000e+00 : F1:
+; Function Attrs: minsize nounwind optsize uwtable
+define dso_local void @quantum_delete_qureg(%struct.quantum_reg_struct* nocapture %reg) local_unnamed_addr #0 {
+entry:
+  tail call void @quantum_destroy_hash(%struct.quantum_reg_struct* %reg) #18
+  %node = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 3
+  %0 = bitcast %struct.quantum_reg_node_struct** %node to i8**
+  %1 = load i8*, i8** %0, align 8, !tbaa !9
+  tail call void @free(i8* %1) #19
+  %size = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 1
+  %2 = load i32, i32* %size, align 4, !tbaa !6
+  %sub = sub nsw i32 0, %2
+  %conv = sext i32 %sub to i64
+  %mul = shl nsw i64 %conv, 4
+  %3 = call i64 @.m.f.14(i1 false, %struct.quantum_matrix_struct* nocapture undef, i64 %mul) #20
+  store %struct.quantum_reg_node_struct* null, %struct.quantum_reg_node_struct** %node, align 8, !tbaa !9
+  ret void
+}
+
+F2:
+; Function Attrs: minsize nounwind optsize uwtable
+define dso_local void @quantum_delete_qureg_hashpreserve(%struct.quantum_reg_struct* nocapture %reg) local_unnamed_addr #0 {
+entry:
+  %node = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 3
+  %0 = bitcast %struct.quantum_reg_node_struct** %node to i8**
+  %1 = load i8*, i8** %0, align 8, !tbaa !9
+  tail call void @free(i8* %1) #18
+  %size = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %reg, i64 0, i32 1
+  %2 = load i32, i32* %size, align 4, !tbaa !6
+  %sub = sub nsw i32 0, %2
+  %conv = sext i32 %sub to i64
+  %mul = shl nsw i64 %conv, 4
+  %3 = call i64 @.m.f.14(i1 false, %struct.quantum_matrix_struct* nocapture undef, i64 %mul) #19
+  store %struct.quantum_reg_node_struct* null, %struct.quantum_reg_node_struct** %node, align 8, !tbaa !9
+  ret void
+}
+
+F1-F2:
+define private void @.m.f.17(i1 %0, %struct.quantum_reg_struct* nocapture %1) local_unnamed_addr {
+entry:
+  br i1 %0, label %split.bb, label %m.inst.bb
+
+m.inst.bb:                                        ; preds = %entry, %split.bb
+  %2 = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %1, i64 0, i32 3
+  %3 = bitcast %struct.quantum_reg_node_struct** %2 to i8**
+  %4 = load i8*, i8** %3, align 8
+  tail call void @free(i8* %4) #18
+  %5 = getelementptr inbounds %struct.quantum_reg_struct, %struct.quantum_reg_struct* %1, i64 0, i32 1
+  %6 = load i32, i32* %5, align 4
+  %7 = sub nsw i32 0, %6
+  %8 = sext i32 %7 to i64
+  %9 = shl nsw i64 %8, 4
+  %10 = call i64 @.m.f.14(i1 false, %struct.quantum_matrix_struct* nocapture undef, i64 %9) #19
+  store %struct.quantum_reg_node_struct* null, %struct.quantum_reg_node_struct** %2, align 8
+  ret void
+
+split.bb:                                         ; preds = %entry
+  tail call void @quantum_destroy_hash(%struct.quantum_reg_struct* %1) #20
+  br label %m.inst.bb
+}
+
+Estimated Sizes: 15 + 13 <= 19? 9 (1) Reduction: 32% 1 : @quantum_delete_qureg; @quantum_delete_qureg_hashpreserve
+Merged: @quantum_delete_qureg, @quantum_delete_qureg_hashpreserve = @.m.f.17
+

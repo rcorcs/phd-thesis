@@ -1,0 +1,53 @@
+\section{Introduction}
+\label{sec:introduction}
+
+While often overlooked, program size can be a first-order constraint. Regardless of the type of the system, from IoT devices up to cloud servers, they are all operating under limited addressable memory, storage, or bandwidth. When the program becomes excessively large relative to the given constraints, this has a detrimental effect on the system. In the extreme, this means failure.
+This is very likely to happen as programs gain new features over time, continuously growing in size and complexity~\cite{lavaee19,chabbi21}.
+In such scenarios, reducing the application footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17,chabbi21}.
+
+One important class of optimizations for reducing code size is function merging. Existing techniques range from simple passes merging identical functions at the compiler intermediate representation (IR)~\cite{llvm-fm,livska14} or the binary level~\cite{tallam10,kwan12,msvc-icf} up to approaches that identify and merge similar subsequences in otherwise dissimilar functions~\cite{edler14,rocha19,rocha20}.
+As already noted by Chabbi~et~al.~\cite{chabbi21}, these techniques have either limited benefit on code reduction or unacceptable compilation overheads for production, especially considering builds using link-time optimizations (LTO) where inter-procedural optimizations have greater opportunities but at a greater cost~\cite{johnson17}.
+
+The current state-of-the-art, {\SOAName}~\cite{rocha19,rocha20}, achieves on average a 10\% code size reduction but at the cost of crippling compile-time inefficiencies.
+In this paper, we show that \SOAName can lead to 40\% slower compilation, taking up to 32~GB of memory for temporary data when compiling a modestly-sized program.
+Such a resource requirement is beyond what is typically available to a developer and thus unsuitable for optimizing real-life programs.
+%assuming the development system has that much available memory to begin with.
+
+These inefficiencies stem directly from {\SOAName}'s core innovation, i.e., the use of sequence alignment to discover the optimal way to match mergeable instructions in a pair of functions.
+The alignment algorithm has quadratic time and space complexity, so applying it on whole functions with thousands of instructions results in unacceptable overheads.
+This severely limits the applicability of function merging on relatively large programs.
+%A different function merging approach that delivers similarly high code size reduction without the overheads is necessary.
+To make function merging scalable and practical, we need to find ways to significantly reduce the memory and compilation overhead. Our work is designed to offer such capabilities.   
+
+%However, given its powerful capability for code size reduction, we need function merging techniques with acceptable compilation overheads.
+%and it might even make it a bad idea for use on smaller programs.
+%In either case, making it part of a standard compiler optimization sequence is inadvisable.
+%\fixme{MC: you could be stronger here, it's not like the SalSSA people are going to review it}
+
+In this paper, we present \ProjName, a novel function merging technique that addresses the performance inefficiencies of \SOAName.
+Our main insight is that most of the code reduction of {\SOAName} comes from matching highly similar basic blocks.
+Even though it is able to align arbitrary subsequences spanning basic block boundaries, profitable alignments usually contain instructions from one block matched to instructions from a single other block.
+%The quadratic alignment algorithm, while in principle able to align subsequences spanning basic block boundaries, usually ends up aligning instructions from one block to instructions from a single other block.
+We show that an approach which quickly identifies similar basic blocks and then aligns their short instruction sequences achieves a similar code reduction for a much lower overhead.
+
+More specifically, our solution is three fold:
+\begin{itemize} %[noitemsep,topsep=3pt]
+   \item We align the input functions on a per basic block manner.
+   % PP: The fingerprint bit is a detail that we have not discussed and the reviewer might not understand its meaning. Also are contribution regarding fingerprints is minimal.
+   First, we pair similar basic blocks by minimizing the distance between their fingerprints.
+   Then, we only align the instructions within each pair of basic block.  
+   Even with a quadratic alignment algorithm, basic blocks are usually much shorter than functions, translating into a much faster alignment.
+   \item We propose a linear pairwise alignment as an alternative to the quadratic one. For highly similar basic blocks, it achieves similar results but has negligible time and space overheads.
+   \item We estimate the profitability of the aligned basic blocks before actually generating their merged code.
+   If unprofitable, we ignore them, improving the overall profitability of the whole merged function and simplifying code generation.
+   If all paired blocks in a pair of functions are unprofitable, we skip merging the function pair altogether, speeding up the optimization process compared to {\SOAName}. 
+\end{itemize}
+
+Experimental results on SPEC CPU 2006 and 2017 show that {\ProjName} runs over 4.5$\times$ faster than {\SOAName}.
+%reducing end-to-end compilation time by up to \fixme{18}\%.
+%Such a fast function merging technique translates to a 
+Compared to a baseline without function merging, {\ProjName} reduces end-to-end compilation time by up to 18\% and 2.1\% on average.
+%This reduction on end-to-end compilation time is possible due to 
+%In most cases the time overhead of our approach is comparable to the speedup experienced by later compilation stages due to the reduced amount of code, making applying {\ProjName} time-neutral.
+{\ProjName} also has orders of magnitude lower peak memory usage, using up to 48~MB or 5.6~MB, depending on the variant used, while {\SOAName} requires 32~GB in the worst case.
+We achieve all these compilation-time benefits without degrading its ability to reduce code size.

@@ -28,7 +28,7 @@ automatically generated using a description language~\cite{ghica15}.
 %\end{subfigure}
 \begin{subfigure}{\textwidth}
 \centering
-\includegraphics[width=0.9\textwidth]{src/relatedwork/figs/example-similar-3-gcc}
+\includegraphics[width=\textwidth]{src/relatedwork/figs/example-similar-3-gcc}
 \caption{Two similar functions extracted from the \texttt{403.gcc} benchmark.}
 \label{fig:example-similar-3-gcc}
 \end{subfigure}
@@ -78,5 +78,38 @@ Although the state-of-the-art technique improves over LLVM's identical function 
 still unnecessarily limited. In Section~\ref{sec:motivation}, we showed examples of very similar
 real functions where the state-of-the-art fails to merge. Our approach addresses such limitations
 improving on the state-of-the-art across the board.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+The function merging technique presented in \cite{edler14} restricts merging to nearly identical functions. They only allow for pairs of corresponding instructions to differ if they still have equivalent data type.
+
+
+A phi-node is used to unify the mismatching instructions as a single named value.
+Every use of the mismatching instructions will refer to their phi-node.
+Two instructions match if they have the same opcode with equivalent data types and operands.
+Note that no operand selection is performed.
+Even if two instructions differ only on their operands, they are classified as mismatching, and a branch is created.
+
+ \begin{figure}[h]
+   \centering
+   \includegraphics[width=0.8\textwidth]{src/relatedwork/figs/soa-example-1.pdf}
+   \caption{.}
+   \label{fig:soa-example-1}
+ \end{figure}
+
+Except for mismatching pairs of instructions, the two functions must have identical function types, i.e., they must have the same return type and list of arguments, identical CFGs, with corresponding basic blocks having the same number of instructions.
+
+** however, these instructions must define names representing the same data type.
+
+ \begin{figure}[h]
+   \centering
+   \includegraphics[width=0.6\textwidth]{src/relatedwork/figs/soa-example-2.pdf}
+   \caption{.}
+   \label{fig:soa-example-2}
+ \end{figure}
+
 
 

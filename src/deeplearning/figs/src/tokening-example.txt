@@ -1,0 +1,48 @@
+!fn: @_ZN8cIniFile9getAsTimeEPKcS1_d
+label
+call ptr i8
+icmp i1
+br void
+label
+call double
+br void
+label
+getelementptr ptr i8
+load i8
+icmp i1
+br void
+label
+call void
+br void
+label
+ret double
+EOS
+
+
+
+; Function Attrs: minsize optsize uwtable
+define dso_local double @_ZN8cIniFile9getAsTimeEPKcS1_d(%class.cIniFile* nocapture %this, i8* %sect, i8* %ent, double %defaultval) local_unnamed_addr #0 align 2 {
+entry:
+  %call = tail call i8* @_ZN8cIniFile9_getValueEPKcS1_i(%class.cIniFile* %this, i8* %sect, i8* %ent, i32 1) #38
+  %cmp = icmp eq i8* %call, null
+  br i1 %cmp, label %if.then, label %if.end3
+
+if.then:                                          ; preds = %entry
+  %warnings = getelementptr inbounds %class.cIniFile, %class.cIniFile* %this, i64 0, i32 8
+  %0 = load i8, i8* %warnings, align 4, !tbaa !117, !range !14
+  %tobool = icmp eq i8 %0, 0
+  br i1 %tobool, label %cleanup, label %icIniFilef.then2
+
+if.then2:                                         ; preds = %if.then
+  tail call void (%class.cEnvir*, i8*, ...) @_ZN6cEnvir6printfEPKcz(%class.cEnvir* nonnull @ev, i8* getelementptr inbounds ([52 x i8], [52 x i8]* @.str.25.165, i64 0, i64 0), i8* %sect, i8* %ent, double %defaultval) #38
+  br label %cleanup
+
+if.end3:                                          ; preds = %entry
+  %call4 = tail call double @_Z12strToSimtimePKc(i8* nonnull %call) #38
+  br label %cleanup
+
+cleanup:                                          ; preds = %if.then2, %if.then, %if.end3
+  %retval.0 = phi double [ %call4, %if.end3 ], [ %defaultval, %if.then ], [ %defaultval, %if.then2 ]
+  ret double %retval.0
+}
+

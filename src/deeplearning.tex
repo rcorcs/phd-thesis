@@ -29,32 +29,35 @@ The size of each function is estimated by summing up the estimated binary size o
 The binary size of each IR instruction is estimated by querying the compiler's built-in target-specific cost model.
 These cost models provide target-dependent cost estimations approximating the code-size cost of an IR instruction when lowered to machine instructions.
 
-As pointed out by many prior work~\cite{porpodas18,rocha19,rocha20}, even though cost models offer a good trade-off between compilation time and accuracy, they are expected to contain inaccuracies.
+As pointed out by many prior work~\cite{porpodas18a,porpodas18b,porpodas19,mendis19}, even though cost models offer a good trade-off between compilation time and accuracy, they are expected to contain inaccuracies.
 Because we are trying to estimate the binary size of the final object code, inaccuracies arise from the fact that we are operating on the IR level and one IR instruction does not necessarily translate to one machine instruction.
-Because we are operating on the IR level, We cannot know exactly how each IR instruction will be lowered without actually running the compiler's backend.
+%Because we are operating on the IR level, we cannot know exactly how each IR instruction will be lowered without actually running the compiler's backend.
 Moreover, several number of optimisations and code transformations will still run prior to machine code generation.
 %The same IR instruction can be lowered to different machine instructions, depending on its surrounding context, the instruction selection algorithm, and many other factors.
 %Therefore, there is also an inherent limitation of estimating the cost of each instruction separately of its context.
 
 Figure~\ref{fig:oracle-reduction} presents the code size reduction that can be achieved with an oracle.
 This oracle measures code size by compiling the whole program down to its final object file, which provides perfect information for the cost model.
-It shows the potential for improvement there exists from having a better profitability analysis, almost doubling the reduction.
+%It shows the potential for improvement there exists from having a better profitability analysis, almost doubling the reduction.
+The oracle exposes inaccuracies in the existing profitability analysis by almost doubling the amount of code reduction.
 By compiling the whole program down to its binary form, we are able to precisely capture the impact on other optimizations and machine code generation, as well as the overheads that result from replacing the callsites to the merged function or keeping a \textit{thunk}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{src/deeplearning/figs/motivation-oracle-reduction.pdf}
-  \caption{.}
+  \includegraphics[width=0.8\textwidth]{src/deeplearning/figs/motivation-oracle-2-reduction.pdf}
+  \caption{Oracle profitability analysis based on whole-program recompilation. The profitability of each merging opportunity is decided based on the actual size of the program's object file. Although optimal, this approach is impractical as the whole compilation time takes several days instead of minutes.}
   \label{fig:oracle-reduction}
 \end{figure}
 
+For the oracle, we have used an approach akin to iterative compilation where the program is recompiled for each optimisation opportunity~\cite{kisuki99,kisuki00,knijnenburg04}.
 However, the cost of compiling the whole program for every merging attempt is prohibitive.
-The re-compilation overhead can be severely aggravated for larger programs with multiple functions, where not only each compilation takes longer but the whole program is also re-compiled many times.
+The recompilation overhead can be severely aggravated for larger programs with multiple functions, where not only each compilation takes longer but the whole program is also re-compiled many times.
+In Section~\ref{sec:recompilation-mechanism}, we address this prohibitive overhead with \textit{partial recompilation}.
 
 \subsection{Wasteful Merge Operations}
 
 The fingerprint-based ranking strategy helps the function merging optimization to pair functions that are more similar.
-However, the current strategy is unable to decide which one of those pairs are actually worth merging.
+However, the current strategy is unable to decide which one of those pairs is actually worth merging.
 Figure~\ref{fig:unprofitable-attempts} shows that about 82\% of the top ranked candidate functions are actually unprofitably merged.
 As a result, a considerable amount of compilation time is wasted producing merged functions that will be thrown away, keeping the original pair of functions.
 
@@ -73,7 +76,7 @@ As a result, a considerable amount of compilation time is wasted producing merge
 %Figure~\ref{fig:unprofitable-compile-time-percentage} shows the time spent producing unprofitable merged functions relative to the total compilation time of the function merging optimization.
 Since most of the merged functions are thrown away for being unprofitable, it is expected that most of the compilation time is also spent producing those merged functions.
 This impact is also aggravated when several of the unprofitable merged functions are much larger than the profitable ones.
-Therefore, it is of utmost importance that we avoid merging unprofitable functions.
+Therefore, it is important that we avoid merging unprofitable functions.
 If we could eliminate all the time wasted on unprofitable merge operations, we would free compilation time for more useful computation.
 
 %\begin{figure}[h]
@@ -86,12 +89,9 @@ If we could eliminate all the time wasted on unprofitable merge operations, we w
 
 \subsection{Summary}
 
-In this paper, our goal is to develop a solution capable of identifying whether or not a given pair of functions can be profitably merged, allowing us to use a more expensive profitability analysis based on partial re-compilation.
+In this chapter, our goal is to develop a solution capable of identifying whether or not a given pair of functions can be profitably merged, allowing us to use a more expensive profitability analysis based on partial re-compilation.
 If we could predict which pairs of function are more likely to cause code bloat, we could avoid wasting time merging them in the first place and having to estimate their binary sizes.
 Bailing out early frees time to be spent on more profitable merge operations.
-
-
-
 
 
 \section{Our Novel Profitability Analysis}
@@ -152,13 +152,43 @@ If function merging produces a smaller binary, then these changes are also appli
   \label{fig:heuristic-model-architecture}
 \end{figure}
 
-Figure~\ref{fig:heuristic-model-architecture} provides an overview of the prediction mechanism.
-Our mechanism follows a similar approach to previous deep-learning techniques for tuning compilers~\cite{cummins17, mendis19}.
+Figure~\ref{fig:heuristic-model-architecture} provides an overview of our prediction mechanism called DeepProfit.
+Our mechanism follows a similar approach to prior deep-learning techniques for tuning compilers such as DeepTune~\cite{cummins17} and Ithemal~\cite{mendis19}.
 
-The same linearised functions used for the merge operations, as described in Chapter~\ref{chp:fm-operation}, are used as input to the prediction model.
-First, we use a language model based on recurrent neural networks to encode the input functions into context vectors of fixed size.
-These vector encodings can be computed only once per function an cached.
-Finally, the context vectors of two input functions are concatenated and fed to a feed-forward neural network that classifies whether or not those functions are profitably merged.
+Figure~\ref{fig:tokening-example} illustrates the different representations of an input function throughout the stages of the language model in DeepProfit.
+First, the linearisation, as described in Chapter~\ref{chp:cgo19}, defines a specific ordering for the basic blocks of the input functions used as input for the prediction model.
+The linearised function is fed to a tokeniser.
+%that produces the final sequence that will be used as input for the deep neural network.
+%The tokenisation process consists of listing the opcodes and primitive types of each instruction, besides markers for labels, data structures, and end-of-sequence (EOS).
+The tokeniser breaks up the instructions into their opcodes and primitive types, besides basic block labels and an end-of-sequence marker (EOS).
+After processing the whole training data, we produce a vocabulary that contains all possible tokens.
+This vocabulary also assigns a number that uniquely identifies each token.
+Hence, functions can be represented by a sequence of numbers.
+
+Each token is fed to an embedding which maps the numeric representation of each token into a fixed-size vector.
+The embedding is trained alongside the remaining of the classification model.
+The sequence embedding vectors is later processed by a recurrent neural network, encoding the whole input sequence as a single \textit{context} vector of fixed size, as shown in Figure~\ref{fig:tokening-example}.
+
+DeepProfit uses a Gated Recurrent Units (GRUs) as its recurrent neural network.
+A single instance of this language model is used for both input functions, which guarantees that a given function will have the same encoding regardless of the ordering of the input functions.
+Having a single language model allows DeepProfit to compute the encoding of each function only once and keep a cache of the encodings.
+
+The remaining of the classification model consists of a dense neural network that operates on the fixed-size encodings of two functions.
+First, we concatenate the encodings of the two input functions.
+Then, we feed the concatenated vector to the dense neural network, which consists of fully connected layers using the \textit{leaky} RELU activation function.
+The output is a vector of size two and an \textit{argmax} function is used to select the vertex position that holds the highest value.
+By convention, a highest value in the first position of the output vertex represents the \textit{unprofitable} label while the second position represents the \textit{profitable} label.
+
+%First, we use a language model based on recurrent neural networks to encode the input functions into context vectors of fixed size.
+%These vector encodings can be computed only once per function an cached.
+%Finally, the context vectors of two input functions are concatenated and fed to a feed-forward neural network that classifies whether or not those functions are profitably merged.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.98\textwidth]{src/deeplearning/figs/tokening-example.pdf}
+  \caption{Example illustrating the different representations of an input function throughout the stages of the language model. First we have the CFG of an input function. Second, we have the already linearised and tokenised sequence. Then, we have a vector embedding for each token. Finally, we have the context vector produced by the GRU encoder.}
+  \label{fig:tokening-example}
+\end{figure}
 
 \subsection{Search Strategy}
 
@@ -206,20 +236,23 @@ If the object file containing the merged function is smaller than the alternativ
 %  \label{fig:code-size-partial}
 %\end{figure*}
 
-Figure~\ref{fig:prediction-ss} shows the evaluation of both the \textit{sensitivity} and \textit{specificity} of our ML-based profitability classifier.
-Essentially, the \textit{sensitivity} (true-positive rate) translates to code-size reduction as it represents the identification of actually profitable functions. 
-\textit{Specificity} (true-negative rate) translates directly to fewer recompilations as it represents unprofitable functions being ignored.
+Figure~\ref{fig:prediction-ss} shows the evaluation of our ML-based profitability classifier.
+For our evaluation, we use both \textit{sensitivity} and \textit{specificity} metrics.
+Essentially, the \textit{sensitivity} (true-positive rate) represents the correct predictions that translate directly to code-size reduction, i.e., 89.3\% of the profitable merging opportunities are correctly identified while 10.7\% of the profitable merging opportunities are erroneously ignored due to misclassification.
+Similarly, \textit{specificity} (true-negative rate) represent the correct predictions that translate directly to fewer recompilations, i.e., 12.6\% of the unprofitable merging attempts are correctly identified, saving compilation time by avoiding the partial recompilation, while 87.4\% of the unprofitable merging attempts have to go through the process of partial recompilation.
 
 \begin{figure*}[h]
   \centering
   \includegraphics[width=0.85\textwidth]{src/deeplearning/figs/prediction-ss.pdf}
-  \caption{Evaluation of the \textit{sensitivity} (true-positive rate) and \textit{specificity} (true-negative rate) of our profitability classifier.
-  Sensitivity represents all profitable merging attempts that our model correctly identifies. 
-  Specificity represents how many unprofitable merging attempts our predictive model is able to avoid.
+  \caption{Evaluation of the \textit{sensitivity} (true-positive rate) and \textit{specificity} (true-negative rate) of our profitability classifier, called DeepProfit. Sensitivity translate directly to code-size reduction while specificity translate to savings in compilation time by avoiding the recompilation of unprofitable merging attempts.
   }
   \label{fig:prediction-ss}
 \end{figure*}
 
+Figure~\ref{fig:code-size-reduction} shows the code size reduction on the linked object file.
+Our partial recompilation approach is able to achieve a significant improvement over SalSSA, with differences in reduction up to almost 25\%, exposing inaccuracies in the built-in cost model.
+As expected from the sensitivity results, DeepProfit achieves similar code-size reduction, as it incorporates the ML-based prediction model to the partial recompilation analysis.
+The small gap between DeepProfit and Recompilation can be attributed to misclassifications leading to profitable merging opportunities being ignored.
 
 \begin{figure*}[h]
   \centering
@@ -228,14 +261,9 @@ Essentially, the \textit{sensitivity} (true-positive rate) translates to code-si
   \label{fig:code-size-reduction}
 \end{figure*}
 
+Although DeepProfit is able to reduce compilation time by 7\%, on average, the overhead from the partial recompilation is still very significant.
+This result is expected given the low specificity observed in Figure~\ref{fig:prediction-ss}.
 
-%\begin{figure*}[h]
-%  \centering
-%  \includegraphics[width=0.7\textwidth]{src/deeplearning/figs/skipped-attempts.pdf}
-%  \vspace{-2.5em}
-%  \caption{.}
-%  \label{fig:skipped-attempts}
-%\end{figure*}
 
 \begin{figure}[h]
   \centering

@@ -96,17 +96,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="318.66767"
-     inkscape:cy="402.76905"
+     inkscape:zoom="0.44943182"
+     inkscape:cx="0.8488882"
+     inkscape:cy="477.59461"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="1600"
-     inkscape:window-y="0"
+     inkscape:window-width="1528"
+     inkscape:window-height="836"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -3862,248 +3862,245 @@
          y="968.69476"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:0.5;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, ';text-align:center;text-anchor:middle;stroke-width:0.9375"
          id="tspan1880">Gap</tspan></text>
+    <text
+       id="text1805"
+       y="968.69476"
+       x="438.17932"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:0.5;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
+       xml:space="preserve"><tspan
+         id="tspan1803"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:0.5;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, ';text-align:center;text-anchor:middle;stroke-width:0.9375"
+         y="968.69476"
+         x="438.17932"
+         sodipodi:role="line">Mismatch</tspan></text>
     <g
-       id="g2040">
+       id="g1965">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:0.5;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
-         x="438.17932"
-         y="968.69476"
-         id="text1805"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         x="468.14014"
+         y="865.86493"
+         id="text1767"
+         transform="scale(0.95588194,1.0461543)"><tspan
            sodipodi:role="line"
-           x="438.17932"
-           y="968.69476"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:0.5;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, ';text-align:center;text-anchor:middle;stroke-width:0.9375"
-           id="tspan1803">Mismatch</tspan></text>
-      <g
-         id="g1965">
-        <text
-           transform="scale(0.95588194,1.0461543)"
-           id="text1767"
-           y="865.86493"
            x="468.14014"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963;"
-           xml:space="preserve"><tspan
-             id="tspan1765"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963;fill:#808080;"
-             y="865.86493"
-             x="468.14014"
-             sodipodi:role="line">s<tspan
-   id="tspan1763"
-   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080;">v</tspan></tspan></text>
-        <text
-           transform="scale(0.95588194,1.0461543)"
-           id="text1773"
-           y="865.39246"
-           x="423.82748"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
-           xml:space="preserve"><tspan
-             id="tspan1771"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
-             y="865.39246"
-             x="423.82748"
-             sodipodi:role="line">s<tspan
-   id="tspan1769"
-   style="font-size:64.99999762%;baseline-shift:sub">d</tspan></tspan></text>
-        <text
-           id="text1777"
-           y="941.1969"
-           x="379.90912"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
-           xml:space="preserve"><tspan
-             style="font-size:18.75px;stroke-width:0.9375"
-             y="941.1969"
-             x="379.90912"
-             id="tspan1775"
-             sodipodi:role="line">K</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375;"
-           x="379.90912"
-           y="908.73962"
-           id="text1781"><tspan
-             sodipodi:role="line"
-             id="tspan1779"
-             x="379.90912"
-             y="908.73962"
-             style="font-size:18.75px;stroke-width:0.9375;fill:#808080;">?</tspan></text>
-        <text
-           id="text1785"
-           y="878.10394"
-           x="404.76825"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375;"
-           xml:space="preserve"><tspan
-             style="font-size:18.75px;stroke-width:0.9375;fill:#808080;"
-             y="878.10394"
-             x="404.76825"
-             id="tspan1783"
-             sodipodi:role="line">?</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
-           x="446.91602"
-           y="878.10394"
-           id="text1789"><tspan
-             sodipodi:role="line"
-             id="tspan1787"
-             x="446.91602"
-             y="878.10394"
-             style="font-size:18.75px;stroke-width:0.9375">P</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963;"
-           x="423.78848"
-           y="894.39008"
-           id="text1795"
-           transform="scale(0.95588194,1.0461543)"><tspan
-             sodipodi:role="line"
-             x="423.78848"
-             y="894.39008"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963;fill:#808080;"
-             id="tspan1793">s<tspan
-   id="tspan1791"
-   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080;">h</tspan></tspan></text>
-        <text
-           transform="scale(0.95588194,1.0461543)"
-           id="text1801"
-           y="894.39008"
-           x="443.88028"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
-           xml:space="preserve"><tspan
-             id="tspan1799"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
-             y="894.39008"
-             x="443.88028"
-             sodipodi:role="line">s<tspan
-   id="tspan1797"
-   style="font-size:64.99999762%;baseline-shift:sub">h</tspan>+δ(K,P)</tspan></text>
-        <path
-           style="fill:none;stroke:#000000;stroke-width:0.9375px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 426.99777,944.71716 h 67.96875 V 917.42917 H 436.875 l -18.55879,-27.95759 h -19.27603 v 14.8337 z"
-           id="path1807"
-           inkscape:connector-curvature="0"
-           sodipodi:nodetypes="cccccccc" />
-      </g>
-      <text
-         id="text1852"
-         y="968.69476"
-         x="576.92932"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:0.5;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
-         xml:space="preserve"><tspan
-           id="tspan1850"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:0.5;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, ';text-align:center;text-anchor:middle;stroke-width:0.9375"
-           y="968.69476"
-           x="576.92932"
-           sodipodi:role="line">Mismatch</tspan></text>
-      <g
-         id="g1988">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963;"
-           x="613.29431"
            y="865.86493"
-           id="text1813"
-           transform="scale(0.95588194,1.0461543)"><tspan
-             sodipodi:role="line"
-             x="613.29431"
-             y="865.86493"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963;fill:#808080;"
-             id="tspan1811">s<tspan
-   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080;"
-   id="tspan1809">v</tspan></tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
-           x="568.98163"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';fill:#808080;stroke-width:0.98076963"
+           id="tspan1765">s<tspan
+   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080"
+   id="tspan1763">v</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         x="423.82748"
+         y="865.39246"
+         id="text1773"
+         transform="scale(0.95588194,1.0461543)"><tspan
+           sodipodi:role="line"
+           x="423.82748"
            y="865.39246"
-           id="text1819"
-           transform="scale(0.95588194,1.0461543)"><tspan
-             sodipodi:role="line"
-             x="568.98163"
-             y="865.39246"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
-             id="tspan1817">s<tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
+           id="tspan1771">s<tspan
    style="font-size:64.99999762%;baseline-shift:sub"
-   id="tspan1815">d</tspan></tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
-           x="518.65912"
+   id="tspan1769">d</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         x="379.90912"
+         y="941.1969"
+         id="text1777"><tspan
+           sodipodi:role="line"
+           id="tspan1775"
+           x="379.90912"
            y="941.1969"
-           id="text1823"><tspan
-             sodipodi:role="line"
-             id="tspan1821"
-             x="518.65912"
-             y="941.1969"
-             style="font-size:18.75px;stroke-width:0.9375">K</tspan></text>
-        <text
-           id="text1827"
+           style="font-size:18.75px;stroke-width:0.9375">K</tspan></text>
+      <text
+         id="text1781"
+         y="908.73962"
+         x="379.90912"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         xml:space="preserve"><tspan
+           style="font-size:18.75px;fill:#808080;stroke-width:0.9375"
            y="908.73962"
-           x="518.65912"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375;"
-           xml:space="preserve"><tspan
-             style="font-size:18.75px;stroke-width:0.9375;fill:#808080;"
-             y="908.73962"
-             x="518.65912"
-             id="tspan1825"
-             sodipodi:role="line">?</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375;"
-           x="543.51825"
+           x="379.90912"
+           id="tspan1779"
+           sodipodi:role="line">?</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         x="404.76825"
+         y="878.10394"
+         id="text1785"><tspan
+           sodipodi:role="line"
+           id="tspan1783"
+           x="404.76825"
            y="878.10394"
-           id="text1831"><tspan
-             sodipodi:role="line"
-             id="tspan1829"
-             x="543.51825"
-             y="878.10394"
-             style="font-size:18.75px;stroke-width:0.9375;fill:#808080;">?</tspan></text>
-        <text
-           id="text1835"
+           style="font-size:18.75px;fill:#808080;stroke-width:0.9375">?</tspan></text>
+      <text
+         id="text1789"
+         y="878.10394"
+         x="446.91602"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         xml:space="preserve"><tspan
+           style="font-size:18.75px;stroke-width:0.9375"
            y="878.10394"
-           x="585.66602"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
-           xml:space="preserve"><tspan
-             style="font-size:18.75px;stroke-width:0.9375"
-             y="878.10394"
-             x="585.66602"
-             id="tspan1833"
-             sodipodi:role="line">K</tspan></text>
-        <text
-           transform="scale(0.95588194,1.0461543)"
-           id="text1841"
+           x="446.91602"
+           id="tspan1787"
+           sodipodi:role="line">P</tspan></text>
+      <text
+         transform="scale(0.95588194,1.0461543)"
+         id="text1795"
+         y="894.39008"
+         x="423.78848"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         xml:space="preserve"><tspan
+           id="tspan1793"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';fill:#808080;stroke-width:0.98076963"
            y="894.39008"
-           x="568.94263"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963;"
-           xml:space="preserve"><tspan
-             id="tspan1839"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963;fill:#808080;"
-             y="894.39008"
-             x="568.94263"
-             sodipodi:role="line">s<tspan
-   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080;"
-   id="tspan1837">h</tspan></tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
-           x="589.03442"
+           x="423.78848"
+           sodipodi:role="line">s<tspan
+   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080"
+   id="tspan1791">h</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         x="443.88028"
+         y="894.39008"
+         id="text1801"
+         transform="scale(0.95588194,1.0461543)"><tspan
+           sodipodi:role="line"
+           x="443.88028"
            y="894.39008"
-           id="text1848"
-           transform="scale(0.95588194,1.0461543)"><tspan
-             sodipodi:role="line"
-             x="589.03442"
-             y="894.39008"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
-             id="tspan1846">s<tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
+           id="tspan1799">s<tspan
    style="font-size:64.99999762%;baseline-shift:sub"
-   id="tspan1844">h</tspan>+δ(K,K)</tspan></text>
-        <path
-           sodipodi:nodetypes="cccccccc"
-           inkscape:connector-curvature="0"
-           id="path1854"
-           d="m 565.74777,944.71716 h 67.96875 V 917.42917 H 575.625 l -18.55879,-27.95759 h -19.27603 v 14.8337 z"
-           style="fill:none;stroke:#000000;stroke-width:0.9375px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      </g>
+   id="tspan1797">h</tspan>+δ(K,P)</tspan></text>
+      <path
+         sodipodi:nodetypes="cccccccc"
+         inkscape:connector-curvature="0"
+         id="path1807"
+         d="m 426.99777,944.71716 h 67.96875 V 917.42917 H 436.875 l -18.55879,-27.95759 h -19.27603 v 14.8337 z"
+         style="fill:none;stroke:#000000;stroke-width:0.9375px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:0.5;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
+       x="576.92932"
+       y="968.69476"
+       id="text1852"><tspan
+         sodipodi:role="line"
+         x="576.92932"
+         y="968.69476"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:0.5;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, ';text-align:center;text-anchor:middle;stroke-width:0.9375"
+         id="tspan1850">Match</tspan></text>
+    <g
+       id="g1988">
+      <text
+         transform="scale(0.95588194,1.0461543)"
+         id="text1813"
+         y="865.86493"
+         x="613.29431"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         xml:space="preserve"><tspan
+           id="tspan1811"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';fill:#808080;stroke-width:0.98076963"
+           y="865.86493"
+           x="613.29431"
+           sodipodi:role="line">s<tspan
+   id="tspan1809"
+   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080">v</tspan></tspan></text>
+      <text
+         transform="scale(0.95588194,1.0461543)"
+         id="text1819"
+         y="865.39246"
+         x="568.98163"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         xml:space="preserve"><tspan
+           id="tspan1817"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
+           y="865.39246"
+           x="568.98163"
+           sodipodi:role="line">s<tspan
+   id="tspan1815"
+   style="font-size:64.99999762%;baseline-shift:sub">d</tspan></tspan></text>
+      <text
+         id="text1823"
+         y="941.1969"
+         x="518.65912"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         xml:space="preserve"><tspan
+           style="font-size:18.75px;stroke-width:0.9375"
+           y="941.1969"
+           x="518.65912"
+           id="tspan1821"
+           sodipodi:role="line">K</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         x="518.65912"
+         y="908.73962"
+         id="text1827"><tspan
+           sodipodi:role="line"
+           id="tspan1825"
+           x="518.65912"
+           y="908.73962"
+           style="font-size:18.75px;fill:#808080;stroke-width:0.9375">?</tspan></text>
+      <text
+         id="text1831"
+         y="878.10394"
+         x="543.51825"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         xml:space="preserve"><tspan
+           style="font-size:18.75px;fill:#808080;stroke-width:0.9375"
+           y="878.10394"
+           x="543.51825"
+           id="tspan1829"
+           sodipodi:role="line">?</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.5px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.9375"
+         x="585.66602"
+         y="878.10394"
+         id="text1835"><tspan
+           sodipodi:role="line"
+           id="tspan1833"
+           x="585.66602"
+           y="878.10394"
+           style="font-size:18.75px;stroke-width:0.9375">K</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         x="568.94263"
+         y="894.39008"
+         id="text1841"
+         transform="scale(0.95588194,1.0461543)"><tspan
+           sodipodi:role="line"
+           x="568.94263"
+           y="894.39008"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';fill:#808080;stroke-width:0.98076963"
+           id="tspan1839">s<tspan
+   id="tspan1837"
+   style="font-size:64.99999762%;baseline-shift:sub;fill:#808080">h</tspan></tspan></text>
+      <text
+         transform="scale(0.95588194,1.0461543)"
+         id="text1848"
+         y="894.39008"
+         x="589.03442"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.23078537px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98076963"
+         xml:space="preserve"><tspan
+           id="tspan1846"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math';stroke-width:0.98076963"
+           y="894.39008"
+           x="589.03442"
+           sodipodi:role="line">s<tspan
+   id="tspan1844"
+   style="font-size:64.99999762%;baseline-shift:sub">h</tspan>+δ(K,K)</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.9375px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 565.74777,944.71716 h 67.96875 V 917.42917 H 575.625 l -18.55879,-27.95759 h -19.27603 v 14.8337 z"
+         id="path1854"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccc" />
     </g>
     <text
        xml:space="preserve"

@@ -1,0 +1,367 @@
+@_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE, @_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE
+
+Merged: @_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE, @_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE = @_m_f_1159
+
+
+Merged: @_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE, @_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE = @_m_f_887
+
+
+rodrigo@kobol:~/benchmark/eval/spec2006$ python3 bin-size.py bl.txt 
+225
+
+rodrigo@kobol:~/benchmark/eval/spec2006$ python3 bin-size.py fm2.txt 
+192
+
+rodrigo@kobol:~/benchmark/eval/spec2006$ python3 bin-size.py fm2c4.txt 
+192
+
+
+
+00000000000784be <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE>:
+   784be:       41 57                   push   r15
+   784c0:       41 56                   push   r14
+   784c2:       53                      push   rbx
+   784c3:       49 89 cf                mov    r15,rcx
+   784c6:       48 89 d0                mov    rax,rdx
+   784c9:       48 89 fb                mov    rbx,rdi
+   784cc:       89 f2                   mov    edx,esi
+   784ce:       6a 01                   push   0x1
+   784d0:       5e                      pop    rsi
+   784d1:       48 89 c7                mov    rdi,rax
+   784d4:       48 89 d9                mov    rcx,rbx
+   784d7:       e8 00 00 00 00          call   784dc <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x1e>
+   784dc:       49 89 c6                mov    r14,rax
+   784df:       48 89 df                mov    rdi,rbx
+   784e2:       e8 00 00 00 00          call   784e7 <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x29>
+   784e7:       85 c0                   test   eax,eax
+   784e9:       75 09                   jne    784f4 <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x36>
+   784eb:       44 89 f0                mov    eax,r14d
+   784ee:       5b                      pop    rbx
+   784ef:       41 5e                   pop    r14
+   784f1:       41 5f                   pop    r15
+   784f3:       c3                      ret
+   784f4:       6a 30                   push   0x30
+   784f6:       5f                      pop    rdi
+   784f7:       e8 00 00 00 00          call   784fc <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x3e>
+   784fc:       49 89 c6                mov    r14,rax
+   784ff:       6a 25                   push   0x25
+   78501:       59                      pop    rcx
+   78502:       be 00 00 00 00          mov    esi,0x0
+   78507:       48 89 c7                mov    rdi,rax
+   7850a:       ba c8 01 00 00          mov    edx,0x1c8
+   7850f:       4d 89 f8                mov    r8,r15
+   78512:       e8 00 00 00 00          call   78517 <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x59>
+   78517:       be 00 00 00 00          mov    esi,0x0
+   7851c:       ba 00 00 00 00          mov    edx,0x0
+   78521:       4c 89 f7                mov    rdi,r14
+   78524:       e8 00 00 00 00          call   78529 <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x6b>
+   78529:       48 89 c3                mov    rbx,rax
+   7852c:       4c 89 f7                mov    rdi,r14
+   7852f:       e8 00 00 00 00          call   78534 <_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE+0x76>
+   78534:       48 89 df                mov    rdi,rbx
+   78537:       e8 00 00 00 00          call   7853c <_ZN11xercesc_2_516XMLPlatformUtils17writeBufferToFileEPvlPKhPNS_13MemoryManagerE>
+
+
+000000000007821e <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE>:
+   7821e:       41 56                   push   r14
+   78220:       53                      push   rbx
+   78221:       50                      push   rax
+   78222:       48 89 f3                mov    rbx,rsi
+   78225:       e8 00 00 00 00          call   7822a <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0xc>
+   7822a:       83 f8 ff                cmp    eax,0xffffffff
+   7822d:       74 08                   je     78237 <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0x19>
+   7822f:       48 83 c4 08             add    rsp,0x8
+   78233:       5b                      pop    rbx
+   78234:       41 5e                   pop    r14
+   78236:       c3                      ret
+   78237:       6a 30                   push   0x30
+   78239:       5f                      pop    rdi
+   7823a:       e8 00 00 00 00          call   7823f <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0x21>
+   7823f:       49 89 c6                mov    r14,rax
+   78242:       6a 28                   push   0x28
+   78244:       59                      pop    rcx
+   78245:       be 00 00 00 00          mov    esi,0x0
+   7824a:       48 89 c7                mov    rdi,rax
+   7824d:       ba 6b 01 00 00          mov    edx,0x16b
+   78252:       49 89 d8                mov    r8,rbx
+   78255:       e8 00 00 00 00          call   7825a <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0x3c>
+   7825a:       be 00 00 00 00          mov    esi,0x0
+   7825f:       ba 00 00 00 00          mov    edx,0x0
+   78264:       4c 89 f7                mov    rdi,r14
+   78267:       e8 00 00 00 00          call   7826c <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0x4e>
+   7826c:       48 89 c3                mov    rbx,rax
+   7826f:       4c 89 f7                mov    rdi,r14
+   78272:       e8 00 00 00 00          call   78277 <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0x59>
+   78277:       48 89 df                mov    rdi,rbx
+   7827a:       e8 00 00 00 00          call   7827f <_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE+0x61>
+   7827f:       90                      nop
+
+
+fm2:
+
+00000000001219b0 <_m_f_1159>:
+  1219b0:       55                      push   rbp
+  1219b1:       41 57                   push   r15
+  1219b3:       41 56                   push   r14
+  1219b5:       41 54                   push   r12
+  1219b7:       53                      push   rbx
+  1219b8:       4d 89 c4                mov    r12,r8
+  1219bb:       48 89 f5                mov    rbp,rsi
+  1219be:       40 f6 c7 01             test   dil,0x1
+  1219c2:       74 2e                   je     1219f2 <_m_f_1159+0x42>
+  1219c4:       89 d2                   mov    edx,edx
+  1219c6:       be 01 00 00 00          mov    esi,0x1
+  1219cb:       48 89 cf                mov    rdi,rcx
+  1219ce:       48 89 e9                mov    rcx,rbp
+  1219d1:       e8 00 00 00 00          call   1219d6 <_m_f_1159+0x26>
+  1219d6:       48 89 c3                mov    rbx,rax
+  1219d9:       48 89 ef                mov    rdi,rbp
+  1219dc:       e8 00 00 00 00          call   1219e1 <_m_f_1159+0x31>
+  1219e1:       85 c0                   test   eax,eax
+  1219e3:       74 1d                   je     121a02 <_m_f_1159+0x52>
+  1219e5:       41 bf c8 01 00 00       mov    r15d,0x1c8
+  1219eb:       bd 25 00 00 00          mov    ebp,0x25
+  1219f0:       eb 26                   jmp    121a18 <_m_f_1159+0x68>
+  1219f2:       48 89 ef                mov    rdi,rbp
+  1219f5:       e8 00 00 00 00          call   1219fa <_m_f_1159+0x4a>
+  1219fa:       48 89 c3                mov    rbx,rax
+  1219fd:       83 fb ff                cmp    ebx,0xffffffff
+  121a00:       74 0b                   je     121a0d <_m_f_1159+0x5d>
+  121a02:       89 d8                   mov    eax,ebx
+  121a04:       5b                      pop    rbx
+  121a05:       41 5c                   pop    r12
+  121a07:       41 5e                   pop    r14
+  121a09:       41 5f                   pop    r15
+  121a0b:       5d                      pop    rbp
+  121a0c:       c3                      ret
+  121a0d:       41 bf 6b 01 00 00       mov    r15d,0x16b
+  121a13:       bd 28 00 00 00          mov    ebp,0x28
+  121a18:       bf 30 00 00 00          mov    edi,0x30
+  121a1d:       e8 00 00 00 00          call   121a22 <_m_f_1159+0x72>
+  121a22:       49 89 c6                mov    r14,rax
+  121a25:       ba 00 00 00 00          mov    edx,0x0
+  121a2a:       31 ff                   xor    edi,edi
+  121a2c:       48 89 c6                mov    rsi,rax
+  121a2f:       44 89 f9                mov    ecx,r15d
+  121a32:       41 89 e8                mov    r8d,ebp
+  121a35:       4d 89 e1                mov    r9,r12
+  121a38:       e8 e3 32 00 00          call   124d20 <_m_f_1438>
+  121a3d:       be 00 00 00 00          mov    esi,0x0
+  121a42:       ba 00 00 00 00          mov    edx,0x0
+  121a47:       4c 89 f7                mov    rdi,r14
+  121a4a:       e8 00 00 00 00          call   121a4f <_m_f_1159+0x9f>
+  121a4f:       48 89 c3                mov    rbx,rax
+  121a52:       4c 89 f7                mov    rdi,r14
+  121a55:       e8 00 00 00 00          call   121a5a <_m_f_1159+0xaa>
+  121a5a:       48 89 df                mov    rdi,rbx
+  121a5d:       e8 00 00 00 00          call   121a62 <_m_f_1159+0xb2>
+  121a62:       66 2e 0f 1f 84 00 00    nop    WORD PTR cs:[rax+rax*1+0x0]
+  121a69:       00 00 00
+  121a6c:       0f 1f 40 00             nop    DWORD PTR [rax+0x0]
+
+
+
+
+fm2c4
+
+0000000000114c50 <_m_f_887>:
+  114c50:       55                      push   rbp
+  114c51:       41 57                   push   r15
+  114c53:       41 56                   push   r14
+  114c55:       41 54                   push   r12
+  114c57:       53                      push   rbx
+  114c58:       4d 89 c4                mov    r12,r8
+  114c5b:       48 89 f5                mov    rbp,rsi
+  114c5e:       40 f6 c7 01             test   dil,0x1
+  114c62:       74 25                   je     114c89 <_m_f_887+0x39>
+  114c64:       89 d2                   mov    edx,edx
+  114c66:       be 01 00 00 00          mov    esi,0x1
+  114c6b:       48 89 cf                mov    rdi,rcx
+  114c6e:       48 89 e9                mov    rcx,rbp
+  114c71:       e8 00 00 00 00          call   114c76 <_m_f_887+0x26>
+  114c76:       48 89 c3                mov    rbx,rax
+  114c79:       48 89 ef                mov    rdi,rbp
+  114c7c:       e8 00 00 00 00          call   114c81 <_m_f_887+0x31>
+  114c81:       85 c0                   test   eax,eax
+  114c83:       75 1a                   jne    114c9f <_m_f_887+0x4f>
+  114c85:       89 d8                   mov    eax,ebx
+  114c87:       eb 0d                   jmp    114c96 <_m_f_887+0x46>
+  114c89:       48 89 ef                mov    rdi,rbp
+  114c8c:       e8 00 00 00 00          call   114c91 <_m_f_887+0x41>
+  114c91:       83 f8 ff                cmp    eax,0xffffffff
+  114c94:       74 17                   je     114cad <_m_f_887+0x5d>
+  114c96:       5b                      pop    rbx
+  114c97:       41 5c                   pop    r12
+  114c99:       41 5e                   pop    r14
+  114c9b:       41 5f                   pop    r15
+  114c9d:       5d                      pop    rbp
+  114c9e:       c3                      ret
+  114c9f:       41 be c8 01 00 00       mov    r14d,0x1c8
+  114ca5:       41 bf 25 00 00 00       mov    r15d,0x25
+  114cab:       eb 0c                   jmp    114cb9 <_m_f_887+0x69>
+  114cad:       41 be 6b 01 00 00       mov    r14d,0x16b
+  114cb3:       41 bf 28 00 00 00       mov    r15d,0x28
+  114cb9:       bf 30 00 00 00          mov    edi,0x30
+  114cbe:       e8 00 00 00 00          call   114cc3 <_m_f_887+0x73>
+  114cc3:       48 89 c5                mov    rbp,rax
+  114cc6:       ba 00 00 00 00          mov    edx,0x0
+  114ccb:       31 ff                   xor    edi,edi
+  114ccd:       48 89 c6                mov    rsi,rax
+  114cd0:       44 89 f1                mov    ecx,r14d
+  114cd3:       45 89 f8                mov    r8d,r15d
+  114cd6:       4d 89 e1                mov    r9,r12
+  114cd9:       e8 72 31 00 00          call   117e50 <_m_f_1014>
+  114cde:       be 00 00 00 00          mov    esi,0x0
+  114ce3:       ba 00 00 00 00          mov    edx,0x0
+  114ce8:       48 89 ef                mov    rdi,rbp
+  114ceb:       e8 00 00 00 00          call   114cf0 <_m_f_887+0xa0>
+  114cf0:       48 89 c3                mov    rbx,rax
+  114cf3:       48 89 ef                mov    rdi,rbp
+  114cf6:       e8 00 00 00 00          call   114cfb <_m_f_887+0xab>
+  114cfb:       48 89 df                mov    rdi,rbx
+  114cfe:       e8 00 00 00 00          call   114d03 <_m_f_887+0xb3>
+  114d03:       66 2e 0f 1f 84 00 00    nop    WORD PTR cs:[rax+rax*1+0x0]
+  114d0a:       00 00 00
+  114d0d:       0f 1f 00                nop    DWORD PTR [rax]
+
+
+
+Attempting: @_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE, @_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE : 2
+1: BB %entry
+2: BB %entry
+----
+1:   %conv = zext i32 %toRead to i64
+2: -
+----
+1:   %0 = bitcast i8* %theFile to %struct._IO_FILE*
+2:   %0 = bitcast i8* %theFile to %struct._IO_FILE*
+----
+1: -
+2:   %call = tail call i64 @ftell(%struct._IO_FILE* %0) #40
+----
+1: -
+2:   %conv = trunc i64 %call to i32
+----
+1:   %call = tail call i64 @fread(i8* %toFill, i64 1, i64 %conv, %struct._IO_FILE* %0) #40
+2: -
+----
+1:   %call1 = tail call i32 @ferror(%struct._IO_FILE* %0) #41
+2: -
+----
+1:   %tobool.not = icmp eq i32 %call1, 0
+2:   %cmp = icmp eq i32 %conv, -1
+----
+1:   br i1 %tobool.not, label %if.end, label %if.then
+2:   br i1 %cmp, label %if.then, label %if.end
+----
+1: -
+2: BB %if.end
+----
+1: -
+2:   ret i32 %conv
+----
+1: BB %if.then
+2: BB %if.then
+----
+1:   %exception = tail call i8* @__cxa_allocate_exception(i64 48) #42
+2:   %exception = tail call i8* @__cxa_allocate_exception(i64 48) #41
+----
+1:   %1 = bitcast i8* %exception to %"class.xercesc_2_5::TranscodingException"*
+2:   %1 = bitcast i8* %exception to %"class.xercesc_2_5::TranscodingException"*
+----
+1:   invoke void @_ZN11xercesc_2_525XMLPlatformUtilsExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryManagerE(%"class.xercesc_2_5::TranscodingException"* nonnull dereferenceable(48) %1, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.1630, i64 0, i64 0), i32 456, i32 37, %"class.xalanc_1_8::XalanNode"* %manager) #40
+          to label %invoke.cont unwind label %lpad
+2:   invoke void @_ZN11xercesc_2_525XMLPlatformUtilsExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryManagerE(%"class.xercesc_2_5::TranscodingException"* nonnull dereferenceable(48) %1, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.1630, i64 0, i64 0), i32 363, i32 40, %"class.xalanc_1_8::XalanNode"* %manager) #40
+          to label %invoke.cont unwind label %lpad
+----
+1: BB %lpad
+2: BB %lpad
+----
+1:   tail call void @__cxa_free_exception(i8* %exception) #42
+2:   tail call void @__cxa_free_exception(i8* %exception) #41
+----
+1:   resume { i8*, i32 } %2
+2:   resume { i8*, i32 } %2
+----
+1: BB %invoke.cont
+2: BB %invoke.cont
+----
+1:   tail call void @__cxa_throw(i8* %exception, i8* bitcast ({ i8*, i8*, i8* }* @_ZTIN11xercesc_2_525XMLPlatformUtilsExceptionE to i8*), i8* bitcast (void (%"class.xercesc_2_5::XMLException"*)* @_ZN11xercesc_2_512XMLExceptionD2Ev to i8*)) #43
+2:   tail call void @__cxa_throw(i8* %exception, i8* bitcast ({ i8*, i8*, i8* }* @_ZTIN11xercesc_2_525XMLPlatformUtilsExceptionE to i8*), i8* bitcast (void (%"class.xercesc_2_5::XMLException"*)* @_ZN11xercesc_2_512XMLExceptionD2Ev to i8*)) #42
+----
+1:   unreachable
+2:   unreachable
+----
+1: BB %if.end
+2: -
+----
+1:   %conv2 = trunc i64 %call to i32
+2: -
+----
+1:   ret i32 %conv2
+2: -
+----
+
+F1:
+; Function Attrs: minsize optsize uwtable
+define dso_local i32 @_ZN11xercesc_2_516XMLPlatformUtils14readFileBufferEPvjPhPNS_13MemoryManagerE(i8* nocapture %theFile, i32 %toRead, i8* nocapture %toFill, %"class.xalanc_1_8::XalanNode"* %manager) local_unnamed_addr #0 align 2 personality i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*) {
+entry:
+  %conv = zext i32 %toRead to i64
+  %0 = bitcast i8* %theFile to %struct._IO_FILE*
+  %call = tail call i64 @fread(i8* %toFill, i64 1, i64 %conv, %struct._IO_FILE* %0) #40
+  %call1 = tail call i32 @ferror(%struct._IO_FILE* %0) #41
+  %tobool.not = icmp eq i32 %call1, 0
+  br i1 %tobool.not, label %if.end, label %if.then
+
+if.then:                                          ; preds = %entry
+  %exception = tail call i8* @__cxa_allocate_exception(i64 48) #42
+  %1 = bitcast i8* %exception to %"class.xercesc_2_5::TranscodingException"*
+  invoke void @_ZN11xercesc_2_525XMLPlatformUtilsExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryManagerE(%"class.xercesc_2_5::TranscodingException"* nonnull dereferenceable(48) %1, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.1630, i64 0, i64 0), i32 456, i32 37, %"class.xalanc_1_8::XalanNode"* %manager) #40
+          to label %invoke.cont unwind label %lpad
+
+invoke.cont:                                      ; preds = %if.then
+  tail call void @__cxa_throw(i8* %exception, i8* bitcast ({ i8*, i8*, i8* }* @_ZTIN11xercesc_2_525XMLPlatformUtilsExceptionE to i8*), i8* bitcast (void (%"class.xercesc_2_5::XMLException"*)* @_ZN11xercesc_2_512XMLExceptionD2Ev to i8*)) #43
+  unreachable
+
+lpad:                                             ; preds = %if.then
+  %2 = landingpad { i8*, i32 }
+          cleanup
+  tail call void @__cxa_free_exception(i8* %exception) #42
+  resume { i8*, i32 } %2
+
+if.end:                                           ; preds = %entry
+  %conv2 = trunc i64 %call to i32
+  ret i32 %conv2
+}
+
+
+F2:
+; Function Attrs: minsize optsize uwtable
+define dso_local i32 @_ZN11xercesc_2_516XMLPlatformUtils10curFilePosEPvPNS_13MemoryManagerE(i8* nocapture %theFile, %"class.xalanc_1_8::XalanNode"* %manager) local_unnamed_addr #0 align 2 personality i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*) {
+entry:
+  %0 = bitcast i8* %theFile to %struct._IO_FILE*
+  %call = tail call i64 @ftell(%struct._IO_FILE* %0) #40
+  %conv = trunc i64 %call to i32
+  %cmp = icmp eq i32 %conv, -1
+  br i1 %cmp, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  %exception = tail call i8* @__cxa_allocate_exception(i64 48) #41
+  %1 = bitcast i8* %exception to %"class.xercesc_2_5::TranscodingException"*
+  invoke void @_ZN11xercesc_2_525XMLPlatformUtilsExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryManagerE(%"class.xercesc_2_5::TranscodingException"* nonnull dereferenceable(48) %1, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.1630, i64 0, i64 0), i32 363, i32 40, %"class.xalanc_1_8::XalanNode"* %manager) #40
+          to label %invoke.cont unwind label %lpad
+
+invoke.cont:                                      ; preds = %if.then
+  tail call void @__cxa_throw(i8* %exception, i8* bitcast ({ i8*, i8*, i8* }* @_ZTIN11xercesc_2_525XMLPlatformUtilsExceptionE to i8*), i8* bitcast (void (%"class.xercesc_2_5::XMLException"*)* @_ZN11xercesc_2_512XMLExceptionD2Ev to i8*)) #42
+  unreachable
+
+lpad:                                             ; preds = %if.then
+  %2 = landingpad { i8*, i32 }
+          cleanup
+  tail call void @__cxa_free_exception(i8* %exception) #41
+  resume { i8*, i32 } %2
+
+if.end:                                           ; preds = %entry
+  ret i32 %conv
+}
+

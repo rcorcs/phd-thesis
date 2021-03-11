@@ -1,0 +1,528 @@
+Attempting: @_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j, @_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j : 10
+1: BB %entry
+2: BB %entry
+----
+1:   %conv = zext i32 %i to i64
+2:   %conv = zext i32 %i to i64
+----
+1:   %_M_start.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 2, i32 0, i32 0, i32 0
+2:   %_M_start.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 2, i32 0, i32 0, i32 0
+----
+1:   %0 = load i32*, i32** %_M_start.i, align 8, !tbaa !2
+2:   %0 = load i32*, i32** %_M_start.i, align 8, !tbaa !2
+----
+1:   %add.ptr.i = getelementptr inbounds i32, i32* %0, i64 %conv
+2:   %add.ptr.i = getelementptr inbounds i32, i32* %0, i64 %conv
+----
+1:   %1 = load i32, i32* %add.ptr.i, align 4, !tbaa !8
+2:   %1 = load i32, i32* %add.ptr.i, align 4, !tbaa !8
+----
+1:   %_M_finish.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 1
+2:   %_M_finish.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 1
+----
+1:   %2 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_finish.i, align 8, !tbaa !10
+2:   %2 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_finish.i, align 8, !tbaa !10
+----
+1:   %_M_start.i50 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 0
+2:   %_M_start.i27 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 0
+----
+1:   %3 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_start.i50, align 8, !tbaa !13
+2:   %3 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_start.i27, align 8, !tbaa !13
+----
+1:   %sub.ptr.lhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %2 to i64
+2:   %sub.ptr.lhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %2 to i64
+----
+1:   %sub.ptr.rhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %3 to i64
+2:   %sub.ptr.rhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %3 to i64
+----
+1:   %sub.ptr.sub.i = sub i64 %sub.ptr.lhs.cast.i, %sub.ptr.rhs.cast.i
+2:   %sub.ptr.sub.i = sub i64 %sub.ptr.lhs.cast.i, %sub.ptr.rhs.cast.i
+----
+1:   %sub.ptr.div.i = sdiv exact i64 %sub.ptr.sub.i, 48
+2:   %sub.ptr.div.i = sdiv exact i64 %sub.ptr.sub.i, 48
+----
+1:   %conv3 = trunc i64 %sub.ptr.div.i to i32
+2:   %conv3 = trunc i64 %sub.ptr.div.i to i32
+----
+1:   br label %for.cond
+2:   br label %for.cond
+----
+1: BB %for.cond
+2: -
+----
+1:   %exitcond64.not = icmp eq i32 %iz.0, %conv3
+2: -
+----
+1:   br i1 %exitcond64.not, label %cleanup19, label %for.cond4
+2: -
+----
+1: BB %for.cond4
+2: BB %for.cond
+----
+1:   %exitcond.not = icmp eq i32 %iy.0, %indvars.iv62
+2:   %exitcond.not = icmp eq i32 %iy.0, %conv3
+----
+1:   br i1 %exitcond.not, label %for.inc17, label %for.body7
+2:   br i1 %exitcond.not, label %cleanup9, label %for.body
+----
+1: BB %for.body7
+2: BB %for.body
+----
+1:   %4 = add i32 %k.1, %conv3
+2: -
+----
+1:   %5 = add i32 %iz.0, %iy.0
+2:   %add = add i32 %k.0, %conv3
+----
+1:   %sub9 = sub i32 %4, %5
+2:   %sub = sub i32 %add, %iy.0
+----
+1:   %cmp10 = icmp ult i32 %1, %sub9
+2:   %cmp4 = icmp ult i32 %1, %sub
+----
+1:   br i1 %cmp10, label %cleanup.thread, label %if.else
+2:   br i1 %cmp4, label %if.then, label %if.else
+----
+1: BB %if.else
+2: BB %if.else
+----
+1:   %inc = add i32 %iy.0, 1
+2:   %inc = add i32 %iy.0, 1
+----
+1:   br label %for.cond4
+2:   br label %for.cond
+----
+1: BB %cleanup.thread
+2: BB %if.then
+----
+1:   %sub11 = sub i32 %1, %k.1
+2:   %sub5 = sub i32 %1, %k.0
+----
+1: -
+2:   %arrayidx = getelementptr inbounds [2 x i32], [2 x i32]* %index, i64 0, i64 0
+----
+1:   %arrayidx = getelementptr inbounds [3 x i32], [3 x i32]* %index, i64 0, i64 0
+2: -
+----
+1:   store i32 %sub11, i32* %arrayidx, align 4, !tbaa !8
+2:   store i32 %sub5, i32* %arrayidx, align 4, !tbaa !8
+----
+1: -
+2:   %arrayidx6 = getelementptr inbounds [2 x i32], [2 x i32]* %index, i64 0, i64 1
+----
+1:   %arrayidx12 = getelementptr inbounds [3 x i32], [3 x i32]* %index, i64 0, i64 1
+2: -
+----
+1:   store i32 %iy.0, i32* %arrayidx12, align 4, !tbaa !8
+2: -
+----
+1:   %arrayidx13 = getelementptr inbounds [3 x i32], [3 x i32]* %index, i64 0, i64 2
+2: -
+----
+1:   store i32 %iz.0, i32* %arrayidx13, align 4, !tbaa !8
+2:   store i32 %iy.0, i32* %arrayidx6, align 4, !tbaa !8
+----
+1:   br label %cleanup19
+2:   br label %UnifiedReturnBlock
+----
+1: BB %for.inc17
+2: BB %cleanup9
+----
+1:   %inc18 = add i32 %iz.0, 1
+2: -
+----
+1:   %indvars.iv.next63 = add i32 %indvars.iv62, -1
+2: -
+----
+1:   br label %for.cond
+2:   br label %UnifiedReturnBlock
+----
+1: BB %cleanup19
+2: BB %UnifiedReturnBlock
+----
+1:   ret void
+2:   ret void
+----
+Matches: 36, 48
+
+F1:
+; Function Attrs: minsize nofree norecurse nounwind optsize uwtable
+define dso_local void @_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j(%class.TensorProductPolynomials* nocapture nonnull readonly dereferenceable(80) %this, i32 %i, [3 x i32]* nocapture nonnull align 4 dereferenceable(12) %index) local_unnamed_addr #15 align 2 {
+entry:
+  %conv = zext i32 %i to i64
+  %_M_start.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 2, i32 0, i32 0, i32 0
+  %0 = load i32*, i32** %_M_start.i, align 8, !tbaa !67
+  %add.ptr.i = getelementptr inbounds i32, i32* %0, i64 %conv
+  %1 = load i32, i32* %add.ptr.i, align 4, !tbaa !127
+  %_M_finish.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 1
+  %2 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_finish.i, align 8, !tbaa !857
+  %_M_start.i50 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 0
+  %3 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_start.i50, align 8, !tbaa !854
+  %sub.ptr.lhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %2 to i64
+  %sub.ptr.rhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %3 to i64
+  %sub.ptr.sub.i = sub i64 %sub.ptr.lhs.cast.i, %sub.ptr.rhs.cast.i
+  %sub.ptr.div.i = sdiv exact i64 %sub.ptr.sub.i, 48
+  %conv3 = trunc i64 %sub.ptr.div.i to i32
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.inc17, %entry
+  %indvars.iv62 = phi i32 [ %indvars.iv.next63, %for.inc17 ], [ %conv3, %entry ]
+  %k.0 = phi i32 [ %k.1, %for.inc17 ], [ 0, %entry ]
+  %iz.0 = phi i32 [ %inc18, %for.inc17 ], [ 0, %entry ]
+  %exitcond64.not = icmp eq i32 %iz.0, %conv3
+  br i1 %exitcond64.not, label %cleanup19, label %for.cond4
+
+for.cond4:                                        ; preds = %for.cond, %if.else
+  %k.1 = phi i32 [ %sub9, %if.else ], [ %k.0, %for.cond ]
+  %iy.0 = phi i32 [ %inc, %if.else ], [ 0, %for.cond ]
+  %exitcond.not = icmp eq i32 %iy.0, %indvars.iv62
+  br i1 %exitcond.not, label %for.inc17, label %for.body7
+
+for.body7:                                        ; preds = %for.cond4
+  %4 = add i32 %k.1, %conv3
+  %5 = add i32 %iz.0, %iy.0
+  %sub9 = sub i32 %4, %5
+  %cmp10 = icmp ult i32 %1, %sub9
+  br i1 %cmp10, label %cleanup.thread, label %if.else
+
+cleanup.thread:                                   ; preds = %for.body7
+  %sub11 = sub i32 %1, %k.1
+  %arrayidx = getelementptr inbounds [3 x i32], [3 x i32]* %index, i64 0, i64 0
+  store i32 %sub11, i32* %arrayidx, align 4, !tbaa !127
+  %arrayidx12 = getelementptr inbounds [3 x i32], [3 x i32]* %index, i64 0, i64 1
+  store i32 %iy.0, i32* %arrayidx12, align 4, !tbaa !127
+  %arrayidx13 = getelementptr inbounds [3 x i32], [3 x i32]* %index, i64 0, i64 2
+  store i32 %iz.0, i32* %arrayidx13, align 4, !tbaa !127
+  br label %cleanup19
+
+if.else:                                          ; preds = %for.body7
+  %inc = add i32 %iy.0, 1
+  br label %for.cond4
+
+for.inc17:                                        ; preds = %for.cond4
+  %inc18 = add i32 %iz.0, 1
+  %indvars.iv.next63 = add i32 %indvars.iv62, -1
+  br label %for.cond
+
+cleanup19:                                        ; preds = %for.cond, %cleanup.thread
+  ret void
+}
+
+
+F2:
+; Function Attrs: minsize nofree norecurse nounwind optsize uwtable
+define dso_local void @_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j(%class.TensorProductPolynomials* nocapture nonnull readonly dereferenceable(80) %this, i32 %i, [2 x i32]* nocapture nonnull align 4 dereferenceable(8) %index) local_unnamed_addr #15 align 2 {
+entry:
+  %conv = zext i32 %i to i64
+  %_M_start.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 2, i32 0, i32 0, i32 0
+  %0 = load i32*, i32** %_M_start.i, align 8, !tbaa !67
+  %add.ptr.i = getelementptr inbounds i32, i32* %0, i64 %conv
+  %1 = load i32, i32* %add.ptr.i, align 4, !tbaa !127
+  %_M_finish.i = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 1
+  %2 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_finish.i, align 8, !tbaa !857
+  %_M_start.i27 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %this, i64 0, i32 0, i32 0, i32 0, i32 0
+  %3 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %_M_start.i27, align 8, !tbaa !854
+  %sub.ptr.lhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %2 to i64
+  %sub.ptr.rhs.cast.i = ptrtoint %"class.Polynomials::Polynomial"* %3 to i64
+  %sub.ptr.sub.i = sub i64 %sub.ptr.lhs.cast.i, %sub.ptr.rhs.cast.i
+  %sub.ptr.div.i = sdiv exact i64 %sub.ptr.sub.i, 48
+  %conv3 = trunc i64 %sub.ptr.div.i to i32
+  br label %for.cond
+
+for.cond:                                         ; preds = %if.else, %entry
+  %k.0 = phi i32 [ 0, %entry ], [ %sub, %if.else ]
+  %iy.0 = phi i32 [ 0, %entry ], [ %inc, %if.else ]
+  %exitcond.not = icmp eq i32 %iy.0, %conv3
+  br i1 %exitcond.not, label %cleanup9, label %for.body
+
+for.body:                                         ; preds = %for.cond
+  %add = add i32 %k.0, %conv3
+  %sub = sub i32 %add, %iy.0
+  %cmp4 = icmp ult i32 %1, %sub
+  br i1 %cmp4, label %if.then, label %if.else
+
+if.then:                                          ; preds = %for.body
+  %sub5 = sub i32 %1, %k.0
+  %arrayidx = getelementptr inbounds [2 x i32], [2 x i32]* %index, i64 0, i64 0
+  store i32 %sub5, i32* %arrayidx, align 4, !tbaa !127
+  %arrayidx6 = getelementptr inbounds [2 x i32], [2 x i32]* %index, i64 0, i64 1
+  store i32 %iy.0, i32* %arrayidx6, align 4, !tbaa !127
+  br label %UnifiedReturnBlock
+
+if.else:                                          ; preds = %for.body
+  %inc = add i32 %iy.0, 1
+  br label %for.cond
+
+cleanup9:                                         ; preds = %for.cond
+  br label %UnifiedReturnBlock
+
+UnifiedReturnBlock:                               ; preds = %cleanup9, %if.then
+  ret void
+}
+
+
+F1-F2:
+define private void @_m_f_562(i1 %0, %class.TensorProductPolynomials* nocapture nonnull readonly dereferenceable(80) %1, i32 %2, [3 x i32]* nocapture nonnull align 4 dereferenceable(12) %3, [2 x i32]* nocapture nonnull align 4 dereferenceable(8) %4) local_unnamed_addr align 2 {
+entry:
+  %5 = zext i32 %2 to i64
+  %6 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %1, i64 0, i32 2, i32 0, i32 0, i32 0
+  %7 = load i32*, i32** %6, align 8
+  %8 = getelementptr inbounds i32, i32* %7, i64 %5
+  %9 = load i32, i32* %8, align 4
+  %10 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %1, i64 0, i32 0, i32 0, i32 0, i32 1
+  %11 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %10, align 8
+  %12 = getelementptr inbounds %class.TensorProductPolynomials, %class.TensorProductPolynomials* %1, i64 0, i32 0, i32 0, i32 0, i32 0
+  %13 = load %"class.Polynomials::Polynomial"*, %"class.Polynomials::Polynomial"** %12, align 8
+  %14 = ptrtoint %"class.Polynomials::Polynomial"* %11 to i64
+  %15 = ptrtoint %"class.Polynomials::Polynomial"* %13 to i64
+  %16 = sub i64 %14, %15
+  %17 = sdiv exact i64 %16, 48
+  %18 = trunc i64 %17 to i32
+  br i1 %0, label %src.bb, label %m.label.bb14
+
+m.label.bb14:                                     ; preds = %m.inst.bb23, %src.bb, %entry
+  %.047 = phi i32 [ %.249, %src.bb ], [ %.047, %m.inst.bb23 ], [ undef, %entry ]
+  %.044 = phi i32 [ %.246, %src.bb ], [ %.044, %m.inst.bb23 ], [ undef, %entry ]
+  %.041 = phi i32 [ %.2, %src.bb ], [ %spec.select, %m.inst.bb23 ], [ undef, %entry ]
+  %.040 = phi i32 [ %47, %src.bb ], [ %.040, %m.inst.bb23 ], [ undef, %entry ]
+  %.0 = phi i32 [ %45, %src.bb ], [ %.0, %m.inst.bb23 ], [ undef, %entry ]
+  %19 = phi i32 [ %32, %m.inst.bb23 ], [ %46, %src.bb ], [ undef, %entry ]
+  %20 = phi i32 [ %35, %m.inst.bb23 ], [ 0, %src.bb ], [ undef, %entry ]
+  %21 = phi i32 [ %32, %m.inst.bb23 ], [ undef, %src.bb ], [ 0, %entry ]
+  %22 = phi i32 [ %35, %m.inst.bb23 ], [ undef, %src.bb ], [ 0, %entry ]
+  %23 = select i1 %0, i32 %20, i32 %22
+  %24 = select i1 %0, i32 %.0, i32 %18
+  %25 = icmp eq i32 %23, %24
+  br i1 %25, label %m.label.bb30, label %m.label.bb17
+
+m.label.bb17:                                     ; preds = %m.label.bb14
+  %26 = add i32 %19, %18
+  %spec.select = select i1 %0, i32 %26, i32 %.041
+  %27 = select i1 %0, i32 %.040, i32 %21
+  %28 = select i1 %0, i32 %20, i32 %18
+  %29 = add i32 %27, %28
+  %30 = select i1 %0, i32 %spec.select, i32 %29
+  %31 = select i1 %0, i32 %29, i32 %22
+  %32 = sub i32 %30, %31
+  %33 = icmp ult i32 %9, %32
+  br i1 %33, label %m.inst.bb26, label %m.inst.bb23
+
+m.inst.bb23:                                      ; preds = %m.label.bb17
+  %34 = select i1 %0, i32 %20, i32 %22
+  %35 = add i32 %34, 1
+  br label %m.label.bb14
+
+m.inst.bb26:                                      ; preds = %m.label.bb17
+  %36 = select i1 %0, i32 %19, i32 %21
+  %37 = sub i32 %9, %36
+  %38 = getelementptr inbounds [3 x i32], [3 x i32]* %3, i64 0, i64 0
+  %39 = getelementptr inbounds [2 x i32], [2 x i32]* %4, i64 0, i64 0
+  %.042 = select i1 %0, i32* %38, i32* %39
+  %40 = select i1 %0, i32* %.042, i32* %.042
+  store i32 %37, i32* %40, align 4
+  br i1 %0, label %split.bb35, label %split.bb38
+
+m.inst.bb28:                                      ; preds = %split.bb38, %split.bb35
+  %.043 = phi i32* [ %50, %split.bb35 ], [ %51, %split.bb38 ]
+  %41 = select i1 %0, i32 %.040, i32 %22
+  %42 = select i1 %0, i32* %.043, i32* %.043
+  store i32 %41, i32* %42, align 4
+  br label %m.term.bb33
+
+m.label.bb30:                                     ; preds = %m.label.bb14
+  %43 = add i32 %.040, 1
+  %44 = add i32 %.0, -1
+  %.148 = select i1 %0, i32 %43, i32 %.047
+  %.145 = select i1 %0, i32 %44, i32 %.044
+  br i1 %0, label %src.bb, label %m.term.bb33
+
+m.term.bb33:                                      ; preds = %src.bb, %m.inst.bb28, %m.label.bb30
+  ret void
+
+src.bb:                                           ; preds = %m.label.bb30, %entry
+  %.249 = phi i32 [ undef, %entry ], [ %.148, %m.label.bb30 ]
+  %.246 = phi i32 [ undef, %entry ], [ %.145, %m.label.bb30 ]
+  %.2 = phi i32 [ undef, %entry ], [ %.041, %m.label.bb30 ]
+  %45 = phi i32 [ %.145, %m.label.bb30 ], [ %18, %entry ]
+  %46 = phi i32 [ %19, %m.label.bb30 ], [ 0, %entry ]
+  %47 = phi i32 [ %.148, %m.label.bb30 ], [ 0, %entry ]
+  %48 = icmp eq i32 %47, %18
+  br i1 %48, label %m.term.bb33, label %m.label.bb14
+
+split.bb35:                                       ; preds = %m.inst.bb26
+  %49 = getelementptr inbounds [3 x i32], [3 x i32]* %3, i64 0, i64 1
+  store i32 %20, i32* %49, align 4
+  %50 = getelementptr inbounds [3 x i32], [3 x i32]* %3, i64 0, i64 2
+  br label %m.inst.bb28
+
+split.bb38:                                       ; preds = %m.inst.bb26
+  %51 = getelementptr inbounds [2 x i32], [2 x i32]* %4, i64 0, i64 1
+  br label %m.inst.bb28
+}
+
+Estimated Sizes: 37 + 30 <= 59? 8 (1) Reduction: 11% 1 : @_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j; @_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j
+Merged: @_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j, @_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j = @_m_f_562
+Profitable Distance: 10
+
+
+
+
+F1:
+
+000000000001a9ac <_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j>:
+   1a9ac:       53                      push   rbx
+   1a9ad:       49 89 d0                mov    r8,rdx
+   1a9b0:       89 f1                   mov    ecx,esi
+   1a9b2:       48 8b 47 08             mov    rax,QWORD PTR [rdi+0x8]
+   1a9b6:       48 8b 57 20             mov    rdx,QWORD PTR [rdi+0x20]
+   1a9ba:       44 8b 14 8a             mov    r10d,DWORD PTR [rdx+rcx*4]
+   1a9be:       48 2b 07                sub    rax,QWORD PTR [rdi]
+   1a9c1:       48 b9 30 00 00 00 00    movabs rcx,0x30
+   1a9c8:       00 00 00
+   1a9cb:       48 99                   cqo
+   1a9cd:       48 f7 f9                idiv   rcx
+   1a9d0:       41 89 c1                mov    r9d,eax
+   1a9d3:       41 f7 d9                neg    r9d
+   1a9d6:       31 c9                   xor    ecx,ecx
+   1a9d8:       45 31 db                xor    r11d,r11d
+   1a9db:       41 39 c3                cmp    r11d,eax
+   1a9de:       74 33                   je     1aa13 <_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j+0x67>
+   1a9e0:       43 8d 34 19             lea    esi,[r9+r11*1]
+   1a9e4:       31 ff                   xor    edi,edi
+   1a9e6:       89 f2                   mov    edx,esi
+   1a9e8:       01 fa                   add    edx,edi
+   1a9ea:       74 14                   je     1aa00 <_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j+0x54>
+   1a9ec:       8d 14 01                lea    edx,[rcx+rax*1]
+   1a9ef:       41 8d 1c 3b             lea    ebx,[r11+rdi*1]
+   1a9f3:       29 da                   sub    edx,ebx
+   1a9f5:       41 39 d2                cmp    r10d,edx
+   1a9f8:       72 0b                   jb     1aa05 <_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j+0x59>
+   1a9fa:       ff c7                   inc    edi
+   1a9fc:       89 d1                   mov    ecx,edx
+   1a9fe:       eb e6                   jmp    1a9e6 <_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j+0x3a>
+   1aa00:       41 ff c3                inc    r11d
+   1aa03:       eb d6                   jmp    1a9db <_ZNK15PolynomialSpaceILi3EE13compute_indexEjRA3_j+0x2f>
+   1aa05:       41 29 ca                sub    r10d,ecx
+   1aa08:       45 89 10                mov    DWORD PTR [r8],r10d
+   1aa0b:       41 89 78 04             mov    DWORD PTR [r8+0x4],edi
+   1aa0f:       45 89 58 08             mov    DWORD PTR [r8+0x8],r11d
+   1aa13:       5b                      pop    rbx
+   1aa14:       c3                      ret
+   1aa15:       90                      nop
+
+
+
+F2:
+
+000000000001a970 <_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j>:
+   1a970:       49 89 d0                mov    r8,rdx
+   1a973:       89 f1                   mov    ecx,esi
+   1a975:       48 8b 47 08             mov    rax,QWORD PTR [rdi+0x8]
+   1a979:       48 8b 57 20             mov    rdx,QWORD PTR [rdi+0x20]
+   1a97d:       8b 34 8a                mov    esi,DWORD PTR [rdx+rcx*4]
+   1a980:       48 2b 07                sub    rax,QWORD PTR [rdi]
+   1a983:       6a 30                   push   0x30
+   1a985:       59                      pop    rcx
+   1a986:       48 99                   cqo
+   1a988:       48 f7 f9                idiv   rcx
+   1a98b:       31 ff                   xor    edi,edi
+   1a98d:       31 d2                   xor    edx,edx
+   1a98f:       39 d0                   cmp    eax,edx
+   1a991:       74 18                   je     1a9ab <_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j+0x3b>
+   1a993:       8d 0c 07                lea    ecx,[rdi+rax*1]
+   1a996:       29 d1                   sub    ecx,edx
+   1a998:       39 ce                   cmp    esi,ecx
+   1a99a:       72 06                   jb     1a9a2 <_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j+0x32>
+   1a99c:       ff c2                   inc    edx
+   1a99e:       89 cf                   mov    edi,ecx
+   1a9a0:       eb ed                   jmp    1a98f <_ZNK15PolynomialSpaceILi2EE13compute_indexEjRA2_j+0x1f>
+   1a9a2:       29 fe                   sub    esi,edi
+   1a9a4:       41 89 30                mov    DWORD PTR [r8],esi
+   1a9a7:       41 89 50 04             mov    DWORD PTR [r8+0x4],edx
+   1a9ab:       c3                      ret
+
+
+
+
+F1-F2:
+
+0000000000075910 <_m_f_563>:
+   75910:       55                      push   rbp
+   75911:       41 57                   push   r15
+   75913:       41 56                   push   r14
+   75915:       41 54                   push   r12
+   75917:       53                      push   rbx
+   75918:       89 d0                   mov    eax,edx
+   7591a:       48 8b 56 08             mov    rdx,QWORD PTR [rsi+0x8]
+   7591e:       48 8b 6e 20             mov    rbp,QWORD PTR [rsi+0x20]
+   75922:       44 8b 4c 85 00          mov    r9d,DWORD PTR [rbp+rax*4+0x0]
+   75927:       48 2b 16                sub    rdx,QWORD PTR [rsi]
+   7592a:       48 c1 ea 04             shr    rdx,0x4
+   7592e:       44 69 e2 ab aa aa aa    imul   r12d,edx,0xaaaaaaab
+   75935:       45 31 ff                xor    r15d,r15d
+   75938:       45 89 e2                mov    r10d,r12d
+   7593b:       41 bb 00 00 00 00       mov    r11d,0x0
+   75941:       40 f6 c7 01             test   dil,0x1
+   75945:       74 09                   je     75950 <_m_f_563+0x40>
+   75947:       45 39 e3                cmp    r11d,r12d
+   7594a:       0f 84 9d 00 00 00       je     759ed <_m_f_563+0xdd>
+   75950:       40 f6 c7 01             test   dil,0x1
+   75954:       45 89 e6                mov    r14d,r12d
+   75957:       45 0f 45 f2             cmovne r14d,r10d
+   7595b:       31 db                   xor    ebx,ebx
+   7595d:       31 f6                   xor    esi,esi
+   7595f:       41 39 f6                cmp    r14d,esi
+   75962:       0f 84 42 00 00 00       je     759aa <_m_f_563+0x9a>
+   75968:       0f 1f 84 00 00 00 00    nop    DWORD PTR [rax+rax*1+0x0]
+   7596f:       00
+   75970:       40 f6 c7 01             test   dil,0x1
+   75974:       89 dd                   mov    ebp,ebx
+   75976:       41 0f 45 eb             cmovne ebp,r11d
+   7597a:       44 89 e0                mov    eax,r12d
+   7597d:       0f 45 c6                cmovne eax,esi
+   75980:       01 e8                   add    eax,ebp
+   75982:       40 f6 c7 01             test   dil,0x1
+   75986:       89 f2                   mov    edx,esi
+   75988:       0f 45 d0                cmovne edx,eax
+   7598b:       43 8d 2c 27             lea    ebp,[r15+r12*1]
+   7598f:       40 f6 c7 01             test   dil,0x1
+   75993:       0f 44 e8                cmove  ebp,eax
+   75996:       29 d5                   sub    ebp,edx
+   75998:       41 39 e9                cmp    r9d,ebp
+   7599b:       72 22                   jb     759bf <_m_f_563+0xaf>
+   7599d:       83 c6 01                add    esi,0x1
+   759a0:       41 89 ef                mov    r15d,ebp
+   759a3:       89 eb                   mov    ebx,ebp
+   759a5:       41 39 f6                cmp    r14d,esi
+   759a8:       75 c6                   jne    75970 <_m_f_563+0x60>
+   759aa:       40 f6 c7 01             test   dil,0x1
+   759ae:       74 3d                   je     759ed <_m_f_563+0xdd>
+   759b0:       41 83 c3 01             add    r11d,0x1
+   759b4:       41 83 c2 ff             add    r10d,0xffffffff
+   759b8:       45 39 e3                cmp    r11d,r12d
+   759bb:       75 93                   jne    75950 <_m_f_563+0x40>
+   759bd:       eb 2e                   jmp    759ed <_m_f_563+0xdd>
+   759bf:       40 f6 c7 01             test   dil,0x1
+   759c3:       41 0f 45 df             cmovne ebx,r15d
+   759c7:       41 29 d9                sub    r9d,ebx
+   759ca:       4c 89 c0                mov    rax,r8
+   759cd:       40 f6 c7 01             test   dil,0x1
+   759d1:       48 0f 45 c1             cmovne rax,rcx
+   759d5:       44 89 08                mov    DWORD PTR [rax],r9d
+   759d8:       74 0c                   je     759e6 <_m_f_563+0xd6>
+   759da:       89 71 04                mov    DWORD PTR [rcx+0x4],esi
+   759dd:       48 83 c1 08             add    rcx,0x8
+   759e1:       44 89 19                mov    DWORD PTR [rcx],r11d
+   759e4:       eb 07                   jmp    759ed <_m_f_563+0xdd>
+   759e6:       49 83 c0 04             add    r8,0x4
+   759ea:       41 89 30                mov    DWORD PTR [r8],esi
+   759ed:       5b                      pop    rbx
+   759ee:       41 5c                   pop    r12
+   759f0:       41 5e                   pop    r14
+   759f2:       41 5f                   pop    r15
+   759f4:       5d                      pop    rbp
+   759f5:       c3                      ret
+   759f6:       66 2e 0f 1f 84 00 00    nop    WORD PTR cs:[rax+rax*1+0x0]
+   759fd:       00 00 00
+
+
