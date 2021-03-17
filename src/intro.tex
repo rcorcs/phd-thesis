@@ -1,10 +1,83 @@
 
 \chapter{Introduction}
 
-%Code size is a critical issue whenever the program size becomes too large for the available resources.
-Program size is a critical issue whenever it becomes excessively large relative to given constraints such as the addressable memory space, storage size, download bandwidth, etc.
-As programs gain new features over time, continuously growing in complexity, program size can often become a critical issue for anything ranging from the context of tiny embedded devices up to extremely large programs in servers.
-As a result, reducing the code size is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17} and compilation techniques must be developed and tuned primarily for optimising binary size.
+
+While often overlooked, program size can be a first-order constraint.
+From tiny embedded devices up to cloud servers, these systems are all operating under limited addressable memory, storage, or bandwidth. When the program becomes excessively large relative to the given constraints, this has a detrimental effect on the system.
+%In the extreme, this means failure.
+This is very likely to happen as programs gain new features over time, continuously growing in size and complexity~\cite{lavaee19,chabbi21}.
+In such scenarios, reducing the application footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17,chabbi21}.
+
+% %Code size is a critical issue whenever the program size becomes too large for the available resources.
+% Program size is a critical issue whenever it becomes excessively large relative to given constraints such as the addressable memory space, storage size, download bandwidth, etc.
+% As programs gain new features over time, continuously growing in complexity, program size can often become a critical issue for anything ranging from the context of tiny embedded devices up to extremely large programs in servers.
+% As a result, reducing the code size is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17}.
+
+%and compilation techniques must be developed and tuned primarily for optimising binary size.
+
+Despite the importance of keeping code size small, compilers still make little effort to reduce it, except for some classical optimisations, such as dead-code elimination.
+Their efforts are usually limited to disabling performance optimisations that tend to increase size, such as loop unrolling or inlining.
+Developers might have more luck just removing functionality from their libraries~\cite{keoh14} or hand-optimizing their code~\cite{weaver09}.
+However, these efforts are often undesirable if even possible at all.
+Therefore, we must develop and tune compilation techniques primarily focused on reducing code size.
+
+Code-size optimisations work by replacing a piece of code with another that is semantically equivalent but uses fewer or smaller instructions, in the binary format, sometimes combining and reusing equivalent pieces of code.
+Classical optimisations that are effective in reducing code size include the elimination of redundant, unreachable, or dead code~\cite{cocke70,briggs97,debray00}.
+Although initially motivated by performance, these classical optimisations achieve better performance by reducing the static number of instructions in the code, which translates to fewer dynamic instructions during runtime.
+
+Recently, we have seen some progress with optimisations based on merging equivalent code within or across functions~\cite{edler14,chabbi21}.
+One important optimisation capable of reducing code size is function merging.
+In its simplest form, function merging reduces replicated code by combining multiple identical functions into a single one~\cite{llvm-fm,livska14}.
+This optimisation is found in linkers, by the name of \textit{identical code folding}~(ICF), where text-identical functions at the bit level are merged~\cite{tallam10,kwan12,msvc-icf}.
+
+It is obvious how function merging can reduce code size by removing function duplicates.
+Nevertheless, it can also potentially reduce compilation time.
+For example, when merging two identical functions, the remaining compilation pipeline will have one less function to process and optimise.
+These benefits are not as obvious when merging non-identical functions as it introduces extra code, adding complexity to the merged function.
+In the thesis, even though our main goal is reducing code size, we will focus on both dimensions.
+
+\section{The Importance of Code Size for Different Domains}
+
+In this section, we discuss in detail the importance of code size for different domains.
+
+The embedded system market is rapidly growing.
+Embedded systems need to perform increasingly complex tasks, with their application binaries often reaching several megabytes in size, while running on inexpensive and resource-constrained devices.
+As a result, permanent storage and memory size becomes a limiting factor~\cite{plaza18}.
+Just adding more memory is not always a viable option.
+Highly integrated systems-on-chip are common in this market and their memories typically occupy the largest fraction of the chip area, contributing to most of the overall cost.
+Even small increases in memory area translate directly to equivalent increases in cost, which lead to enormous levels of lost profit at large scales~\cite{edler10}.
+In addition to cost, embedded systems are also often limited by other factors such as weight, area, and energy consumption~\cite{tiggeler00,edwards20}.
+All these factors limit the size of the storage and memory available in embedded systems. 
+
+%Modern mobile application binaries are bulky for many reasons: software and its dependencies, fast-paced addition of new features, high-level language constructs, and statically linked platform libraries.
+Modern mobile applications tend to have large binaries that need to support as many devices as possible, including low-end devices with limited resources~\cite{hart02,etzo10}.
+Furthermore, Apple App Store imposes a limit when downloading an application over the mobile broadband.
+Applications larger than this limit must be downloaded only over the Wi-Fi.
+These restrictions on the size of the application may significantly impact revenues for critical businesses.
+Chabbi~et~al.~\cite{chabbi21} have shown that certain large applications may have over 90\%
+of its total size being taken by their binary code, where the remaining size is due to media and resources.
+For these applications, reducing the application's binary size becomes of utmost importance for their businesses.
+%For these systems, reducing the binary size helps to improve the end-user experience but it is also critical for conforming with vendor's download-size limitations.
+%Moreover, data consumption over wireless carriers can be either limited or expensive.
+%As a result, there is an increasing focus on the development of programs tailored for these low-end devices with limited memory sizes~\cite{androidGo,hahm16}.
+
+Beyond just mobile and embedded systems, powerful machines can also be unable to properly handle extremely large programs.
+For example, compilation and load time can become impractical for extremely large programs and codebases~\cite{haas17,jaspan18}.
+Moreover, address space also limits how large programs can become.
+Upgrading computers at scale is a challenging and costly process even for large datacenters~\cite{yan16,neamtiu11}.
+As a result, outdated 32-bit machines have an addressable memory space limited to less than 4.5~GB, setting a limit on program size.
+This limitation is even worse on machines with shorter word widths.
+In such constrained scenarios, reducing the application's footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17}.
+
+\section{Limitations of Existing Function Merging}
+
+% This is traditionally achieved by focusing on reducing the code size, either when designing the source code or by tuning the compiler to optimise for size~\cite{fisher05,sehgal12,hennessy17,rocha19}.
+% %Unfortunately, production compilers offer little help beyond dead-code elimination or merging identical functions~\cite{tallam10,kwan12,livska14}.
+% %Developers might have more luck just removing functionality from their libraries~\cite{keoh14} or hand-optimizing their code~\cite{weaver09}.
+% %Despite the importance of keeping code size small, compilers still make little effort to reduce it, except for these classical optimisations, their efforts are limited to disabling performance optimisations which increase size.
+% Despite the importance of keeping code size small, production compilers offer little help beyond a few classical optimisations~\cite{cocke70,briggs97,debray00}.
+% Because of that, to avoid the expensive costs of extra storage and memory, the developers of these systems have to manually find ways to shrink their code, which is also costly and undesirable~\cite{keoh14,weaver09}.
+
 
 %For example, mobile and embedded systems must often run on inexpensive and resource-constrained devices , with limited memory, storage, and CPU caches.
 %This ranges from programs for small 
@@ -21,42 +94,6 @@ As a result, reducing the code size is essential~\cite{schultz03,varma04,sehgal1
 %memory~\cite{yelamarthi17,plaza18}.
 %At the same time, low-end devices have been playing an important role in driving
 %innovation in developing countries~\cite{hart02,etzo10}.
-
-
-Embedded systems are becoming pervasive as well as increasingly complex, with their application binaries often reaching several megabytes in size, turning memory size into a limiting factor~\cite{plaza18}.
-Just adding more memory is not always a viable option.
-Highly integrated systems-on-chip are common in this market and their memories typically occupy the largest fraction of the chip area, contributing to most of the overall cost.
-Even small increases in memory area translate directly to equivalent increases in cost, which lead to enormous levels of lost profit at large scales~\cite{edler10}.
-In addition to cost, embedded systems are also often limited by other factors such as weight, energy consumption, etc.~\cite{tiggeler00,edwards20}.
-
-%Modern mobile application binaries are bulky for many reasons: software and its dependencies, fast-paced addition of new features, high-level language constructs, and statically linked platform libraries.
-Modern mobile applications tend to have large binaries that need to support as many devices as possible, including low-end devices with limited resources~\cite{hart02,etzo10}.
-Furthermore, Apple App Store imposes a limit when downloading an application over the mobile broadband.
-Applications larger than this limit must be downloaded only over the Wi-Fi.
-These restrictions on the size of the application may significantly impact revenues for critical businesses.
-Chabbi~et~al.~\cite{chabbi21} have shown that certain large applications may have over 90\%
-of its total size being taken by their binary code, where the remaining size is due to media and resources.
-For these applications, reducing the application's binary size becomes of utmost importance for their businesses.
-%For these systems, reducing the binary size helps to improve the end-user experience but it is also critical for conforming with vendor's download-size limitations.
-%Moreover, data consumption over wireless carriers can be either limited or expensive.
-%As a result, there is an increasing focus on the development of programs tailored for these low-end devices with limited memory sizes~\cite{androidGo,hahm16}.
-
-
-Beyond just mobile and embedded systems, address space also limits how large programs can become.
-Upgrading computers at scale is a challenging and costly process even for large datacenters~\cite{yan16,neamtiu11}.
-As a result, outdated 32-bit machines have an addressable memory space limited to less than 4.5~GB, setting a limit on program size.
-This limitation is even more noticeable on smaller machines with shorter word widths.
-In such constrained scenarios, reducing the application footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17}.
-This is traditionally achieved by focusing on reducing the code size, either when designing the source code or by tuning the compiler to optimise for size~\cite{fisher05,sehgal12,hennessy17,rocha19}.
-%Unfortunately, production compilers offer little help beyond dead-code elimination or merging identical functions~\cite{tallam10,kwan12,livska14}.
-%Developers might have more luck just removing functionality from their libraries~\cite{keoh14} or hand-optimizing their code~\cite{weaver09}.
-%Despite the importance of keeping code size small, compilers still make little effort to reduce it, except for these classical optimisations, their efforts are limited to disabling performance optimisations which increase size.
-Despite the importance of keeping code size small, production compilers offer little help beyond a few classical optimisations~\cite{cocke70,briggs97,debray00}.
-Because of that, to avoid the expensive costs of extra storage and memory, the developers of these systems have to manually find ways to shrink their code, which is also costly and undesirable~\cite{keoh14,weaver09}.
-
-Code-size optimisations work by replacing a piece of code with another that is semantically equivalent but uses fewer or smaller instructions, sometimes combining and reusing equivalent pieces of code.
-Classical optimisations that are effective in reducing code size include the elimination of redundant, unreachable, and dead code, as well as certain kinds of strength reduction~\cite{cocke70,briggs97,debray00}.
-Although initially motivated by performance, these classical optimisations achieve better performance by focusing on code-size reduction.
 
 One important optimisation capable of reducing code size is function merging.
 In its simplest form, function merging reduces replicated code by combining multiple identical functions into a single one~\cite{llvm-fm,livska14}.
@@ -134,46 +171,76 @@ profiling information in the decision-making, enabling the compiler to avoid mer
 %identify blocks of hot code and effectively minimise the overhead in this portion of the code.
 %disable code size optimisations for them. 
 
+
 \section{Contribution}
 
-In this thesis, we make the following contributions:
+%This thesis consists of ideas and results which have been described in previous publications.
+In this section, we provide an overview of the main contributions presented in this thesis.
+
+\subsection{Function Merging by Sequence Alignment}
+
+Existing function merging techniques fail to produce any noticeable code size reduction in most programs.
+Our insight is that the weak results of existing function merging implementations are not due to the lack of duplicate code but due to the rigid, overly restrictive algorithms they use to find duplicates.
+These techniques only work on either identical or mostly identical functions, limiting their potential to reduce code size.
+
+As the first contribution of this thesis, we introduce a novel way to merge functions that lifts most of the restrictions imposed by prior techniques.
+%We present a novel function merging optimisation for code size reduction.
+Our technique is the first that allows merging arbitrary functions, including functions with different signatures and control flow graphs.
+The proposed optimisation uses sequence alignment to identify code similarity and guide the merging operation.
+It also merges parameters based on their usage, minimising the number of parameters and operand selection, and handles different returning using a union-like approach.
+The goal is to maximise the amount of merged code while minimising the overhead required to handle the differences.
+
+Since our technique is able to merge any pair of functions, it is necessary to identify which pairs of functions are the most profitable to merge.
+To this end, we introduce a novel ranking mechanism for focusing our optimisation on function pairs that are more likely to be profitably merged.
+The proposed mechanism first pre-computes fingerprints summarising each function and later use them to rank function candidates based on the fingerprint similarity.
+For each function, merging will be only attempted for the top ranked candidates, significantly reducing compilation overhead while still resulting in a meaningful code size reduction.
+
+These contributions have been previously described in the following publication:
 \begin{itemize}
-  \item 
-  We present a novel function merging optimisation for code size reduction.
-  Our technique is the first that allows merging arbitrary functions, including functions with different signatures and control flow graphs.
-  The proposed optimisation uses sequence alignment to identify code similarity and guide the merging operation.
-  It also merges parameters based on their usage, minimising the number of parameters and operand selection, and handles different returning using a union-like approach.
-  The goal is to maximise the amount of merged code while minimising the overhead required to handle the differences.
-  
-  \item
-  Since our technique is able to merge any pair of functions, it is necessary to identify which pairs of functions are the most profitable to merge.
-  We introduce a novel ranking mechanism for focusing our optimisation on function pairs that are more likely to be profitably merged.
-  The proposed mechanism first pre-computes fingerprints summarising each function and later use them to rank function candidates based on the fingerprint similarity.
-  For each function, merging will be only attempted for the top ranked candidates, significantly reducing compilation overhead while still significantly improving on code size reduction.
+\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, and Hugh Leather. ``Function merging by sequence alignment.'' In IEEE/ACM International Symposium on Code Generation and Optimization (CGO), pp. 149-163. Best Paper Award. 2019.
+\end{itemize}
 
-  %\item
-  %Our function merging by sequence alignment technique is able to reduce code size by up to 25\% on Intel and 30\% on ARM, significantly outperforming the state-of-the-art, while introducing minimal compile-time and negligible run-time overheads.
 
-  \item
-  We present an improved code generator for the function merging transformation, effectively merging functions in the SSA form, including phi-nodes.
-  This removes the need to perform register demotion prior to function merging, resulting in smaller functions being merged. 
-  This approach results in better merged functions for not relying in later reversing the effects of register demotion.
-  Merging smaller functions also significantly reduces compilation overhead, due to the quadratic nature of sequence alignment.
+\subsection{Effective Function Merging in the SSA Form}
 
-  \item
-  The code generator also includes a novel phi-node coalescing optimisation tailored for function merging, reducing the total number of phi-nodes and easing the pressure on registers.
-  Phi-node coalescing is able to reduce the number of phi-nodes and selection, producing smaller merged functions and reducing code size even further.
+Although our technique, introduced in Chapter~\ref{chp:cgo19}, achieves impressive results, it does not directly handle phi-nodes which are fundamental to the SSA form.
+Instead, it applies register demotion to replace all such nodes with memory operations, in an attempt to simplify the code generation processes.
+As we show in Chapter~\ref{chp:pldi20}, after register demotion, functions tend to be almost twice as long due to an excessive number of memory operations.
+Therefore, such strategy comes at the cost of poor merge results, larger memory footprint, and longer compilation time.
 
-  %\item
-  %We propose a two-tier profitability analysis for the decision-making heuristic of the function merging optimisation.
-  %First, we use a deep learning model responsible for filtering out pairs of input functions that are more likely to result in an unprofitable merge operation.
-  %Second, we use a more accurate but expensive cost model based on a partial recompilation of the code.
-  \item In order to reduce the compilation-time overheads, we propose a new sequence alignment strategy that works on the basic block level. Because basic blocks tend to be much smaller than whole functions, this strategy greatly reduces the impact of the quadratic sequence alignment algorithm.
+Chapter~\ref{chp:pldi20} presents our improved technique that avoids this pitfall with a new code generator capable of handling phi-nodes properly and completely bypassing register demotion.
+%This leads to better code reduction performance and faster compilation time.
+This approach results in better merged functions for not relying in later reversing the effects of register demotion.
+Merging smaller functions also significantly reduces compilation overhead, due to the quadratic nature of sequence alignment.
 
-  \item We propose a linear pairwise alignment that works on pairs of basic blocks of the same size. We have observed that profitably merged functions tend to have highly similar basic blocks.
+The code generator also includes a novel phi-node coalescing optimisation tailored for function merging, reducing the total number of phi-nodes and easing the pressure on registers.
+Phi-node coalescing is able to reduce the number of phi-nodes and selection, producing smaller merged functions and reducing code size even further.
 
-  %\item 
+These contributions have been previously described in the following publication:
+\begin{itemize}
+\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, and Hugh Leather. ``Effective function merging in the SSA form.'' In ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI), pp. 854-868. 2020.
+\end{itemize}
 
+\subsection{Function Merging for Free}
+
+Our solution presented in Chapter~\ref{chp:pldi20}, SalSSA, achieves on average a 10\% code size reduction but at the cost of crippling compile-time inefficiencies, especially for large programs.
+In Chapter~\ref{chp:lctes21}, we show that SalSSA can lead to 40\% slower compilation, taking up to 32~GB of peak memory usage even for modestly-sized program.
+Such a resource requirement is beyond what is typically available to a developer and thus unsuitable for optimizing real-life programs.
+These inefficiencies stem directly its quadratic sequence alignment used to identify mergeable instructions in a pair of input functions.
+
+In order to address these inefficiencies, we propose a new sequence alignment strategy that works on the basic block level.
+Because basic blocks tend to  be much smaller than whole functions, this strategy greatly reduces the impact of the quadratic sequence alignment algorithm.
+For even greater speedups, we propose a linear pairwise alignment that works on pairs of basic blocks of the same size. 
+This technique is often enough to achieve good code size reduction, because profitably merged functions tend to have highly similar basic blocks.
+
+We also propose a multi-tier profitability analysis.
+This include a fine-grain analysis that estimates the profitability of the aligned basic blocks before actually generating their merged code,
+allowing the compiler to bail out early from unprofitable merging attempts, speeding up the optimization process.
+This fine-grain analysis on the aligned blocks result in improved code size reduction.
+
+These contributions have been previously described in the following paper, which is currently under review:
+\begin{itemize}
+\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather, Kim Hazelwood. ``HyFM: Function Merging for Free.'' Submitted to the International Conference on Languages Compilers, Tools and Theory of Embedded Systems (LCTES). 2021.
 \end{itemize}
 
 \section{Structure}
@@ -191,7 +258,7 @@ Finally, it describes the deep learning techniques used in this work.
 
 \item[Chapter~\ref{chp:pldi20}] describes our new code generator for function merging that is capable of effectively handling functions in the SSA form, optimizing phi-nodes.
 
-\item[Chapter~\ref{chp:deeplearning}] describes our two-tier profitability analysis based on deep learning and partial recompilation. Our partial recompilation mechanism is based on {\itercomp}, where we recompile sections of code to discover profitable merging opportunities. We also propose the use of deep learning to reduce the number of recompilations needed by predicting clearly unprofitable merging attempts.
+%\item[Chapter~\ref{chp:deeplearning}] describes our two-tier profitability analysis based on deep learning and partial recompilation. Our partial recompilation mechanism is based on {\itercomp}, where we recompile sections of code to discover profitable merging opportunities. We also propose the use of deep learning to reduce the number of recompilations needed by predicting clearly unprofitable merging attempts.
 
 \item[Chapter~\ref{chp:conclusion}] summarises the overall findings of the thesis and outlines potential avenues for future research.
 

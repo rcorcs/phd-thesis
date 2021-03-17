@@ -13,7 +13,7 @@ The technique proposed in Chapter~\ref{chp:pldi20}, {\SOAName}, can lead to 40\%
 Such a resource requirement is beyond what is typically available to a developer and thus unsuitable for optimizing real-life programs.
 %assuming the development system has that much available memory to begin with.
 
-These inefficiencies stem directly from {\SOAName}'s core innovation, i.e., the use of sequence alignment to discover the optimal way to match mergeable instructions in a pair of functions.
+These inefficiencies stem directly from {\SOAName}'s core innovation, i.e., the sequence alignment algorithm used to identify mergeable instructions in a pair of input functions.
 The alignment algorithm has quadratic time and space complexity, so applying it on whole functions with thousands of instructions results in unacceptable overheads.
 This severely limits the applicability of function merging on relatively large programs.
 %A different function merging approach that delivers similarly high code size reduction without the overheads is necessary.
