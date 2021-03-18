@@ -109,7 +109,7 @@ While this approach is flexible enough to identify very complex alignments, what
 
 This example shows us that we could achieve similar code size reduction by breaking the problem of aligning functions into two simpler processes: first identifying highly similar basic blocks and then aligning the instructions in each pair of similar blocks. 
 %merging functions on the basic block rather than on the instruction level adopted by \SOAName.
-By operating on basic blocks, we could greatly reduce the length of the sequences to be aligned and the associated compilation and memory overhead. Furthermore, by making profitability decisions for each pair of basic blocks separately, we could avoid merging unprofitable pairs. The rest of this paper shows how we use such an approach to overcome the weaknesses of \SOAName and make function merging practical for optimizing large programs. 
+By operating on basic blocks, we could greatly reduce the length of the sequences to be aligned and the associated compilation and memory overhead. Furthermore, by making profitability decisions for each pair of basic blocks separately, we could avoid merging unprofitable pairs. The rest of this chapter shows how we use such an approach to overcome the weaknesses of \SOAName and make function merging practical for optimizing large programs. 
 
 %Therefore, the main takeaways are:
 %1) It often suffices to merge functions on a per basic block manner. %, since crossing the basic block boundary is rarely necessary.
