@@ -59,6 +59,10 @@ The generator then produces code top-down, starting with the control flow graph 
 Chapter~\ref{chp:pldi20} also introduces a novel phi-node coalescing optimisation which is integrated with function merging in order to produce fewer phi-nodes and selections in the merged functions.
 This optimisation pairs disjoint values coming from each one of the input functions so that they can share the same phi-nodes.
 
+
+\subsection{}
+
+
 \section{Future Work} \label{sec:conclusion:futurework}
 
 For future work, we plan to focus on improving the ranking mechanism to reduce compilation time.
@@ -159,4 +163,4 @@ However, our solution must be adapted to the requirements that are specific to a
 This would require the development of completely new algorithms for ranking and aligning functions that are suitable for this application domain.
 Another possibility is to exploit the fact multiple programs may be simultaneously running on the same JIT environment and merge code across different programs, reducing the overall memory usage.
 
-\section{Summary} \label{sec:conclusion:summary}
+%\section{Summary} \label{sec:conclusion:summary}

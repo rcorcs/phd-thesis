@@ -186,6 +186,9 @@ profiling information in the decision-making, enabling the compiler to avoid mer
 
 %This thesis consists of ideas and results which have been described in previous publications.
 In this section, we provide an overview of the main contributions presented in this thesis.
+We provide the first techniques capable of merging arbitrary pair of functions.
+Then, we build on this technique to achieve an even greater code size reduction while also reducing its compilation-time overheads.
+Our final contribution is a function merging technique that can effectively reduce code size as well as end-to-end compilation time.
 
 \subsection{Function Merging by Sequence Alignment}
 
@@ -253,6 +256,11 @@ We also propose a multi-tier profitability analysis.
 This include a fine-grain analysis that estimates the profitability of the aligned basic blocks before actually generating their merged code,
 allowing the compiler to bail out early from unprofitable merging attempts, speeding up the optimization process.
 This fine-grain analysis on the aligned blocks result in improved code size reduction.
+
+We show that this technique is capable of reducing end-to-end compilation time.
+This result can be achieved due to two main reasons:
+1) Merging functions and removing code duplicates, it reduces the overall amount of code that needs to be optimised and processed by the remaining compilation pipeline.
+2) The compilation overhead required for merging functions is smaller than its benefits, resulting in a overall reduction to the end-to-end compilation time.
 
 These contributions have been previously described in the following paper, which is currently under review:
 \begin{itemize}
