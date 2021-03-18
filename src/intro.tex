@@ -71,42 +71,52 @@ In such constrained scenarios, reducing the application's footprint is essential
 
 \section{Limitations of Existing Function Merging}
 
-% This is traditionally achieved by focusing on reducing the code size, either when designing the source code or by tuning the compiler to optimise for size~\cite{fisher05,sehgal12,hennessy17,rocha19}.
-% %Unfortunately, production compilers offer little help beyond dead-code elimination or merging identical functions~\cite{tallam10,kwan12,livska14}.
-% %Developers might have more luck just removing functionality from their libraries~\cite{keoh14} or hand-optimizing their code~\cite{weaver09}.
-% %Despite the importance of keeping code size small, compilers still make little effort to reduce it, except for these classical optimisations, their efforts are limited to disabling performance optimisations which increase size.
-% Despite the importance of keeping code size small, production compilers offer little help beyond a few classical optimisations~\cite{cocke70,briggs97,debray00}.
-% Because of that, to avoid the expensive costs of extra storage and memory, the developers of these systems have to manually find ways to shrink their code, which is also costly and undesirable~\cite{keoh14,weaver09}.
-
-
-%For example, mobile and embedded systems must often run on inexpensive and resource-constrained devices , with limited memory, storage, and CPU caches.
-%This ranges from programs for small 
-%In recent years, the market for mobile and embedded systems has been rapidly growing.
-%These systems must often run on inexpensive and resource-constrained devices, with limited memory, storage, CPU caches. %and their applications are designed with different goals compared to traditional computing systems.
-%Applications for these systems are designed and built with different goals compared to traditional computing systems since their binaries must fit in a limited memory size.
-%One way to deal with limited memory is to develop compilation techniques which generate small binaries.
-%Hence, compilation techniques must be primarily focused on optimising for binary size.
-%Compilation techniques can be used to 
-%It is therefore important that program these system are optimised for binary size.
-
-%Furthermore, the rise of the Internet of Things (IoT) depends heavily on tiny and efficient devices.
-%Some of these devices can have as little as only a few kilobytes of
-%memory~\cite{yelamarthi17,plaza18}.
-%At the same time, low-end devices have been playing an important role in driving
-%innovation in developing countries~\cite{hart02,etzo10}.
-
-One important optimisation capable of reducing code size is function merging.
-In its simplest form, function merging reduces replicated code by combining multiple identical functions into a single one~\cite{llvm-fm,livska14}.
-This optimisation is found in linkers, by the name of \textit{identical code folding}~(ICF), where text-identical functions at the bit level are merged~\cite{tallam10,kwan12,msvc-icf}.
+Google developed an optimization for the \textit{gold} linker that merges
+identical functions on a bit-level~\cite{tallam10,kwan12}. 
+Similar machine-level implementations are also offered by other production compilers
+and linkers, such as MSVC~\cite{msvc-icf}.
+% However, this machine-level solution is target-dependent and needs to be adapted for every back-end.
+% A similar optimization for merging identical functions is offered at the IR level by both GCC and LLVM~\cite{llvm-fm,livska14}.
 However, such solutions are platform-specific and need to be adapted for each object code format and hardware architecture.
 Alternatively, compilers also provide a similar optimisation for merging identical functions at their mid-level intermediate representation (IR) and hence is agnostic to the target hardware~\cite{llvm-fm,livska14}.
 Unfortunately, these optimisations can only merge fully identical functions with at most type mismatches that can be losslessly cast to the same format.
+These techniques can leverage their simplicity to efficiently identify groups of mergeable functions.
+First they compute the hash of all functions, then a tree structure is used to group equivalent functions based on their hash values.
 
 More advanced approaches can identify similar, but not necessarily identical, functions and replace them with a single function that combines the functionality of the original functions while eliminating redundant code.
 At a high level, the way this works is that code specific to only one input function is added to the merged function but made conditional to a function identifier, while code found in both input functions is added only once and executed regardless of the function identifier.
 %The work presented by von Koch~et~al.~\cite{edler14} proposed a merging strategy that exploits the isomorphism in the control-flow graphs (CFG) of the functions being merged.
 %These functions can only differ between corresponding instructions, specifically, in their opcodes or the number and types of the input operands.
 %However, they must have identical CFGs and function types.
+The function-merging technique presented by von Koch~et~al.~\cite{edler14} exploits similarity among functions.
+% Their optimization is able to merge similar functions that are not necessarily
+% identical.
+Two functions are structurally similar if both their function types are equivalent
+and their control-flow graphs (CFGs) isomorphic.
+Two function types are equivalent if they agree in the number, order, and types
+of their parameters as well as
+their return types, linkage type, and other compiler-specific properties.
+In addition to the structural similarity of the functions, their technique also
+requires that corresponding basic blocks have exactly the same number of instructions
+and that corresponding instructions must have equivalent resulting types.
+% but may differ in their opcodes or in the number and type of their input operands.
+Mergeable functions are only allowed to differ in corresponding instructions,
+where they can differ in their opcodes or input operands.
+%The only differences that are actually allowed is that
+%corresponding instructions can 
+%differ in their opcodes or in the number and type of their input operands.
+
+%If two corresponding instructions have different opcodes, they split the basic
+%block and insert a switch branch to select which instruction to execute
+%depending on a function identifier.
+
+% Because the state-of-the-art is limited to functions with identical CFGs
+% and function types, once it merges a pair of functions, a third
+% \textit{similar} function cannot be merged into the resulting merged function
+% since they will differ in both CFGs and their lists of parameters.
+% Due to this limiting factor, the state-of-the-art has to first collect all
+% mergeable functions and merge them simultaneously.
+
 
 %Although a simple and intuitive concept, it is crucial for making high-level abstractions usable, when they introduce duplicate code~\cite{tallam10,kwan12}.
 %For example, some C++ ABIs may end up creating multiple identical constructors and destructors of a class to use in different contexts~\cite{kwan12} and C++ templates replicate code for different specialisations~\cite{tallam10,livska14}.
@@ -171,13 +181,14 @@ profiling information in the decision-making, enabling the compiler to avoid mer
 %identify blocks of hot code and effectively minimise the overhead in this portion of the code.
 %disable code size optimisations for them. 
 
-
 \section{Contribution}
 
 %This thesis consists of ideas and results which have been described in previous publications.
 In this section, we provide an overview of the main contributions presented in this thesis.
 
 \subsection{Function Merging by Sequence Alignment}
+
+%The first technique capable of merging arbitrary pair of functions.
 
 Existing function merging techniques fail to produce any noticeable code size reduction in most programs.
 Our insight is that the weak results of existing function merging implementations are not due to the lack of duplicate code but due to the rigid, overly restrictive algorithms they use to find duplicates.
@@ -203,6 +214,8 @@ These contributions have been previously described in the following publication:
 
 \subsection{Effective Function Merging in the SSA Form}
 
+%Uncovers even more code size reduction.
+
 Although our technique, introduced in Chapter~\ref{chp:cgo19}, achieves impressive results, it does not directly handle phi-nodes which are fundamental to the SSA form.
 Instead, it applies register demotion to replace all such nodes with memory operations, in an attempt to simplify the code generation processes.
 As we show in Chapter~\ref{chp:pldi20}, after register demotion, functions tend to be almost twice as long due to an excessive number of memory operations.
@@ -222,6 +235,8 @@ These contributions have been previously described in the following publication:
 \end{itemize}
 
 \subsection{Function Merging for Free}
+
+%Function merging for free. lean on memory usage and reduces overall compilation time.
 
 Our solution presented in Chapter~\ref{chp:pldi20}, SalSSA, achieves on average a 10\% code size reduction but at the cost of crippling compile-time inefficiencies, especially for large programs.
 In Chapter~\ref{chp:lctes21}, we show that SalSSA can lead to 40\% slower compilation, taking up to 32~GB of peak memory usage even for modestly-sized program.
@@ -252,11 +267,17 @@ This thesis is organised as follows:
 It also provides terminology and describes the sequence alignment algorithm from bioinformatics.
 Finally, it describes the deep learning techniques used in this work.
 
-\item[Chapter~\ref{chp:relatedwork}] surveys the relevant literature. First we describe the classic compiler optimisations that work by reducing code size. Second, we study the existing techniques on function merging and other techniques related to identifying code similarity. Finally, we present key papers focused on applying machine learning for tuning heuristics that guide compiler optimisations.
+\item[Chapter~\ref{chp:relatedwork}] surveys the relevant literature. First we describe the classic compiler optimisations that work by reducing code size. Then, we describe in detail the existing techniques for function merging. Finally, we discuss other techniques related to identifying code similarity.
+%Finally, we present key papers focused on applying machine learning for tuning heuristics that guide compiler optimisations.
 
-\item[Chapter~\ref{chp:cgo19}] describes our novel function merging technique based on sequence alignment, as well as its accompanying search strategy, where a fingerprint-based ranking mechanism is used to focus the optimisation on functions with more similarities. %Evaluation methodology
+\item[Chapter~\ref{chp:cgo19}] describes our novel function merging technique based on sequence alignment.
+It also presents its accompanying search strategy, where a fingerprint-based ranking mechanism is used to focus the optimisation on functions with more similarities.
 
-\item[Chapter~\ref{chp:pldi20}] describes our new code generator for function merging that is capable of effectively handling functions in the SSA form, optimizing phi-nodes.
+\item[Chapter~\ref{chp:pldi20}] describes our new code generator for function merging that is capable of effectively handling functions in the SSA form.
+%, optimizing phi-nodes.
+
+\item[Chapter~\ref{chp:lctes21}] describes our new alignment strategies that work on the basic block level, reducing compilation time overheads.
+This enables a fine-grain multi-tier profitability analysis capable of bailing out early from unprofitable merging attempts.
 
 %\item[Chapter~\ref{chp:deeplearning}] describes our two-tier profitability analysis based on deep learning and partial recompilation. Our partial recompilation mechanism is based on {\itercomp}, where we recompile sections of code to discover profitable merging opportunities. We also propose the use of deep learning to reduce the number of recompilations needed by predicting clearly unprofitable merging attempts.
 
