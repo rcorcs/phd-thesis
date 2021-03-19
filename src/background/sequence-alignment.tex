@@ -80,7 +80,8 @@ Afterwards, a backward traversal is performed on the similarity matrix, in order
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6]{src/background/figs/seq-align-example-nw}
-  \caption{.}
+  \caption{Example of the \textit{similarity matrix} computed for two input sequences.
+           The highlighted cells represent the resulting alignment computed by the Needleman-Wunsch algorithm.}
   \label{fig:seq-align-example-nw}
 \end{figure}
 
@@ -104,7 +105,9 @@ In other words, the score for each cell in the similarity matrix is the maximum 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.8]{src/background/figs/seq-align-rules}
-  \caption{.}
+  \caption{Set of rules used to compute the scores of the similarity matrix.
+           The two first rules represent the penalty of inserting a horizontal or vertical gap.
+           The diagonal rule depends whether we have a matching or mismatching pair of input characters.}
   \label{fig:seq-align-rules}
 \end{figure}
 

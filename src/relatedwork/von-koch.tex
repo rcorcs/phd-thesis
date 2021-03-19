@@ -32,13 +32,18 @@ automatically generated using a description language~\cite{ghica15}.
 \caption{Two similar functions extracted from the \texttt{403.gcc} benchmark.}
 \label{fig:example-similar-3-gcc}
 \end{subfigure}
-\caption{Example of }
+\caption{Example of two pairs of highly similar functions. Because they are not identical, they cannot be merged by the function merging technique currently found in major compilers.}
 \label{fig:example-similar}
 \end{figure}
 
+
+% The function merging technique presented in \cite{edler14} restricts merging to nearly identical functions.
+% They only allow for pairs of corresponding instructions to differ if they still have equivalent data type.
+
+
 Von Edler~et~al.~\cite{edler14} have proposed a function-merging technique exploits structural similarity among functions.
-Their optimization is able to merge similar functions that are not necessarily
-identical.
+Their optimization is able to merge nearly identical functions.
+%similar functions that are not necessarily identical.
 Two functions are structurally similar if both their function types are equivalent
 and their CFGs isomorphic.
 Two function types are equivalent if they agree in the number, order, and types
@@ -50,9 +55,11 @@ and that corresponding instructions must have equivalent resulting types.
 % but may differ in their opcodes or in the number and type of their input operands.
 Mergeable functions are only allowed to differ in corresponding instructions,
 where they can differ in their opcodes or in the number and type of their input operands.
+Corresponding named values must have the same data type.
 %The only differences that are actually allowed is that
 %corresponding instructions can 
 %differ in their opcodes or in the number and type of their input operands.
+
 
 %If two corresponding instructions have different opcodes, they split the basic
 %block and insert a switch branch to select which instruction to execute
@@ -62,54 +69,47 @@ Because the state-of-the-art is limited to functions with identical CFGs
 and function types, once it merges a pair of functions, a third
 \textit{similar} function cannot be merged into the resulting merged function
 since they will differ in both CFGs and their lists of parameters.
-Due to this limiting factor, the state-of-the-art has to first collect all
-mergeable functions and merge them simultaneously.
+Due to this limiting factor, the state-of-the-art has to first group
+mergeable functions before simultaneously merging all functions within a group.
 
 The state-of-the-art algorithm iterates simultaneously over corresponding basic
 blocks in the set functions being merged, as they have isomorphic CFGs.
-For every basic block, if their corresponding instructions have different opcodes,
-they split the basic block and insert a switch branch to select which instruction
+Figure~\ref{fig:soa-example-1} shows an example of two functions with isomorphic CFGs and their corresponding basic blocks arranged side by side.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{src/relatedwork/figs/soa-example-1.pdf}
+  \caption{An example of two functions with isomorphic CFGs and their corresponding basic blocks arranged side by side. Instructions in paired basic blocks are compared in a pairwise manner.}
+  \label{fig:soa-example-1}
+\end{figure}
+
+Every pair of basic blocks have their instructions analysed in a pairwise manner.
+Two instructions match if they have the same opcode with equivalent data types and operands.
+Even if two instructions differ only on their operands, they are classified as mismatching.
+For every pair of basic blocks, if their corresponding instructions have any difference, except for the data type of the computed value, the merged basic block is split by inserting a switch branch to select which instruction
 to execute depending on a function identifier.
-Because these instructions have equivalent resulting types, their results can be
-merged using a phi-operator, which can then be used transparently as operands
-by other instructions.
+A phi-node is used to unify the mismatching instructions as a single named value.
+This unification is only possible because they compute values of the equivalent data types.
+Note that no operand selection is performed, every use of the mismatching instructions will refer to their phi-node.
+Figure~\ref{fig:soa-example-2} shows an example of a merged basic block containing two mismatching pairs of instructions.
+A split is added for every pair of mismatching instructions with the phi-node instruction added to the their immediate point of convergence.
 
-Although the state-of-the-art technique improves over LLVM's identical function merging, it is
-still unnecessarily limited. In Section~\ref{sec:motivation}, we showed examples of very similar
-real functions where the state-of-the-art fails to merge. Our approach addresses such limitations
-improving on the state-of-the-art across the board.
+% Because these instructions have equivalent resulting types, their results can be
+% merged using a phi-operator, which can then be used transparently as operands
+% by other instructions.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{src/relatedwork/figs/soa-example-2.pdf}
+  \caption{An example of a merged basic block containing two mismatching pairs of instructions. A split is added for every pair of mismatching instructions with the phi-node instruction added to the their immediate point of convergence.}
+  \label{fig:soa-example-2}
+\end{figure}
 
+Overall, except for mismatching pairs of instructions, the two functions must have identical function types, i.e., they must have the same return type and list of arguments, identical CFGs, with corresponding basic blocks having the same number of instructions.
+Although this technique improves over LLVM's identical function merging, it is
+still unnecessarily limited.
+In Section~\ref{sec:motivation}, we showed examples of very similar real functions where the state-of-the-art fails to merge.
+In Chapter~\ref{chp:cgo19} we introduce a novel technique that addresses such limitations improving on the state-of-the-art across the board.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-The function merging technique presented in \cite{edler14} restricts merging to nearly identical functions. They only allow for pairs of corresponding instructions to differ if they still have equivalent data type.
-
-
-A phi-node is used to unify the mismatching instructions as a single named value.
-Every use of the mismatching instructions will refer to their phi-node.
-Two instructions match if they have the same opcode with equivalent data types and operands.
-Note that no operand selection is performed.
-Even if two instructions differ only on their operands, they are classified as mismatching, and a branch is created.
-
- \begin{figure}[h]
-   \centering
-   \includegraphics[width=0.8\textwidth]{src/relatedwork/figs/soa-example-1.pdf}
-   \caption{.}
-   \label{fig:soa-example-1}
- \end{figure}
-
-Except for mismatching pairs of instructions, the two functions must have identical function types, i.e., they must have the same return type and list of arguments, identical CFGs, with corresponding basic blocks having the same number of instructions.
-
-** however, these instructions must define names representing the same data type.
-
- \begin{figure}[h]
-   \centering
-   \includegraphics[width=0.6\textwidth]{src/relatedwork/figs/soa-example-2.pdf}
-   \caption{.}
-   \label{fig:soa-example-2}
- \end{figure}
-
-
 

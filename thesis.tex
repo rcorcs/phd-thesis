@@ -150,18 +150,18 @@ size by up to 25\%, with an overall average of 6\%, while introducing an average
 
 While representing a leap forward, experiments show that FMSA fails to reduce
 code size in some cases where it would be intuitively expected to work.
-We build on this technique to fully support the SSA form, removing any need for register demotion.
+We build on this technique and develop SalSSA that fully supports the SSA form, removing any need for register demotion.
 By doing so, we notably increase the number of profitably merged functions. 
 Experimental results on the SPEC 2006 and 2017 suites show that our approach delivers on average, 7.9\% to 9.7\% reduction on the final size of the compiled code.
 This translates to around 2$\times$ more code size reduction over our first solution, FMSA.
 Moreover, as a result of aligning shorter sequences of instructions and reducing the number of wasteful merge operations, our new approach incurs an average compile-time overhead of only 5\%,
 3$\times$ less than FMSA, while also reducing memory usage by over $2\times$.
 
-Finally, we continue to build on our technique to deliver similar levels of code size reduction for significantly lower time overhead and memory usage.
+Finally, we continue to build on SalSSA to deliver similar levels of code size reduction for significantly lower time overhead and memory usage.
 To this end, we introduce an alignment strategy that works at the block level.
 Since basic blocks are usually much shorter than functions, even a quadratic alignment is acceptable. However, we also propose a linear algorithm for aligning blocks at a much lower cost. We extend this strategy with a multi-tier profitability analysis that bails out early from unprofitable merging attempts. By aligning individual pairs of blocks, we are able to decide their alignment's profitability 
 before actually generating code.
-Experimental results on SPEC 2006 and 2017 show that HyFM needs orders of magnitude less memory, using up to 48~MB or 5.6~MB, depending on the variant used, while SalSSA requires 32~GB in the worst case.
+Experimental results on SPEC~2006 and 2017 show that HyFM needs orders of magnitude less memory, using up to 48~MB or 5.6~MB, depending on the variant used, while SalSSA requires 32~GB in the worst case.
 HyFM also runs over 4.5$\times$ faster, while still achieving comparable code size reduction. Combined with the speedup of later compilation stages due to the reduced number of functions, HyFM contributes to a reduced end-to-end compilation time.
 
 }
@@ -205,8 +205,8 @@ HyFM also runs over 4.5$\times$ faster, while still achieving comparable code si
 \tableofcontents
 
 %% If you want a list of figures or tables, uncomment the appropriate line(s)
-% \listoffigures
-% \listoftables
+ \listoffigures
+ \listoftables
 
 \end{preliminary}
 
