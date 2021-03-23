@@ -61,10 +61,26 @@ The generator then produces code top-down, starting with the control flow graph 
 Chapter~\ref{chp:pldi20} also introduces a novel phi-node coalescing optimisation which is integrated with function merging in order to produce fewer phi-nodes and selections in the merged functions.
 This optimisation pairs disjoint values coming from each one of the input functions so that they can share the same phi-nodes.
 
+\subsection{Merging Functions One Block at a Time}
 
-% \subsection{Merging Functions One Block at a Time}
+Both FMSA and SalSSA has a coarse-grained strategy for merging functions.
+They apply the quadratic sequence alignment algorithm on the linearised input functions.
+The linearisation specifies an ordering for all the basic blocks from a function, producing a sequence with all the instructions of the function in that order.
+Different orderings of the basic blocks would result in different alignments and therefore different merged functions.
+Moreover, they also apply a profitability analysis once the merged functions has been completely generated, either accepting or rejecting it completely.
 
-% Both FMSA and SalSSA has a coarse-grained strategy for merging functions.
+Chapter~\ref{chp:lctes21} introduces HyFM, our function merging technique that works on the basic block level.
+Since each basic block already represents a sequence of instructions, HyFM does not require a linearisation step.
+It pairs similar basic blocks using a fingerprint-based distance metric.
+These pairs are aligned either using the Needleman-Wunsch algorithm or a linear one that works in a pairwise manner.
+
+Chapter~\ref{chp:lctes21} also introduces a multi-tier profitability analysis.
+Before generating the merged function, it uses a cost model to analyse the alignment for each pair of basic blocks.
+Alignments deemed unprofitable are discarded.
+This fine-grained tier of the profitability analysis improves the quality of the merged functions produced by HyFM, but also enables it to bail out early from unprofitable merging attempts.
+
+Overall, HyFM produces similar code size reductions to SalSSA, while running significantly faster.
+Unlike our prior techniques, HyFM reduces end-to-end compilation time.
 
 \section{Future Work} \label{sec:conclusion:futurework}
 
