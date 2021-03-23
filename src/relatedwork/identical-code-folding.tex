@@ -62,9 +62,9 @@ Afterwards, every reference to the discarded functions must be redirected to the
 
 Since the equality relation has a cyclic definition, ICF is defined as a fixed-point computation, i.e., it is applied repeatedly until a convergence is obtained.
 There are two approaches with distinct trade-offs:
-$(i)$ The pessimistic approach starts with all sections marked as being different and then repeatedly compare them trying to prove their equality, grouping those found to be identical, including their relocations.
+$(i)$ The pessimistic approach starts with all sections marked as being different and then repeatedly compares them trying to prove their equality, grouping those found to be identical, including their relocations.
 This approach is implemented in the widely used \textit{gold} linker.
-$(ii)$ The optimistic approach starts with all functions marked as potentially identical and then repeatedly compare trying to disprove their equality, partitioning those found to be different.
+$(ii)$ The optimistic approach starts with all functions marked as potentially identical and then repeatedly compares them trying to disprove their equality, partitioning those found to be different.
 This approach is implemented in LLVM's linker, \textit{lld}.
 
 

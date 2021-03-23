@@ -17,14 +17,15 @@ These inefficiencies stem directly from {\SOAName}'s core innovation, i.e., the 
 The alignment algorithm has quadratic time and space complexity, so applying it on whole functions with thousands of instructions results in unacceptable overheads.
 This severely limits the applicability of function merging on relatively large programs.
 %A different function merging approach that delivers similarly high code size reduction without the overheads is necessary.
-To make function merging scalable and practical, we need to find ways to significantly reduce the memory and compilation overhead. Our work is designed to offer such capabilities.   
+To make function merging scalable and practical, we need to find ways to significantly reduce the memory and compilation overhead.
+In this chapter, we offer such capabilities.   
 
 %However, given its powerful capability for code size reduction, we need function merging techniques with acceptable compilation overheads.
 %and it might even make it a bad idea for use on smaller programs.
-%In either case, making it part of a standard compiler optimization sequence is inadvisable.
+%In either case, making it part of a standard compiler optimisation sequence is inadvisable.
 %\fixme{MC: you could be stronger here, it's not like the SalSSA people are going to review it}
 
-In this chapter, we present \ProjName, a novel function merging technique that addresses the performance inefficiencies of \SOAName.
+We present \ProjName, a novel function merging technique that addresses the performance inefficiencies of \SOAName.
 Our main insight is that most of the code reduction of {\SOAName} comes from matching highly similar basic blocks.
 Even though it is able to align arbitrary subsequences spanning basic block boundaries, profitable alignments usually contain instructions from one block matched to instructions from a single other block.
 %The quadratic alignment algorithm, while in principle able to align subsequences spanning basic block boundaries, usually ends up aligning instructions from one block to instructions from a single other block.
@@ -40,7 +41,7 @@ More specifically, our solution is three fold:
    \item We propose a linear pairwise alignment as an alternative to the quadratic one. For highly similar basic blocks, it achieves similar results but has negligible time and space overheads.
    \item We estimate the profitability of the aligned basic blocks before actually generating their merged code.
    If unprofitable, we ignore them, improving the overall profitability of the whole merged function and simplifying code generation.
-   If all paired blocks in a pair of functions are unprofitable, we skip merging the function pair altogether, speeding up the optimization process compared to {\SOAName}. 
+   If all paired blocks in a pair of functions are unprofitable, we skip merging the function pair altogether, speeding up the optimisation process compared to {\SOAName}. 
 \end{itemize}
 
 Experimental results on SPEC CPU 2006 and 2017 show that {\ProjName} runs over 4.5$\times$ faster than {\SOAName}.

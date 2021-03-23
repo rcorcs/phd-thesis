@@ -41,11 +41,11 @@ automatically generated using a description language~\cite{ghica15}.
 % They only allow for pairs of corresponding instructions to differ if they still have equivalent data type.
 
 
-Von Edler~et~al.~\cite{edler14} have proposed a function-merging technique exploits structural similarity among functions.
+Edler von Koch~et~al.~\cite{edler14} have proposed a function-merging technique which exploits structural similarity among functions.
 Their optimization is able to merge nearly identical functions.
 %similar functions that are not necessarily identical.
 Two functions are structurally similar if both their function types are equivalent
-and their CFGs isomorphic.
+and their CFGs are isomorphic.
 Two function types are equivalent if they agree in the number, order, and types
 of their parameters as well as
 their return types, linkage type, and other compiler-specific properties.
@@ -65,14 +65,14 @@ Corresponding named values must have the same data type.
 %block and insert a switch branch to select which instruction to execute
 %depending on a function identifier.
 
-Because the state-of-the-art is limited to functions with identical CFGs
+Because their technique is limited to functions with identical CFGs
 and function types, once it merges a pair of functions, a third
 \textit{similar} function cannot be merged into the resulting merged function
 since they will differ in both CFGs and their lists of parameters.
 Due to this limiting factor, the state-of-the-art has to first group
 mergeable functions before simultaneously merging all functions within a group.
 
-The state-of-the-art algorithm iterates simultaneously over corresponding basic
+Their algorithm iterates simultaneously over corresponding basic
 blocks in the set functions being merged, as they have isomorphic CFGs.
 Figure~\ref{fig:soa-example-1} shows an example of two functions with isomorphic CFGs and their corresponding basic blocks arranged side by side.
 
@@ -108,8 +108,8 @@ A split is added for every pair of mismatching instructions with the phi-node in
 Overall, except for mismatching pairs of instructions, the two functions must have identical function types, i.e., they must have the same return type and list of arguments, identical CFGs, with corresponding basic blocks having the same number of instructions.
 Although this technique improves over LLVM's identical function merging, it is
 still unnecessarily limited.
-In Section~\ref{sec:motivation}, we showed examples of very similar real functions where the state-of-the-art fails to merge.
-In Chapter~\ref{chp:cgo19} we introduce a novel technique that addresses such limitations improving on the state-of-the-art across the board.
+In Section~\ref{sec:motivation}, we showed examples of very similar real functions where the technique proposed by Edler von Koch~et~al.~\cite{edler14} fails to merge.
+In Chapter~\ref{chp:cgo19} we introduce a novel technique that addresses such limitations improving on their technique across the board.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

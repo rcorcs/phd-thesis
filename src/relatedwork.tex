@@ -20,7 +20,7 @@ Some functions may contain code that is unreachable. A code is unreachable if th
 Since unreachable code is guaranteed to never be executed, compilers should remove it to avoid code bloat.
 
 Often, unreachable code is uncovered by other optimisations.
-For example, after constant propagation and constant folding, a conditional branch could have its condition evaluating to a constant, eliminating a path to one of its successor basic block.
+For example, after constant propagation and constant folding, a conditional branch could have its condition evaluating to a constant, eliminating a path to one of its successor basic blocks.
 If no other path leads to that basic block, it becomes unreachable.
 
 The algorithm to eliminate unreachable code works in a mark-sweep manner, performing two passes over the basic blocks of the CFG.
@@ -55,7 +55,7 @@ In this section, we will discuss existing optimisations for merging identical fu
 Figure~\ref{fig:example-identical} illustrates how identical functions can appear in real programs.
 The first pair of functions, shown in Figure~\ref{fig:example-identical-1-sphinx3}, were extracted from the \texttt{482.sphinx3} benchmark.
 The only difference between these two functions is in their parameter type.
-However, all pointer types can be considered equivalent since they can be bitcasted in a losslessly way.
+However, all pointer types can be considered equivalent since they can be bitcast in a lossless way.
 These functions are usually produced by copy-and-paste programming, where a given code pattern is copied and then repurposed~\cite{kim04,jablonski10,ahmed15}.
 The second pair of functions, shown in Figure~\ref{fig:example-identical-2-gcc}, were extracted from the \texttt{403.gcc} benchmark and they are fully identical.
 These functions are part of GCC's backend, where it is common to have code that is automatically generated from a machine description~\cite{muchnick98,kolek13,ghica15}.

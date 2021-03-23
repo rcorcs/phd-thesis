@@ -19,7 +19,7 @@ In order to pair similar functions for merging, \SOAName employs a ranking strat
 A fingerprint summarizes the content of a function as a fixed-size vector of the frequency of each LLVM-IR opcode. The representation allows the compiler to compare functions using a simple distance metric, such as the Manhattan distance. For a given reference function, all other functions are ranked based on their distance and the closest function is chosen for merging.
 
 Merging two functions requires identifying similar code segments in the two functions that can be profitably merged.
-The main innovation of \SOAName~\cite{rocha20} and its predecessor~\cite{rocha19} is the use of a sequence alignment algorithm, called the \NW algorithm, for identifying similar code segments.
+The main innovation of \SOAName~\cite{rocha20} and FMSA~\cite{rocha19} is the use of a sequence alignment algorithm, called the \NW algorithm, for identifying similar code segments.
 This allows them to merge arbitrary pairs of functions.
 First, they transform each function into a linear sequence of labels and instructions.
 Then, the alignment algorithm is applied on the sequences of the whole input functions.
@@ -32,12 +32,15 @@ Finally, a profitability analysis estimates the benefit of replacing the origina
 %If the original functions cannot be deleted, e.g., because they might be called externally, their body is replaced by a call to the merged function.
 % PP: Similarly not really important for understanding our contribution
 
-\subsection{Limitations of The State of The Art}
+\subsection{Limitations of SalSSA}
 %PP: I think we should reorganise this a bit. After refocusing the discussion here on memory, jumping to a subsection called "Compilation Overhead Breakdown" that mainly talks about compilation time seems disconnected. Instead, we should merge the two subsection making the first half about the limitations in terms of memory and the second about the limitations in terms of runtime.
 
-When reproducing the {\SOAName} experiments using the available artifact~\cite{rocha20} on our machine, we were unable to build \texttt{602.gcc\_s}, from SPEC 2017, due to an out of memory crash. 16~GB of memory were not enough for {\SOAName}. 
+After further investigation, we observed that {\SOAName} was unable to optimize \texttt{602.gcc\_s}, from SPEC 2017, due to an out of memory crash.
+Our machine with 16~GB of memory was not enough to handle {\SOAName}.
+%When reproducing the {\SOAName} experiments using the available artifact~\cite{rocha20} on our machine, we were unable to build \texttt{602.gcc\_s}, from SPEC 2017, due to an out of memory crash. 16~GB of memory were not enough for {\SOAName}. 
 We succeeded only after migrating to a 64~GB machine which could fit the 32~GB of temporary data produced by function merging.
-After investigating further, we realized that this is due to the quadratic algorithm used for aligning the two functions selected for merging.
+%After investigating further, 
+We realized that this is due to the quadratic algorithm used for aligning the two functions selected for merging.
 Because this algorithm is applied on the linearized sequences of the whole input functions, \SOAName incurs a high memory footprint when merging even medium sized functions.
 For larger ones, it is impossible to apply it on most workstations or even many servers, making {\SOAName} impractical for use in production.
 %For the same reason, alignment brings the compilation process to a crawl for large functions.

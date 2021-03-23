@@ -1,7 +1,7 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In this section, we compare {\ProjName} against the state-of-the-art function merging technique, {\SOAName}~\cite{rocha20}.
+In this section, we compare {\ProjName} against {\SOAName}, presented in Chapter~\ref{chp:pldi20}.
 First, we evaluate the code size reduction achieved by each technique, demonstrating that our approach is on a par with {\SOAName}. Then we show that {\ProjName} reduces significantly the overhead of function merging. % to such a degree that it becomes negligible.
 Combined with the speedup in later stages of the compilation pipeline due to the reduced amount of code, {\ProjName} leads to faster end-to-end compilation than a baseline with no function merging enabled. Finally, we demonstrate how our contributions reduce the memory usage by several orders of magnitude. 
 
@@ -20,7 +20,8 @@ As described in Section~\ref{sec:contribution}, the [PA] variant is, by construc
     %\item {[NW,SS]}: NW with Block Profitability but applied on blocks of the Same Size (SS).
 \end{itemize}
 
-For \SOAName, we used the version published in their evaluation artifact~\cite{SalSSA}. To keep the comparison fair, we implemented {\ProjName} for the same compiler as \SOAName, LLVM \fixme{v11}. We evaluated all techniques on the C/C++ programs from the SPEC CPU 2006 and the SPEC CPU 2017 benchmark suites~\cite{spec}. The baseline in all cases is the LLVM build in full LTO mode without any function merging.
+%For \SOAName, we used the version published in their evaluation artifact~\cite{SalSSA}.
+To keep the comparison fair, we implemented {\ProjName} for the same compiler as \SOAName, LLVM \fixme{v11}. We evaluated all techniques on the C/C++ programs from the SPEC CPU 2006 and the SPEC CPU 2017 benchmark suites~\cite{spec}. The baseline in all cases is the LLVM build in full LTO mode without any function merging.
 
 We target the Intel x86 architecture.
 All experiments were performed on a dedicated server with a quad-core Intel Xeon CPU E5-2650, 64 GiB of RAM, running Ubuntu 18.04.3 LTS. To minimize the effect of measurement noise, we repeated all compilation and runtime overhead experiments 5 times. We report the average values and their 95\% confidence intervals.
@@ -208,7 +209,7 @@ This is not guaranteed though, because merged functions may be more complex, pot
 Moreover, the time spent merging functions may be so large that it negates any benefits from having fewer functions later in the pipeline.
 
 Even though on a few occasions {\SOAName} reduces end-to-end compilation time, in general, its overhead is large enough to result in an overall compilation time slowdown, 9.5\% to 4.1\% for SPEC 2017 and 2006 respectively.
-In contrast, our approach is so much faster that its compilation time overhead is matched or outweighed by the speedup in later stages. 
+In contrast, {\ProjName} is so much faster that its compilation time overhead is matched or outweighed by the speedup in later stages. 
 This reduction is marginal for SPEC 2017, but for SPEC 2006 {[PA]} reduces the average compilation time by 2.3\% and {[NW]} by 1.6\%.
 There is only a single case where {[PA]} results in a significant end-to-end slowdown, 10\% for \texttt{blender}.
 %While this is still an improvement compared to {\SOAName}, \fixme{EXPLAIN}.

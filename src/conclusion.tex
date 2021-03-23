@@ -2,8 +2,8 @@
 \chapter{Conclusion} \label{chp:conclusion}
 
 
-This thesis presents a novel compiler optimisation based on function merging to reduce code size.
-The function merging optimisation consists in combining multiple functions with similarity into a single function, in order to reuse code, removing redundancies, and reducing code size.
+This thesis presents novel compiler optimisations based on function merging to reduce code size.
+A function merging optimisation consists in combining multiple functions with similarity into a single function, in order to reuse code, removing redundancies, and reducing code size.
 
 %Chapter~\ref{chp:cgo19} describes our novel approach, based on sequence alignment, for merging any two functions.
 %We also describe how this function merging technique can be integrated with an optimisation strategy.
@@ -18,12 +18,12 @@ The function merging optimisation consists in combining multiple functions with 
 %Section~\ref{sec:conclusion:futurework} describes future research directions,
 %and finally Section~\ref{sec:conclusion:summary}  provides concluding remarks.
 
-\section{Contribution} \label{sec:conclusion:contribution}
+\section{Contributions} \label{sec:conclusion:contribution}
 
-\subsection{Function Merging Optimisation}
+\subsection{Merging Arbitrary Pairs of Functions}
 
-Chapter~\ref{chp:cgo19} describes a novel function merging optimisation.
-Our function merging technique is the first capable of merging any two functions.
+Chapter~\ref{chp:cgo19} describes a novel function merging optimisation, called FMSA.
+The proposed technique is the first capable of merging any two functions.
 In order to achieve that, our technique uses sequence alignment algorithms, from bioinformatics, to identify regions of similarity and difference between two functions.
 The sequence alignment algorithm produces this similarity information by searching for the best alignment between sequences, given a penalty system. 
 The resulting aligned sequence is then used to generate a merged function that can replace both input functions.
@@ -38,12 +38,14 @@ Besides the quadratic search itself, merging two functions involve a sequence al
 Since an exhaustive search is infeasible, we need a better search strategy.
 First, we pre-compute the fingerprint, which is a fixed-size representation, of every function in the program.
 These fingerprints can be efficiently compared in constant time.
-For each function, the search strategy consists in ranking all other candidate functions based on a fingerprint similarity.
+For each function, the search strategy consists of ranking all other candidate functions based on a fingerprint similarity.
 Finally, the proposed optimisation will attempt to merge only the top ranked candidate functions.
 
-Our optimization is able to reduce code size by up to 25\%, with an overall average of about 6\%, while introducing an average compilation-time overhead of only 15\%.
+Our optimisation is able to reduce code size by up to 25\%, with an overall average of about 6\%, while introducing an average compilation-time overhead of only 15\%.
 Compared to prior techniques, which contain many limitations on which functions they can merge, our approach is able to outperform them by more than 2.4$\times$ on code size reduction.
-Moreover, coupled with profiling information, our optimization introduces no statistically significant impact on performance.
+Moreover, coupled with profiling information, our optimisation introduces no statistically significant impact on performance.
+
+While representing a leap forward, experiments show that FMSA fails to reduce code size in some cases where it would be intuitively expected to work. Chapters~\ref{chp:pldi20} and \ref{chp:lctes21} addresses major limitations from FMSA, improving both its capabilities for reducing code size as well as compilation-time overheads.
 
 \subsection{Effective Code Generator for the SSA Form}
 
@@ -60,35 +62,36 @@ Chapter~\ref{chp:pldi20} also introduces a novel phi-node coalescing optimisatio
 This optimisation pairs disjoint values coming from each one of the input functions so that they can share the same phi-nodes.
 
 
-\subsection{}
+% \subsection{Merging Functions One Block at a Time}
 
+% Both FMSA and SalSSA has a coarse-grained strategy for merging functions.
 
 \section{Future Work} \label{sec:conclusion:futurework}
 
 For future work, we plan to focus on improving the ranking mechanism to reduce compilation time.
 In order to avoid code size degradation, we also plan to improve the compiler's built-in static cost model for code size estimation.
-We also plan to work on the linearisation of the candidate functions, allowing instruction reordering to maximize the number of matches between the functions.
-Finally, we also plan to incorporate instruction reordering into function merging to maximize the number of matches between the functions regardless of the original code layout.
-One can also investigate the application of phi-node coalescing outside function merging.
-We envisage further improvements can be achieved by integrating the function-merging optimization to a summary-based  link-time optimization framework, such as ThinLTO in LLVM.
-As a future work, we can also analyze the interaction between function merging and other optimizations such as inlining, outlining, and code splitting.
+We also plan to work on the linearisation of the candidate functions, allowing instruction reordering to maximise the number of matches between the functions.
+Finally, we also plan to incorporate instruction reordering into function merging to maximise the number of matches between the functions regardless of the original code layout.
+It would also be interesting to investigate the application of phi-node coalescing outside function merging.
+We envisage further improvements can be achieved by integrating the function-merging optimisation into a summary-based  link-time optimisation framework, such as ThinLTO in LLVM.
+As a future work, we can also analyze the interaction between function merging and other optimisations such as inlining, outlining, and code splitting.
 
-\subsection{Better Code Generator}
+% \subsection{Better Code Generator}
 
-%FMSA's code generator is responsible for producing the actual merged functions from the aligned sequences.
-%In its original version, FMSA has many artificial limitations in order to simplify its code generator.
-%Preliminary results show that the code generator can be significantly improved, enabling far more code compression while reducing compilation time overhead.
-%For this project, we plan to develop a new code generator that is capable of appropriately handling $\phi$-nodes, variable length arguments, calling convention, and exploiting target specific instructions to better compress code.
-%There are still many opportunities to optimize operand selection and branch instructions that result from merging code. 
+% %FMSA's code generator is responsible for producing the actual merged functions from the aligned sequences.
+% %In its original version, FMSA has many artificial limitations in order to simplify its code generator.
+% %Preliminary results show that the code generator can be significantly improved, enabling far more code compression while reducing compilation time overhead.
+% %For this project, we plan to develop a new code generator that is capable of appropriately handling $\phi$-nodes, variable length arguments, calling convention, and exploiting target specific instructions to better compress code.
+% %There are still many opportunities to optimise operand selection and branch instructions that result from merging code. 
 
-In order to better compress code, one can improve the code generator, optimising the parameters used as function identifiers based on calling conventions, exploit target specific instructions, and optimize operand selection and branch instructions that result from merging code.
-There are also many missing features in the code generator that are important for its application in the industry.
-For example, a new code generator could also be able to appropriately handle variable length arguments, and debug information.
-When merging functions, having an optimised code generator is as important as optimally identifying which instructions to merge.
-%In the industry, it is also crucial that we appropriately handle debug information when generating code. %link with: \phi$-nodes, variable length arguments
-%Appropriately generating code with debug information is crucial for its application in the industry.
+% In order to better compress code, one can improve the code generator, optimising the parameters used as function identifiers based on calling conventions, exploit target specific instructions, and optimise operand selection and branch instructions that result from merging code.
+% There are also many missing features in the code generator that are important for its application in the industry.
+% For example, a new code generator could also be able to appropriately handle variable length arguments, and debug information.
+% When merging functions, having an optimised code generator is as important as optimally identifying which instructions to merge.
+% %In the industry, it is also crucial that we appropriately handle debug information when generating code. %link with: \phi$-nodes, variable length arguments
+% %Appropriately generating code with debug information is crucial for its application in the industry.
 
-\subsection{Handling Code Reordering}
+\subsection{Handling Code Reordering at the Instruction Level}
 
 All existing function merging techniques rely on the order in which instructions appear inside the basic blocks and their arrangement,
 failing to profitably merge equivalent functions when confronted even with the smallest variations on the ordering of instructions and basic blocks.
@@ -123,22 +126,23 @@ We need more powerful graph, rather than sequence, alignment techniques to bette
 Existing techniques are limited to one particular scope.
 While function merging is applied only to whole functions,
 function outlining is commonly applied at the basic block level.
-%In one end we have an optimization such as the function outlining which is capable of merging or extracting equivalent basic blocks, in the other end we have function merging capable of merging whole functions.
+%In one end we have an optimisation such as the function outlining which is capable of merging or extracting equivalent basic blocks, in the other end we have function merging capable of merging whole functions.
 However, equivalent code can be found within or across functions, which themselves may reside in the same source file or be spread across multiple source files.
-Therefore, we need to develop a novel unified optimization capable of merging semantically equivalent code that can span anything between a single basic block up to a whole function.
+Therefore, we need to develop a novel unified optimisation capable of merging semantically equivalent code that can span anything between a single basic block up to a whole function.
 This unification has the extra benefit of also addressing the phase ordering problem by coordinating the merge operations on different scopes.
 
 \subsection{Scaling for Large Programs}
 
 Although our optimisation achieves very good results in terms of code compression, it is still unable to handle large programs in a real scenario.
 Its time complexity and memory usage requirements would prevent it from optimizing large programs such as web browsers, Clang/LLVM, and operating systems, as these programs tend to have many functions with several thousands of instructions.
-Link-time optimization (LTO) makes this matter even worse by optimizing the code after the whole program has been linked into a single module, imposing a huge pressure on memory usage and compilation time.
+Link-time optimisation (LTO) makes this matter even worse by optimizing the code after the whole program has been linked into a single module, imposing a huge pressure on memory usage and compilation time.
 
 %In this project, we will investigate this scalability issue.
-%We plan to perform link-time optimization in an incremental fashion, such as using ThinLTO, which operates on individual translation units, reducing memory usage while also making it suitable for parallel and distributed compilation.
-The optimization of different translation units can be distributed across different machines and merge operations locally performed in parallel.
-In order for this to work, an important challenge that needs to be addressed concerns ranking and merging functions that reside in different translation units.
-However, this is essential to enable the use of LTO on real programs while keeping the memory usage and compilation time acceptable.
+%We plan to perform link-time optimisation in an incremental fashion, such as using ThinLTO, which operates on individual translation units, reducing memory usage while also making it suitable for parallel and distributed compilation.
+The optimisation of different translation units can be distributed across different machines and merge operations locally performed in parallel.
+An important challenge that needs to be addressed concerns ranking and merging functions that reside in different translation units.
+However, parallel LTO is essential to enable its use on real programs while keeping the memory usage and compilation time acceptable.
+We believe these improvements can be achieved by integrating the function-merging optimisation with a summary-based  link-time optimisation framework, such as ThinLTO in LLVM. 
 
 \subsection{Powered by Deep Learning}
 
@@ -154,15 +158,33 @@ For many real applications, it is desirable to achieve a good balance between co
 Preliminary results show that performance degradation can be completely avoided by using profiling to
 guide the merging decisions.
 One can avoid adding branches inside hot execution paths, therefore avoiding performance penalties.
-Although hot code can be merged, it is important to minimize unnecessary branches when merging hot code.
-We will develop a profile-guided optimization that automatically identify the best trade-off between code-size and performance.
+Although hot code can be merged, it is important to minimise unnecessary branches when merging hot code.
+It would be interesting to develop a profile-guided optimisation that automatically identifies the best trade-off between code-size and performance.
 
 \subsection{Less Memory Usage by JIT}
 
 Ahead-of-time and just-in-time (JIT) compilation have completely different requirements.
 Function merging can be used to reduce the amount of memory used by programs running on a JIT environment.
-However, our solution must be adapted to the requirements that are specific to a JIT environment, as JIT compilers have the extra challenge of having to optimize the code as fast as possible.
+However, our solution must be adapted to the requirements that are specific to a JIT environment, as JIT compilers have the extra challenge of having to optimise the code as fast as possible.
 This would require the development of completely new algorithms for ranking and aligning functions that are suitable for this application domain.
 Another possibility is to exploit the fact multiple programs may be simultaneously running on the same JIT environment and merge code across different programs, reducing the overall memory usage.
 
 %\section{Summary} \label{sec:conclusion:summary}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% For future work, we plan to focus on improving the ranking mechanism to reduce compilation time. We envisage further improvements can be
+% achieved by integrating the function-merging optimisation to a summary-based  link-time optimisation framework, such as ThinLTO in LLVM. We
+% also plan to work on the linearisation of the candidate functions, allowing instruction reordering to maximise the number of matches
+% between the functions.
+
+
+% For future work, we plan to investigate the application of phi-node coalescing outside function merging. In order to avoid code size
+% degradation, we also plan to improve the compiler's built-in static cost model for code size estimation.
+% As a future work, we can also analyze the interaction between function merging and other optimisations such as inlining, outlining, and code splitting.
+% Finally, we also plan to incorporate instruction reordering into function merging to maximize the number of matches between the functions regardless of the original code layout.
+
+% Future work for improving function merging could focus on an even finer grain tier to the profitability analysis that works on individual pairs of aligned instructions. Another aspect that could be improved is the strategy for pairing functions, the most expensive part of function merging for some benchmarks.

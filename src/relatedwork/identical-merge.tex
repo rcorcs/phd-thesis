@@ -7,7 +7,7 @@ LLVM~\cite{llvm-fm,livska14}.
 %The function merging optimisation currently offered by LLVM is only able to
 %merge identical functions.
 This optimisation is only flexible enough to accommodate simple type mismatches
-provided they can be bitcasted in a losslessly way.
+provided they can be bitcast in a lossless way.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,7 +42,7 @@ Aliasing is preferred since it is cheaper and adds no runtime overhead.
 The appropriate merging is applied according to following rules:
 \begin{itemize}
 \item If the address of at least one function is not taken, alias can be used.
-\item But if the function is part of COMDAT section that can be replaced, we
+\item If the function is part of COMDAT section that can be replaced, we
 must use thunk.
 \item If we create a thunk and none of functions is writeable, we can redirect calls
 instead.
@@ -121,8 +121,8 @@ This total-ordering was made through special function comparison procedure that
 returns:
 \begin{itemize}
 \item 0 when functions are semantically equal,
-\item -1 when Left function is less than right function, and
-\item 1 for opposite case.
+\item -1 when the left hand function is less than the right hand function, and
+\item 1 for the opposite case.
 \end{itemize}
 
 Functions are kept on binary tree. For each new function F we perform

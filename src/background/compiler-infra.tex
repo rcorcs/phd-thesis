@@ -8,7 +8,7 @@ An important objective function is code size, i.e., the optimisation goal is to 
 
 Compilers are usually described as \textit{three-phases} architecture, as shown in Figure~\ref{fig:3-phase-compiler}: frontend, optimiser, and backend.
 The frontend is responsible for parsing, validating and diagnosing errors in the source code.
-This parsed source code is then translated into an intermediate representation, which is the LLVM IR in this case.
+This parsed source code is then translated into an intermediate representation, namely, the LLVM IR~\cite{llvm}.
 The optimiser is responsible for doing a broad variety of transformations, that are usually independent of language and target machine, to improve the code's performance.
 The backend, also known as the code generator, then translates the code from the intermediate representation onto the target instruction set.
 It is common for the backend to also perform some low-level optimisations that take advantage of unusual features of the supported architecture.
@@ -56,7 +56,7 @@ The AST is an intermediate representation used during the semantic analysis, bef
 Moreover, several intermediate representations, with different levels of abstraction, are used throughout the compilation process from the source to the target language.
 Figure~\ref{fig:ir-lowering-sequence-general} illustrates the sequence of representations used by modern compilers, each one having a progressively lower level than the previous one~\cite{lattner20}.
 The source language is parsed into an AST, which is then commonly lowered to another high-level intermediate representation (HIR).
-As shown in Figure~{fig:ir-lowering-sequence-example}, this HIR is usually a language-specific IR, such as the Swift Intermediate Language (SIL), which is used to solve domain-specific problems.
+As shown in Figure~\ref{fig:ir-lowering-sequence-example}, this HIR is usually a language-specific IR, such as the Swift Intermediate Language (SIL), which is used to solve domain-specific problems.
 A popular mid-level intermediate representation (MIR) is the LLVM IR, which is shared among many compilers.
 In the LLVM compiler infrastructure, the LLVM IR is later lowered into a low-level representation (LIR), called the Machine IR, which is finally lowered into the target assembly language.
 The machine-code generation alone might actually involve multiple other intermediate representations depending on the backend being used.
@@ -111,7 +111,7 @@ Therefore, these cost models play an essential role in the decision making of mo
 These cost models provide target-dependent cost estimations, with respect to a given metric, 
 approximating the cost of an IR instruction when lowered to machine instructions.
 Compilers usually provide multiple cost models, including: a performance cost model that estimates the latency of each instruction; a code-size cost model that estimates the binary size of each instruction.
-However, these cost models need not predict precisely the latency or binary size of each instruction, because, Ultimately, these costs are used only for comparing two pieces of code in order to guide optimisations.
+However, these cost models need not predict precisely the latency or binary size of each instruction, because, ultimately, these costs are used only for comparing two pieces of code in order to guide optimisations.
 Therefore, the cost estimated for one instruction is only relevant relative to other instructions.
 
 % The actual cost of each instruction comes from querying this compiler's built-in cost model, which provides a target-dependent cost estimation that approximates the code-size cost of an IR instruction when lowered to machine instructions.
