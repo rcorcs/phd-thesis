@@ -32,9 +32,9 @@ This optimisation is found in linkers, by the name of \textit{identical code fol
 
 It is obvious how function merging can reduce code size by removing function duplicates.
 Nevertheless, it can also potentially reduce compilation time.
-For example, when merging two identical functions, the remaining compilation pipeline will have one less function to process and optimise.
+For example, when merging two identical functions, the remaining compilation pipeline will have one fewer function to process and optimise.
 These benefits are not as obvious when merging non-identical functions as it introduces extra code, adding complexity to the merged function.
-In the thesis, even though our main goal is reducing code size, we will focus on both dimensions.
+In the thesis, even though our main goal is reducing code size, we will focus on both dimensions: code size and compilation time.
 
 \section{The Importance of Code Size for Different Domains}
 
@@ -65,14 +65,14 @@ Beyond just mobile and embedded systems, powerful machines can also be unable to
 For example, compilation and load time can become impractical for extremely large programs and codebases~\cite{haas17,jaspan18}.
 Moreover, address space also limits how large programs can become.
 Upgrading computers at scale is a challenging and costly process even for large datacenters~\cite{yan16,neamtiu11}.
-As a result, outdated 32-bit machines have an addressable memory space limited to less than 4.5~GB, setting a limit on program size.
+As a result, outdated 32-bit machines have an addressable memory space limited to less than 4.3~GB, setting a limit on program size.
 This limitation is even worse on machines with shorter word widths.
 In such constrained scenarios, reducing the application's footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17}.
 
 \section{Limitations of Existing Function Merging}
 
 Google developed an optimization for the \textit{gold} linker that merges
-identical functions on a bit-level~\cite{tallam10,kwan12}. 
+functions that are identical at the bit-level~\cite{tallam10,kwan12}. 
 Similar machine-level implementations are also offered by other production compilers
 and linkers, such as MSVC~\cite{msvc-icf}.
 % However, this machine-level solution is target-dependent and needs to be adapted for every back-end.
@@ -215,7 +215,7 @@ For each function, merging will be only attempted for the top ranked candidates,
 
 These contributions have been previously described in the following publication:
 \begin{itemize}
-\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, and Hugh Leather. ``Function merging by sequence alignment.'' In IEEE/ACM International Symposium on Code Generation and Optimization (CGO), pp. 149-163. Best Paper Award. 2019.
+\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, and Hugh Leather. ``Function merging by sequence alignment.'' In IEEE/ACM International Symposium on Code Generation and Optimization (CGO), pp. 149-163. 2019.
 \end{itemize}
 
 \subsection{Effective Function Merging in the SSA Form}
