@@ -41,7 +41,8 @@ These fingerprints can be efficiently compared in constant time.
 For each function, the search strategy consists of ranking all other candidate functions based on a fingerprint similarity.
 Finally, the proposed optimisation will attempt to merge only the top ranked candidate functions.
 
-Our optimisation is able to reduce code size by up to 25\%, with an overall average of about 6\%, while introducing an average compilation-time overhead of only 15\%.
+Our optimisation is able to reduce code size by up to 25\%, with an overall average of about 6\%, when compared to a baseline without any function merging.
+%while introducing an average compilation-time overhead of only 15\%.
 Compared to prior techniques, which contain many limitations on which functions they can merge, our approach is able to outperform them by more than 2.4$\times$ on code size reduction.
 Moreover, coupled with profiling information, our optimisation introduces no statistically significant impact on performance.
 
@@ -89,7 +90,7 @@ In order to avoid code size degradation, we also plan to improve the compiler's 
 We also plan to work on the linearisation of the candidate functions, allowing instruction reordering to maximise the number of matches between the functions.
 Finally, we also plan to incorporate instruction reordering into function merging to maximise the number of matches between the functions regardless of the original code layout.
 It would also be interesting to investigate the application of phi-node coalescing outside function merging.
-We envisage further improvements can be achieved by integrating the function-merging optimisation into a summary-based  link-time optimisation framework, such as ThinLTO in LLVM.
+We envisage further improvements can be achieved by integrating the function-merging optimisation into a summary-based  link-time optimisation framework, such as ThinLTO~\cite{johnson17} in LLVM.
 As a future work, we can also analyze the interaction between function merging and other optimisations such as inlining, outlining, and code splitting.
 
 % \subsection{Better Code Generator}
