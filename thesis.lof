@@ -10,13 +10,13 @@
 \contentsline {figure}{\numberline {2.8}{\ignorespaces Set of rules used to compute the scores of the similarity matrix. The two first rules represent the penalty of inserting a horizontal or vertical gap. The diagonal rule depends whether we have a matching or mismatching pair of input characters.\relax }}{16}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Example of identical functions.\relax }}{19}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Two function extracted from the \texttt {447.dealII} benchmark that are not identical at the source level, but after applying template specialisation and optimisations they become identical at the IR level.\relax }}{19}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Two functions extracted from the \texttt {447.dealII} benchmark that are not identical at the source level, but after applying template specialisation and optimisations they become identical at the IR level.\relax }}{19}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Example of two pairs of highly similar functions. Because they are not identical, they cannot be merged by the function merging technique currently found in major compilers.\relax }}{24}%
 \contentsline {figure}{\numberline {3.4}{\ignorespaces An example of two functions with isomorphic CFGs and their corresponding basic blocks arranged side by side. Instructions in paired basic blocks are compared in a pairwise manner.\relax }}{25}%
 \contentsline {figure}{\numberline {3.5}{\ignorespaces An example of a merged basic block containing two mismatching pairs of instructions. A split is added for every pair of mismatching instructions with the phi-node instruction added to the their immediate point of convergence.\relax }}{26}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Example of two functions from the benchmark \texttt {sphinx} with different parameters that could be merged, as shown at the bottom. We highlight where they differ.\relax }}{30}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Example of two functions from the benchmark \texttt {libquantum} with different CFGs that could be merged, as shown at the bottom. We highlight where they differ.\relax }}{31}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Example of two functions from the benchmark \texttt {libquantum} with different CFGs that could be merged, as shown at the bottom. We highlight where they differ.\relax }}{32}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Overview of our function-merging technique. Equivalent segments of code is represented in light green and the non-equivalent ones in dark red.\relax }}{33}%
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Linearizing the CFG of an example function.\relax }}{34}%
 \contentsline {figure}{\numberline {4.5}{\ignorespaces The sequence alignment between two functions.\relax }}{35}%

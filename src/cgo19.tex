@@ -7,8 +7,8 @@ bioinformatics for identifying functional or evolutionary relationships between
 different DNA or RNA sequences. Similarly, we use sequence alignment to find
 areas of functional similarity in arbitrary function pairs. Aligned segments
 with equivalent code are merged. The remaining segments where the two functions
-differ are added to the new function too but have their code guarded by a
-function identifier. This approach leads to significant code size reduction.
+differ are added to the new function with their code guarded by a
+function identifier. This approach can lead to significant code size reduction.
 
 Applying sequence alignment to all pairs of functions is prohibitively expensive
 even for medium sized programs. To counter this, our technique is integrated with
@@ -33,7 +33,7 @@ In this chapter, we make the following contributions:
     to the most profitable function pairs.
   \item Our function merging by sequence alignment technique is able to reduce
      code size by up to 25\% on Intel and 30\% on ARM, significantly outperforming the
-    previous state of the art, proposed by Edler von Koch~et~al.~\cite{edler14}, while introducing minimal compile-time and negligible run-time overheads.
+    previous technique proposed by Edler von Koch~et~al.~\cite{edler14}, while introducing minimal compile-time and run-time overheads.
 \end{itemize}
 
 \input{src/cgo19/motivation}

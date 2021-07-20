@@ -5,7 +5,7 @@
 While often overlooked, program size can be a first-order constraint.
 From tiny embedded devices up to cloud servers, these systems are all operating under limited addressable memory, storage, or bandwidth. When the program becomes excessively large relative to the given constraints, this has a detrimental effect on the system.
 %In the extreme, this means failure.
-This is very likely to happen as programs gain new features over time, continuously growing in size and complexity~\cite{lavaee19,chabbi21}.
+Moreover, programs are likely to grow in size and complexity as they continuously gain new features over time~\cite{lavaee19,chabbi21}.
 In such scenarios, reducing the application footprint is essential~\cite{schultz03,varma04,sehgal12,keoh14,auler17,chabbi21}.
 
 % %Code size is a critical issue whenever the program size becomes too large for the available resources.
@@ -34,7 +34,7 @@ It is obvious how function merging can reduce code size by removing function dup
 Nevertheless, it can also potentially reduce compilation time.
 For example, when merging two identical functions, the remaining compilation pipeline will have one fewer function to process and optimise.
 These benefits are not as obvious when merging non-identical functions as it introduces extra code, adding complexity to the merged function.
-In the thesis, even though our main goal is reducing code size, we will focus on both dimensions: code size and compilation time.
+In this thesis, even though our main goal is reducing code size, we will explore both dimensions: code size and compilation time.
 
 \section{The Importance of Code Size for Different Domains}
 
@@ -45,17 +45,17 @@ Embedded systems need to perform increasingly complex tasks, with their applicat
 As a result, permanent storage and memory size becomes a limiting factor~\cite{plaza18}.
 Just adding more memory is not always a viable option.
 Highly integrated systems-on-chip are common in this market and their memories typically occupy the largest fraction of the chip area, contributing to most of the overall cost.
-Even small increases in memory area translate directly to equivalent increases in cost, which lead to enormous levels of lost profit at large scales~\cite{edler10}.
+Even small increases in memory area translate directly to increases in cost, which lead to enormous levels of lost profit at large scales~\cite{edler10}.
 In addition to cost, embedded systems are also often limited by other factors such as weight, area, and energy consumption~\cite{tiggeler00,edwards20}.
-All these factors limit the size of the storage and memory available in embedded systems. 
+All these factors limit the size of the storage and the memory available in embedded systems. 
 
 %Modern mobile application binaries are bulky for many reasons: software and its dependencies, fast-paced addition of new features, high-level language constructs, and statically linked platform libraries.
 Modern mobile applications tend to have large binaries that need to support as many devices as possible, including low-end devices with limited resources~\cite{hart02,etzo10}.
-Furthermore, Apple App Store imposes a limit when downloading an application over the mobile broadband.
+Furthermore, Apple's App Store imposes a limit when downloading an application over the mobile broadband.
 Applications larger than this limit must be downloaded only over the Wi-Fi.
 These restrictions on the size of the application may significantly impact revenues for critical businesses.
 Chabbi~et~al.~\cite{chabbi21} have shown that certain large applications may have over 90\%
-of its total size being taken by their binary code, where the remaining size is due to media and resources.
+of its total size being taken by their binary code, where the remaining size is due to media and other resources.
 For these applications, reducing the application's binary size becomes of utmost importance for their businesses.
 %For these systems, reducing the binary size helps to improve the end-user experience but it is also critical for conforming with vendor's download-size limitations.
 %Moreover, data consumption over wireless carriers can be either limited or expensive.
@@ -74,7 +74,7 @@ In such constrained scenarios, reducing the application's footprint is essential
 Google developed an optimization for the \textit{gold} linker that merges
 functions that are identical at the bit-level~\cite{tallam10,kwan12}. 
 Similar machine-level implementations are also offered by other production compilers
-and linkers, such as MSVC~\cite{msvc-icf}.
+and linkers, such as MSVC~\cite{msvc-icf} and LLVM's \textit{lld} linker.
 % However, this machine-level solution is target-dependent and needs to be adapted for every back-end.
 % A similar optimization for merging identical functions is offered at the IR level by both GCC and LLVM~\cite{llvm-fm,livska14}.
 However, such solutions are platform-specific and need to be adapted for each object code format and hardware architecture.
@@ -88,7 +88,7 @@ At a high level, the way this works is that code specific to only one input func
 %The work presented by von Koch~et~al.~\cite{edler14} proposed a merging strategy that exploits the isomorphism in the control-flow graphs (CFG) of the functions being merged.
 %These functions can only differ between corresponding instructions, specifically, in their opcodes or the number and types of the input operands.
 %However, they must have identical CFGs and function types.
-The function-merging technique presented by von Koch~et~al.~\cite{edler14} exploits similarity among functions.
+The function-merging technique presented by von Koch~et~al.~\cite{edler14} exploits a concept of structural similarity among functions.
 % Their optimization is able to merge similar functions that are not necessarily
 % identical.
 Two functions are structurally similar if both their function types are equivalent
@@ -149,10 +149,7 @@ where they can differ in their opcodes or input operands.
 % compiled form.
 
 Unfortunately, existing approaches fail  to produce any noticeable code size reduction.
-In this work, we introduce a novel way to merge functions that overcomes major limitations of existing techniques.
-Our insight is that the weak results of existing function merging implementations are not due to the lack of duplicate code but due to the %rigid,
-overly restrictive algorithms they use to find duplicates.
-
+Our insight is that the weak results of existing function merging implementations are not due to the lack of duplicate code but due to the overly restrictive algorithms they use to find duplicates.
 % While an improvement, even the state-of-the-art often usually fails to produce any
 % noticeable code size reduction.
 % In this paper, we introduce a novel way to merge
@@ -161,16 +158,20 @@ overly restrictive algorithms they use to find duplicates.
 % are not due to the lack of duplicate code but due to the rigid, overly restrictive
 % algorithms they use to find duplicates.
 
+
+In this work, we introduce a novel way to merge functions that overcomes major limitations of existing techniques.
+%Our solution consists of a technique capable of merging any two functions.
+%Since  and a profitability analysis that are used by a search strategy.
 Our approach is based upon the concept of sequence alignment, developed in bioinformatics for identifying functional or evolutionary relationships between different DNA or RNA sequences.
 Similarly, we use sequence alignment to find areas of functional similarity in arbitrary function pairs.
 Aligned segments with equivalent code are merged.
-The remaining segments where the two functions differ are added to the new function too but have their code guarded by a function identifier.
+The remaining segments where the two functions differ are added to the new function with their code guarded by a function identifier.
 This approach leads to significant code size reduction.
 %more than three times better than the state-of-the-art can achieve.
 
-Attempting to merge all pairs of functions is prohibitively expensive even for medium sized programs, considering the quadratic nature of sequence alignment.
-To counter this, our technique is integrated with a ranking-based exploration mechanism that efficiently focuses the search to the most
-promising pairs of functions. %\todo{whats interesting about this ranking?}.
+Because our novel technique is capable of merging any two functions, we also propose a profitability analysis that identifies merging opportunities for code size reduction.
+However, attempting to merge all pairs of functions is prohibitively expensive even for medium sized programs, considering the quadratic nature of sequence alignment.
+To counter this, our technique is integrated with a ranking-based exploration mechanism that efficiently focuses the search to the most promising pairs of functions.
 As a result, we achieve our code size savings while introducing little compilation-time
 overhead.
 
@@ -210,7 +211,7 @@ The goal is to maximise the amount of merged code while minimising the overhead 
 For functions with little to no similarity, merging them might increase code size.
 However, because our technique is able to merge any pair of functions, it is necessary to identify which pairs of functions are the most profitable to merge.
 To this end, we introduce a novel ranking mechanism for focusing our optimisation on function pairs that are more likely to be profitably merged.
-The proposed mechanism first pre-computes fingerprints summarising each function and later use them to rank function candidates based on the fingerprint similarity.
+The proposed mechanism first pre-computes fingerprints summarising each function and later uses them to rank function candidates based on the fingerprint similarity.
 For each function, merging will be only attempted for the top ranked candidates, significantly reducing compilation overhead while still resulting in a meaningful code size reduction.
 
 These contributions have been previously described in the following publication:
@@ -223,7 +224,7 @@ These contributions have been previously described in the following publication:
 %Uncovers even more code size reduction.
 
 Although our technique, introduced in Chapter~\ref{chp:cgo19}, achieves impressive results, it does not directly handle phi-nodes which are fundamental to the SSA form.
-Instead, it applies register demotion to replace all such nodes with memory operations, in an attempt to simplify the code generation processes.
+Instead, it applies register demotion to replace all such nodes with memory operations, in an attempt to simplify the code generation process.
 As we show in Chapter~\ref{chp:pldi20}, after register demotion, functions tend to be almost twice as long due to an excessive number of memory operations.
 Therefore, such a strategy comes at the cost of poor merge results, larger memory footprint, and longer compilation time.
 
@@ -245,7 +246,7 @@ These contributions have been previously described in the following publication:
 %Function merging for free. lean on memory usage and reduces overall compilation time.
 
 Our solution presented in Chapter~\ref{chp:pldi20}, SalSSA, achieves on average a 10\% code size reduction but at the cost of crippling compile-time inefficiencies, especially for large programs.
-In Chapter~\ref{chp:lctes21}, we show that SalSSA can lead to 40\% slower compilation, taking up to 32~GB of peak memory usage even for modestly-sized program.
+In Chapter~\ref{chp:lctes21}, we show that SalSSA can lead to 40\% slower compilation, taking up to 32~GB of peak memory usage even for modestly-sized programs.
 Such a resource requirement is beyond what is typically available to a developer and thus unsuitable for optimizing real-life programs.
 These inefficiencies stem directly from its quadratic sequence alignment used to identify mergeable instructions in a pair of input functions.
 
@@ -264,9 +265,9 @@ This result can be achieved due to two main reasons:
 1) By merging functions and removing code duplicates, it reduces the overall amount of code that needs to be optimised and processed by the remaining compilation pipeline.
 2) The compilation overhead required for merging functions is smaller than its benefits, resulting in a overall reduction on the end-to-end compilation time.
 
-These contributions have been previously described in the following paper, which is currently under review:
+These contributions have been previously described in the following publication:
 \begin{itemize}
-\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather, Kim Hazelwood. ``HyFM: Function Merging for Free.'' In the International Conference on Languages Compilers, Tools and Theory of Embedded Systems (LCTES). 2021.
+\item Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Kim Hazelwood, Hugh Leather. ``HyFM: Function Merging for Free.'' In the International Conference on Languages Compilers, Tools and Theory of Embedded Systems (LCTES). 2021.
 \end{itemize}
 
 \section{Structure}
@@ -276,10 +277,8 @@ This thesis is organised as follows:
 
 \item[Chapter~\ref{chp:background}] provides the main background. It provides an overview of compiler architecture and compiler optimisations for code size reduction.
 It also provides terminology and describes the sequence alignment algorithm from bioinformatics.
-Finally, it describes the deep learning techniques used in this work.
 
 \item[Chapter~\ref{chp:relatedwork}] surveys the relevant literature. First we describe the classic compiler optimisations that work by reducing code size. Then, we describe in detail the existing techniques for function merging. Finally, we discuss other techniques related to identifying code similarity.
-%Finally, we present key papers focused on applying machine learning for tuning heuristics that guide compiler optimisations.
 
 \item[Chapter~\ref{chp:cgo19}] describes our novel function merging technique based on sequence alignment.
 It also presents its accompanying search strategy, where a fingerprint-based ranking mechanism is used to focus the optimisation on functions with more similarities.
